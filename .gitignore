@@ -1,0 +1,17 @@
+*.?#[0-9#]
+*.zip
+*.GBL
+*.GBO
+*.GBP
+*.GBS
+*.GML
+*.GTL
+*.GTO
+*.GTP
+*.GTS
+*.TXT
+*.dri
+*.gpi
+*.pdf
+*.pro
+*.job
