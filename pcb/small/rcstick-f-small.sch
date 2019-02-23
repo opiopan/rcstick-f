@@ -1272,95 +1272,6 @@ Source: &lt;a href="http://www.alps.com/prod/info/E/HTML/Tact/SurfaceMount/SKRP/
 </deviceset>
 </devicesets>
 </library>
-<library name="Molex - 48037-0001" urn="urn:adsk.eagle:library:8949197">
-<packages>
-<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:8949198/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
-<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
-<wire x1="-6" y1="-9.4" x2="-6" y2="9.4" width="0.15" layer="51"/>
-<wire x1="-6" y1="9.4" x2="6" y2="9.4" width="0.15" layer="51"/>
-<wire x1="6" y1="9.4" x2="6" y2="-9.4" width="0.15" layer="51"/>
-<wire x1="6" y1="-9.4" x2="-6" y2="-9.4" width="0.15" layer="51"/>
-<wire x1="-6.55" y1="5.65" x2="6.55" y2="5.65" width="0.15" layer="51"/>
-<wire x1="-4" y1="9.4" x2="4" y2="9.4" width="0.15" layer="21"/>
-<wire x1="5.85" y1="9.05" x2="5.85" y2="7.75" width="1.2" layer="46"/>
-<wire x1="-5.85" y1="9.05" x2="-5.85" y2="7.75" width="1.2" layer="46"/>
-<text x="-6.45" y="11.889" size="1.016" layer="25" font="vector">&gt;NAME</text>
-<circle x="3.5" y="11.8" radius="0.25" width="0" layer="21"/>
-<hole x="-2.25" y="8.4" drill="1.2"/>
-<hole x="2.25" y="8.4" drill="1.2"/>
-<pad name="4" x="-3.5" y="10.5" drill="0.93" diameter="1.42"/>
-<pad name="3" x="-1" y="10.5" drill="0.93" diameter="1.42"/>
-<pad name="2" x="1" y="10.5" drill="0.93" diameter="1.42"/>
-<pad name="1" x="3.5" y="10.5" drill="0.93" diameter="1.42"/>
-<smd name="6" x="5.85" y="8.4" dx="1.9" dy="3.4" layer="1" roundness="100"/>
-<smd name="6-2" x="5.85" y="8.4" dx="1.9" dy="3.4" layer="16" roundness="100"/>
-<smd name="5" x="-5.85" y="8.4" dx="1.9" dy="3.4" layer="1" roundness="100"/>
-<smd name="5-2" x="-5.85" y="8.4" dx="1.9" dy="3.4" layer="16" roundness="100"/>
-<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0.01" layer="20"/>
-<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0.01" layer="20"/>
-<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0.01" layer="20" curve="180"/>
-<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0.01" layer="20" curve="180"/>
-</package>
-</packages>
-<packages3d>
-<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:8949201/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
-<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
-<packageinstances>
-<packageinstance name="MOLEX_48037-0001_1"/>
-</packageinstances>
-</package3d>
-</packages3d>
-<symbols>
-<symbol name="MOLEX_48037-0001_0_0" urn="urn:adsk.eagle:symbol:8949200/1" library_version="1">
-<wire x1="-12.7" y1="-22.86" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="-7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="12.7" y1="-7.62" x2="12.7" y2="-22.86" width="0.254" layer="94"/>
-<wire x1="12.7" y1="-22.86" x2="-12.7" y2="-22.86" width="0.254" layer="94"/>
-<text x="0.762" y="-2.286" size="1.778" layer="95" align="top-center">&gt;NAME</text>
-<text x="1.016" y="-5.08" size="1.778" layer="95" align="top-center">48037-0001</text>
-<pin name="+5V" x="17.78" y="-10.16" length="middle" rot="R180"/>
-<pin name="D-" x="17.78" y="-15.24" length="middle" rot="R180"/>
-<pin name="D+" x="17.78" y="-20.32" length="middle" rot="R180"/>
-<pin name="GND" x="2.54" y="-27.94" length="middle" rot="R90"/>
-<pin name="MNT_1" x="0" y="-27.94" length="middle" rot="R90"/>
-<pin name="MNT_2" x="-2.54" y="-27.94" length="middle" rot="R90"/>
-<pin name="MNT_3" x="-5.08" y="-27.94" length="middle" rot="R90"/>
-<pin name="MNT_4" x="-7.62" y="-27.94" length="middle" rot="R90"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="MOLEX_48037-0001" urn="urn:adsk.eagle:component:8949203/1" locally_modified="yes" prefix="J" library_version="1" library_locally_modified="yes">
-<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
-<gates>
-<gate name="G$0" symbol="MOLEX_48037-0001_0_0" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="MOLEX_48037-0001_1">
-<connects>
-<connect gate="G$0" pin="+5V" pad="1"/>
-<connect gate="G$0" pin="D+" pad="3"/>
-<connect gate="G$0" pin="D-" pad="2"/>
-<connect gate="G$0" pin="GND" pad="4"/>
-<connect gate="G$0" pin="MNT_1" pad="5"/>
-<connect gate="G$0" pin="MNT_2" pad="6"/>
-<connect gate="G$0" pin="MNT_3" pad="5-2"/>
-<connect gate="G$0" pin="MNT_4" pad="6-2"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:8949201/2"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="CC2500" urn="urn:adsk.eagle:library:8961792">
 <description>Generated from &lt;b&gt;rcstick-f.sch&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
@@ -1592,6 +1503,97 @@ Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="Molex-48037-0001" urn="urn:adsk.eagle:library:9157828">
+<description>Generated from &lt;b&gt;rcstick-f-small.brd&lt;/b&gt;&lt;p&gt;
+by exp-lbrs.ulp</description>
+<packages>
+<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:9157832/1" library_version="1" library_locally_modified="yes">
+<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
+<circle x="3.5" y="11.8" radius="0.25" width="0" layer="21"/>
+<wire x1="-6" y1="-9.4" x2="-6" y2="9.4" width="0.15" layer="51"/>
+<wire x1="-6" y1="9.4" x2="6" y2="9.4" width="0.15" layer="51"/>
+<wire x1="6" y1="9.4" x2="6" y2="-9.4" width="0.15" layer="51"/>
+<wire x1="6" y1="-9.4" x2="-6" y2="-9.4" width="0.15" layer="51"/>
+<wire x1="-6.55" y1="5.65" x2="6.55" y2="5.65" width="0.15" layer="51"/>
+<wire x1="-4" y1="9.4" x2="4" y2="9.4" width="0.15" layer="21"/>
+<wire x1="5.85" y1="9.05" x2="5.85" y2="7.75" width="1.2" layer="46"/>
+<wire x1="-5.85" y1="9.05" x2="-5.85" y2="7.75" width="1.2" layer="46"/>
+<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0.01" layer="20"/>
+<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0.01" layer="20"/>
+<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0.01" layer="20" curve="-180"/>
+<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0.01" layer="20" curve="180"/>
+<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0.01" layer="20"/>
+<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0.01" layer="20"/>
+<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0.01" layer="20" curve="-180"/>
+<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0.01" layer="20" curve="180"/>
+<pad name="1" x="3.5" y="10.5" drill="0.93" diameter="1.42"/>
+<pad name="2" x="1" y="10.5" drill="0.93" diameter="1.42"/>
+<pad name="3" x="-1" y="10.5" drill="0.93" diameter="1.42"/>
+<pad name="4" x="-3.5" y="10.5" drill="0.93" diameter="1.42"/>
+<smd name="5" x="-5.85" y="8.4" dx="1.9" dy="3.4" layer="1" roundness="100"/>
+<smd name="5-2" x="-5.85" y="8.4" dx="1.9" dy="3.4" layer="16" roundness="100"/>
+<smd name="6" x="5.85" y="8.4" dx="1.9" dy="3.4" layer="1" roundness="100"/>
+<smd name="6-2" x="5.85" y="8.4" dx="1.9" dy="3.4" layer="16" roundness="100"/>
+<text x="-6.45" y="11.889" size="1.016" layer="25" font="vector">&gt;NAME</text>
+<hole x="-2.25" y="8.4" drill="1.2"/>
+<hole x="2.25" y="8.4" drill="1.2"/>
+</package>
+</packages>
+<packages3d>
+<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:9157833/2" type="model" library_version="1" library_locally_modified="yes">
+<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
+<packageinstances>
+<packageinstance name="MOLEX_48037-0001_1"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="MOLEX_48037-0001_0_0" urn="urn:adsk.eagle:symbol:8949200/1" library_version="1" library_locally_modified="yes">
+<wire x1="-12.7" y1="-22.86" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-7.62" x2="12.7" y2="-22.86" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-22.86" x2="-12.7" y2="-22.86" width="0.254" layer="94"/>
+<text x="0.762" y="-2.286" size="1.778" layer="95" align="top-center">&gt;NAME</text>
+<text x="1.016" y="-5.08" size="1.778" layer="95" align="top-center">48037-0001</text>
+<pin name="+5V" x="17.78" y="-10.16" length="middle" rot="R180"/>
+<pin name="D-" x="17.78" y="-15.24" length="middle" rot="R180"/>
+<pin name="D+" x="17.78" y="-20.32" length="middle" rot="R180"/>
+<pin name="GND" x="2.54" y="-27.94" length="middle" rot="R90"/>
+<pin name="MNT_1" x="0" y="-27.94" length="middle" rot="R90"/>
+<pin name="MNT_2" x="-2.54" y="-27.94" length="middle" rot="R90"/>
+<pin name="MNT_3" x="-5.08" y="-27.94" length="middle" rot="R90"/>
+<pin name="MNT_4" x="-7.62" y="-27.94" length="middle" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="MOLEX_48037-0001" urn="urn:adsk.eagle:component:8949203/2" locally_modified="yes" prefix="J" library_version="1" library_locally_modified="yes">
+<description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
+<gates>
+<gate name="G$0" symbol="MOLEX_48037-0001_0_0" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="MOLEX_48037-0001_1">
+<connects>
+<connect gate="G$0" pin="+5V" pad="1"/>
+<connect gate="G$0" pin="D+" pad="3"/>
+<connect gate="G$0" pin="D-" pad="2"/>
+<connect gate="G$0" pin="GND" pad="4"/>
+<connect gate="G$0" pin="MNT_1" pad="5"/>
+<connect gate="G$0" pin="MNT_2" pad="6"/>
+<connect gate="G$0" pin="MNT_3" pad="5-2"/>
+<connect gate="G$0" pin="MNT_4" pad="6-2"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:9157833/2"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -1606,7 +1608,7 @@ Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 </class>
 </classes>
 <parts>
-<part name="J1" library="Molex - 48037-0001" library_urn="urn:adsk.eagle:library:8949197" deviceset="MOLEX_48037-0001" device="" package3d_urn="urn:adsk.eagle:package:8949201/2"/>
+<part name="J1" library="Molex-48037-0001" library_urn="urn:adsk.eagle:library:9157828" deviceset="MOLEX_48037-0001" device="" package3d_urn="urn:adsk.eagle:package:9157833/2"/>
 <part name="P+1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="U3" library="SOT23_Module" deviceset="LDO-REGULATOR" device="" package3d_urn="urn:adsk.eagle:package:28534/2" value="MCP1703AT-3302E/CB"/>
@@ -2468,15 +2470,15 @@ Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 </net>
 <net name="LED" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="PB4"/>
-<wire x1="121.92" y1="127" x2="137.16" y2="127" width="0.1524" layer="91"/>
-<label x="137.16" y="127" size="1.778" layer="95" rot="MR0"/>
-</segment>
-<segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="236.22" y1="30.48" x2="236.22" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="236.22" y1="33.02" x2="220.98" y2="33.02" width="0.1524" layer="91"/>
 <label x="220.98" y="33.02" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="PB1"/>
+<wire x1="121.92" y1="119.38" x2="137.16" y2="119.38" width="0.1524" layer="91"/>
+<label x="137.16" y="119.38" size="1.778" layer="95" rot="MR0"/>
 </segment>
 </net>
 <net name="XOSC1" class="0">
