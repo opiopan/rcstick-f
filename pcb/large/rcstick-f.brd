@@ -113,7 +113,7 @@
 <layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:CMKB5H6XQdqxKspP24OAFw" pcbguid="aa8d5f7f-3b65-48c7-9364-7b3a90e88d94" lastpulledtime="" lastsyncedchangeguid="d7c3c962-b08f-0014-a9be-f3b6708d9dcf"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:L9eK_ihpRhugibgrTDCzIw" pcbguid="5a4216a9-1d49-4e33-b541-c1ea75e6242c" lastpulledtime="" lastsyncedchangeguid="4692aed5-cdd3-0a5e-46f1-0a19fefaeb82"/>
 <plain>
 <wire x1="0" y1="0" x2="27.6" y2="0" width="0" layer="20"/>
 <wire x1="27.6" y1="0" x2="27.6" y2="43.1" width="0" layer="20"/>
@@ -487,17 +487,17 @@ by exp-lbrs.ulp</description>
 <description>Generated from &lt;b&gt;rcstick-f.sch&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
 <packages>
-<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/1" library_version="1" library_locally_modified="yes">
+<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
-<circle x="-2.54" y="2.413" radius="0.2" width="0.1524" layer="21"/>
-<wire x1="2.0574" y1="1.4732" x2="2.0574" y2="2.0574" width="0.1524" layer="21"/>
-<wire x1="1.4732" y1="-2.0574" x2="2.0574" y2="-2.0574" width="0.1524" layer="21"/>
-<wire x1="-1.4732" y1="2.0574" x2="-2.0574" y2="2.0574" width="0.1524" layer="21"/>
-<wire x1="-2.0574" y1="-2.0574" x2="-1.4732" y2="-2.0574" width="0.1524" layer="21"/>
-<wire x1="2.0574" y1="-2.0574" x2="2.0574" y2="-1.4732" width="0.1524" layer="21"/>
-<wire x1="2.0574" y1="2.0574" x2="1.4732" y2="2.0574" width="0.1524" layer="21"/>
-<wire x1="-2.0574" y1="2.0574" x2="-2.0574" y2="1.4732" width="0.1524" layer="21"/>
-<wire x1="-2.0574" y1="-1.4732" x2="-2.0574" y2="-2.0574" width="0.1524" layer="21"/>
+<circle x="-2.54" y="2.413" radius="0.2" width="0.127" layer="21"/>
+<wire x1="2.0574" y1="1.4732" x2="2.0574" y2="2.0574" width="0.127" layer="21"/>
+<wire x1="1.4732" y1="-2.0574" x2="2.0574" y2="-2.0574" width="0.127" layer="21"/>
+<wire x1="-1.4732" y1="2.0574" x2="-2.0574" y2="2.0574" width="0.127" layer="21"/>
+<wire x1="-2.0574" y1="-2.0574" x2="-1.4732" y2="-2.0574" width="0.127" layer="21"/>
+<wire x1="2.0574" y1="-2.0574" x2="2.0574" y2="-1.4732" width="0.127" layer="21"/>
+<wire x1="2.0574" y1="2.0574" x2="1.4732" y2="2.0574" width="0.127" layer="21"/>
+<wire x1="-2.0574" y1="2.0574" x2="-2.0574" y2="1.4732" width="0.127" layer="21"/>
+<wire x1="-2.0574" y1="-1.4732" x2="-2.0574" y2="-2.0574" width="0.127" layer="21"/>
 <smd name="1" x="-2.03" y="1" dx="1.26" dy="0.28" layer="1"/>
 <smd name="2" x="-2.03" y="0.5" dx="1.26" dy="0.28" layer="1"/>
 <smd name="3" x="-2.03" y="0" dx="1.26" dy="0.28" layer="1"/>
@@ -525,7 +525,7 @@ by exp-lbrs.ulp</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/2" type="model" library_version="1" library_locally_modified="yes">
+<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
 <packageinstances>
 <packageinstance name="CC2500-RTY1_CC2500-HS"/>
@@ -772,23 +772,23 @@ design rules under a new name.</description>
 <attribute name="NAME" x="10.287" y="20.066" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="10.287" y="20.066" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C15" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="3.048" y="24.13" smashed="yes" rot="R180">
+<element name="C13" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="3.048" y="24.13" smashed="yes" rot="R180">
 <attribute name="NAME" x="3.048" y="23.622" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="3.048" y="25.527" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
-<element name="C16" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="4.826" y="28.575" smashed="yes" rot="R180">
+<element name="C14" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="4.826" y="28.575" smashed="yes" rot="R180">
 <attribute name="NAME" x="2.794" y="29.083" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="4.826" y="29.972" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
-<element name="C17" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u" x="12.7" y="25.4" smashed="yes" rot="MR180">
+<element name="C15" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u" x="12.7" y="25.4" smashed="yes" rot="MR180">
 <attribute name="NAME" x="12.7" y="26.67" size="0.762" layer="26" font="vector" rot="MR180" align="bottom-center"/>
 <attribute name="VALUE" x="12.7" y="26.797" size="0.762" layer="28" font="vector" rot="MR180" align="bottom-center"/>
 </element>
-<element name="C18" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u" x="10.16" y="27.94" smashed="yes">
+<element name="C16" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u" x="10.16" y="27.94" smashed="yes">
 <attribute name="NAME" x="10.795" y="26.543" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="10.16" y="26.543" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C19" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="4.826" y="27.432" smashed="yes" rot="R180">
+<element name="C17" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p" x="4.826" y="27.432" smashed="yes" rot="R180">
 <attribute name="NAME" x="2.794" y="27.813" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="4.826" y="28.829" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
@@ -796,35 +796,35 @@ design rules under a new name.</description>
 <attribute name="NAME" x="26.162" y="5.334" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="24.765" y="4.191" size="0.762" layer="27" font="vector" rot="R270" align="bottom-center"/>
 </element>
-<element name="C20" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p" x="13.97" y="27.559" smashed="yes">
+<element name="C18" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p" x="13.97" y="27.559" smashed="yes">
 <attribute name="NAME" x="16.129" y="27.305" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="13.97" y="26.162" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C21" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p" x="16.129" y="24.511" smashed="yes" rot="R90">
+<element name="C19" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p" x="16.129" y="24.511" smashed="yes" rot="R90">
 <attribute name="NAME" x="17.653" y="24.13" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="17.526" y="24.511" size="0.762" layer="27" font="vector" rot="R90" align="bottom-center"/>
 </element>
-<element name="C22" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="100p" x="9.017" y="31.496" smashed="yes">
-<attribute name="NAME" x="6.858" y="31.115" size="0.762" layer="25" font="vector" align="bottom-center"/>
+<element name="C20" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="100p" x="9.017" y="31.496" smashed="yes">
+<attribute name="NAME" x="6.858" y="31.242" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="9.017" y="30.099" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C23" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="100p" x="9.017" y="30.353" smashed="yes">
+<element name="C21" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="100p" x="9.017" y="30.353" smashed="yes">
 <attribute name="NAME" x="6.858" y="29.972" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="9.017" y="28.956" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C24" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="12.7" y="29.21" smashed="yes">
-<attribute name="NAME" x="10.922" y="29.972" size="0.762" layer="25" font="vector" align="bottom-center"/>
+<element name="C22" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="12.7" y="29.21" smashed="yes">
+<attribute name="NAME" x="10.795" y="28.829" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="12.7" y="27.813" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C25" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="12.7" y="31.496" smashed="yes">
-<attribute name="NAME" x="10.795" y="32.258" size="0.762" layer="25" font="vector" align="bottom-center"/>
+<element name="C23" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="12.7" y="31.496" smashed="yes">
+<attribute name="NAME" x="10.922" y="31.115" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="12.7" y="30.099" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C26" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1.8p" x="16.383" y="29.845" smashed="yes">
-<attribute name="NAME" x="18.288" y="30.607" size="0.762" layer="25" font="vector" align="bottom-center"/>
+<element name="C24" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1.8p" x="16.383" y="29.845" smashed="yes">
+<attribute name="NAME" x="18.415" y="29.464" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="16.383" y="28.448" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
-<element name="C27" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1.5p" x="16.383" y="32.131" smashed="yes" rot="R180">
+<element name="C25" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1.5p" x="16.383" y="32.131" smashed="yes" rot="R180">
 <attribute name="NAME" x="18.288" y="32.512" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="16.383" y="33.528" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
@@ -863,15 +863,15 @@ design rules under a new name.</description>
 <attribute name="NAME" x="25.273" y="18.542" size="0.762" layer="21" font="vector"/>
 </element>
 <element name="L1" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_L0402_HS" package3d_urn="urn:adsk.eagle:package:8961861/2" value="1.2nH" x="12.7" y="32.639" smashed="yes" rot="R180">
-<attribute name="NAME" x="11.176" y="31.877" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="10.922" y="33.02" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="12.7" y="34.036" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
 <element name="L2" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_L0402_HS" package3d_urn="urn:adsk.eagle:package:8961861/2" value="1.2nH" x="12.7" y="30.353" smashed="yes" rot="R180">
-<attribute name="NAME" x="11.176" y="29.591" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="10.922" y="30.734" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="12.7" y="31.75" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
 <element name="L3" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_L0402_HS" package3d_urn="urn:adsk.eagle:package:8961861/2" value="1.2nH" x="16.383" y="30.988" smashed="yes" rot="R180">
-<attribute name="NAME" x="18.288" y="30.226" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="NAME" x="18.288" y="31.369" size="0.762" layer="25" font="vector" rot="R180" align="bottom-center"/>
 <attribute name="VALUE" x="16.383" y="32.385" size="0.762" layer="27" font="vector" rot="R180" align="bottom-center"/>
 </element>
 <element name="LED1" library="gen-discrete" library_urn="urn:adsk.eagle:library:5494231" package="LED1608" package3d_urn="urn:adsk.eagle:package:5494251/3" value="OSBL1608C1A" x="18.542" y="8.89" smashed="yes" rot="R90">
@@ -951,24 +951,24 @@ design rules under a new name.</description>
 <contactref element="U2" pad="19"/>
 <contactref element="U2" pad="16"/>
 <contactref element="U2" pad="22"/>
+<contactref element="C13" pad="2"/>
+<contactref element="C14" pad="2"/>
 <contactref element="C15" pad="2"/>
 <contactref element="C16" pad="2"/>
 <contactref element="C17" pad="2"/>
-<contactref element="C18" pad="2"/>
-<contactref element="C19" pad="2"/>
 <contactref element="C6" pad="2"/>
 <contactref element="C7" pad="2"/>
 <contactref element="X1" pad="2"/>
 <contactref element="X1" pad="4"/>
 <contactref element="X2" pad="2"/>
 <contactref element="X2" pad="4"/>
-<contactref element="C20" pad="2"/>
-<contactref element="C21" pad="2"/>
+<contactref element="C18" pad="2"/>
+<contactref element="C19" pad="2"/>
 <contactref element="R2" pad="1"/>
 <contactref element="L1" pad="1"/>
+<contactref element="C22" pad="2"/>
 <contactref element="C24" pad="2"/>
-<contactref element="C26" pad="2"/>
-<contactref element="C27" pad="2"/>
+<contactref element="C25" pad="2"/>
 <contactref element="C12" pad="2"/>
 <contactref element="C11" pad="2"/>
 <contactref element="LED1" pad="K"/>
@@ -1150,17 +1150,17 @@ design rules under a new name.</description>
 <contactref element="C9" pad="1"/>
 <contactref element="U1" pad="5"/>
 <contactref element="U2" pad="4"/>
-<contactref element="C15" pad="1"/>
+<contactref element="C13" pad="1"/>
 <contactref element="U2" pad="18"/>
 <contactref element="C11" pad="1"/>
-<contactref element="C18" pad="1"/>
-<contactref element="U2" pad="15"/>
 <contactref element="C16" pad="1"/>
+<contactref element="U2" pad="15"/>
+<contactref element="C14" pad="1"/>
 <contactref element="U2" pad="9"/>
-<contactref element="C17" pad="1"/>
+<contactref element="C15" pad="1"/>
 <contactref element="U2" pad="11"/>
 <contactref element="U2" pad="14"/>
-<contactref element="C19" pad="1"/>
+<contactref element="C17" pad="1"/>
 <contactref element="SW1" pad="3"/>
 <wire x1="24.595" y1="5.141" x2="25.762" y2="5.141" width="0.5" layer="1"/>
 <wire x1="25.762" y1="5.141" x2="26.162" y2="4.741" width="0.5" layer="1"/>
@@ -1397,7 +1397,7 @@ design rules under a new name.</description>
 <wire x1="15.532940625" y1="9.44" x2="17.145" y2="9.44" width="0.2" layer="1"/>
 </signal>
 <signal name="XOSC1">
-<contactref element="C21" pad="1"/>
+<contactref element="C19" pad="1"/>
 <contactref element="X2" pad="3"/>
 <contactref element="U2" pad="8"/>
 <wire x1="14.77" y1="23.251" x2="14.0224" y2="23.9986" width="0.2" layer="1"/>
@@ -1413,13 +1413,13 @@ design rules under a new name.</description>
 </signal>
 <signal name="RF_N">
 <contactref element="U2" pad="13"/>
-<contactref element="C22" pad="1"/>
+<contactref element="C20" pad="1"/>
 <wire x1="8.467" y1="31.496" x2="7.62" y2="30.649" width="0.2" layer="1"/>
 <wire x1="7.62" y1="30.649" x2="7.62" y2="26.541" width="0.2" layer="1"/>
 </signal>
 <signal name="RF_P">
 <contactref element="U2" pad="12"/>
-<contactref element="C23" pad="1"/>
+<contactref element="C21" pad="1"/>
 <wire x1="8.12" y1="26.541" x2="8.12" y2="30.006" width="0.2" layer="1"/>
 <wire x1="8.12" y1="30.006" x2="8.467" y2="30.353" width="0.2" layer="1"/>
 </signal>
@@ -1450,7 +1450,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="XOSC2">
 <contactref element="X2" pad="1"/>
-<contactref element="C20" pad="1"/>
+<contactref element="C18" pad="1"/>
 <contactref element="U2" pad="10"/>
 <wire x1="12.91" y1="25.511" x2="13.17" y2="25.771" width="0.2" layer="1"/>
 <wire x1="9.65" y1="25.511" x2="10.7210375" y2="25.511" width="0.2" layer="1"/>
@@ -1462,24 +1462,24 @@ design rules under a new name.</description>
 <wire x1="13.17" y1="27.309" x2="13.42" y2="27.559" width="0.2" layer="1"/>
 </signal>
 <signal name="N$5">
-<contactref element="C22" pad="2"/>
-<contactref element="C25" pad="1"/>
+<contactref element="C20" pad="2"/>
+<contactref element="C23" pad="1"/>
 <contactref element="L1" pad="2"/>
 <wire x1="9.567" y1="31.496" x2="12.15" y2="31.496" width="0.46" layer="1"/>
 <wire x1="12.15" y1="32.639" x2="12.15" y2="31.496" width="0.46" layer="1"/>
 </signal>
 <signal name="N$9">
-<contactref element="C23" pad="2"/>
+<contactref element="C21" pad="2"/>
 <contactref element="L2" pad="2"/>
-<contactref element="C24" pad="1"/>
+<contactref element="C22" pad="1"/>
 <wire x1="9.567" y1="30.353" x2="12.15" y2="30.353" width="0.46" layer="1"/>
 <wire x1="12.15" y1="30.353" x2="12.15" y2="29.21" width="0.46" layer="1"/>
 </signal>
 <signal name="N$10">
 <contactref element="L2" pad="1"/>
-<contactref element="C25" pad="2"/>
+<contactref element="C23" pad="2"/>
 <contactref element="L3" pad="2"/>
-<contactref element="C26" pad="1"/>
+<contactref element="C24" pad="1"/>
 <wire x1="15.833" y1="29.845" x2="15.833" y2="30.988" width="0.46" layer="1"/>
 <wire x1="13.25" y1="30.353" x2="13.25" y2="30.988" width="0.46" layer="1"/>
 <wire x1="13.25" y1="30.988" x2="13.25" y2="31.496" width="0.2" layer="1"/>
@@ -1487,7 +1487,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$11">
 <contactref element="L3" pad="1"/>
-<contactref element="C27" pad="1"/>
+<contactref element="C25" pad="1"/>
 <contactref element="X3" pad="1"/>
 <wire x1="16.933" y1="32.131" x2="16.933" y2="30.988" width="0.46" layer="1"/>
 <wire x1="15.73" y1="35.068" x2="15.73" y2="33.334" width="0.46" layer="1"/>
