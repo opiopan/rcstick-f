@@ -3,7 +3,7 @@
 <eagle version="9.3.0">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="50" unitdist="mil" unit="mm" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mm"/>
@@ -113,7 +113,7 @@
 <layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="14ffaf8c-116c-151d-89a5-ee57188373da"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="c32bfccb-ff7c-c85a-67ed-160dc844cbdb"/>
 <plain>
 <dimension x1="0" y1="40" x2="0" y2="0" x3="-5.08" y3="20" textsize="1.778" layer="51"/>
 <dimension x1="15.4" y1="40" x2="0" y2="40" x3="7.7" y3="44.45" textsize="1.778" layer="51"/>
@@ -121,20 +121,22 @@
 <wire x1="0" y1="40" x2="0" y2="0" width="0" layer="20"/>
 <wire x1="0" y1="0" x2="15.4" y2="0" width="0" layer="20"/>
 <wire x1="15.4" y1="0" x2="15.4" y2="40" width="0" layer="20"/>
-<wire x1="12.95" y1="3.335" x2="14.15" y2="3.335" width="0.254" layer="20" curve="-180"/>
-<wire x1="14.15" y1="3.335" x2="14.15" y2="2.035" width="0.254" layer="20"/>
-<wire x1="14.15" y1="2.035" x2="12.95" y2="2.035" width="0.254" layer="20" curve="-180"/>
-<wire x1="12.95" y1="2.035" x2="12.95" y2="3.335" width="0.254" layer="20"/>
-<wire x1="1.25" y1="3.335" x2="2.45" y2="3.335" width="0.254" layer="20" curve="-180"/>
-<wire x1="2.45" y1="3.335" x2="2.45" y2="2.035" width="0.254" layer="20"/>
-<wire x1="2.45" y1="2.035" x2="1.25" y2="2.035" width="0.254" layer="20" curve="-180"/>
-<wire x1="1.25" y1="2.035" x2="1.25" y2="3.335" width="0.254" layer="20"/>
+<wire x1="12.95" y1="3.335" x2="14.15" y2="3.335" width="0" layer="20" curve="-180"/>
+<wire x1="14.15" y1="3.335" x2="14.15" y2="2.035" width="0" layer="20"/>
+<wire x1="14.15" y1="2.035" x2="12.95" y2="2.035" width="0" layer="20" curve="-180"/>
+<wire x1="12.95" y1="2.035" x2="12.95" y2="3.335" width="0" layer="20"/>
+<wire x1="1.25" y1="3.335" x2="2.45" y2="3.335" width="0" layer="20" curve="-180"/>
+<wire x1="2.45" y1="3.335" x2="2.45" y2="2.035" width="0" layer="20"/>
+<wire x1="2.45" y1="2.035" x2="1.25" y2="2.035" width="0" layer="20" curve="-180"/>
+<wire x1="1.25" y1="2.035" x2="1.25" y2="3.335" width="0" layer="20"/>
 <text x="3.556" y="6.223" size="0.6" layer="25" font="vector" align="center-left">GND</text>
 <text x="3.556" y="10.033" size="0.6" layer="25" font="vector" align="center-left">RST</text>
 <text x="3.556" y="8.763" size="0.6" layer="25" font="vector" align="center-left">SWDIO</text>
 <text x="3.556" y="7.493" size="0.6" layer="25" font="vector" align="center-left">SWCLK</text>
 <text x="8.636" y="22.225" size="0.6" layer="25" font="vector" align="center-left">RFCLK</text>
 <text x="2.032" y="22.098" size="0.6" layer="25" font="vector" align="bottom-center">LED1</text>
+<text x="14.732" y="30.607" size="2.5" layer="22" rot="MR0">rcstick</text>
+<text x="4.064" y="30.607" size="1.2" layer="22" font="vector" rot="MR0">V1.0</text>
 </plain>
 <libraries>
 <library name="gen-discrete3" urn="urn:adsk.eagle:library:8961849">
@@ -569,7 +571,7 @@ by exp-lbrs.ulp</description>
 <description>Generated from &lt;b&gt;rcstick-f-small.brd&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
 <packages>
-<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:9157832/1" library_version="1" library_locally_modified="yes">
+<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:9157832/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
 <description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
 <circle x="3.5" y="11.8" radius="0.25" width="0" layer="21"/>
 <wire x1="-6" y1="-9.4" x2="-6" y2="9.4" width="0.15" layer="51"/>
@@ -578,16 +580,14 @@ by exp-lbrs.ulp</description>
 <wire x1="6" y1="-9.4" x2="-6" y2="-9.4" width="0.15" layer="51"/>
 <wire x1="-6.55" y1="5.65" x2="6.55" y2="5.65" width="0.15" layer="51"/>
 <wire x1="-4" y1="9.4" x2="4" y2="9.4" width="0.15" layer="21"/>
-<wire x1="5.85" y1="9.05" x2="5.85" y2="7.75" width="1.2" layer="46"/>
-<wire x1="-5.85" y1="9.05" x2="-5.85" y2="7.75" width="1.2" layer="46"/>
-<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0.01" layer="20"/>
-<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0.01" layer="20"/>
-<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0.01" layer="20" curve="180"/>
-<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0.01" layer="20" curve="180"/>
+<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0" layer="20"/>
+<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0" layer="20"/>
+<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0" layer="20" curve="-180"/>
+<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0" layer="20" curve="180"/>
+<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0" layer="20"/>
+<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0" layer="20"/>
+<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0" layer="20" curve="-180"/>
+<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0" layer="20" curve="180"/>
 <pad name="1" x="3.5" y="10.5" drill="0.93" diameter="1.42"/>
 <pad name="2" x="1" y="10.5" drill="0.93" diameter="1.42"/>
 <pad name="3" x="-1" y="10.5" drill="0.93" diameter="1.42"/>
@@ -602,7 +602,7 @@ by exp-lbrs.ulp</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:9157833/2" type="model" library_version="1" library_locally_modified="yes">
+<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:9157833/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
 <description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
 <packageinstances>
 <packageinstance name="MOLEX_48037-0001_1"/>
@@ -910,7 +910,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="12.954" y="20.32" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
 <element name="J1" library="Molex-48037-0001" library_urn="urn:adsk.eagle:library:9157828" package="MOLEX_48037-0001_1" package3d_urn="urn:adsk.eagle:package:9157833/2" value="MOLEX_48037-0001" x="7.7" y="-5.715" smashed="yes">
-<attribute name="NAME" x="7.092" y="1.221" size="0.762" layer="25" font="vector" align="bottom-center"/>
+<attribute name="NAME" x="7.727" y="1.475" size="0.762" layer="25" font="vector" align="bottom-center"/>
 </element>
 <element name="J2" library="connector" library_urn="urn:adsk.eagle:library:5418080" package="53047-0410" package3d_urn="urn:adsk.eagle:package:5418110/2" value="2212S" x="2.062" y="8.128" smashed="yes" rot="R270">
 <attribute name="NAME" x="1.554" y="11.811" size="0.762" layer="25" font="vector" align="bottom-center"/>
@@ -967,7 +967,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="9.017" y="9.017" size="0.762" layer="26" font="vector" rot="MR0" align="bottom-center"/>
 <attribute name="VALUE" x="5.842" y="5.334" size="1.016" layer="28" rot="MR90"/>
 </element>
-<element name="X1" library="CRYSTAL3225" library_urn="urn:adsk.eagle:library:8815235" package="CRYSTAL3225-HS" package3d_urn="urn:adsk.eagle:package:8815239/2" value="8MHz/15pF" x="11.049" y="21.209" smashed="yes" rot="MR0">
+<element name="X1" library="CRYSTAL3225" library_urn="urn:adsk.eagle:library:8815235" package="CRYSTAL3225-HS" package3d_urn="urn:adsk.eagle:package:8815239/2" value="16MHz/10pF" x="11.049" y="21.209" smashed="yes" rot="MR0">
 <attribute name="NAME" x="11.049009375" y="18.79600625" size="0.762" layer="26" font="vector" rot="MR0" align="bottom-center"/>
 <attribute name="VALUE" x="11.049009375" y="18.54200625" size="1.016" layer="28" font="vector" rot="MR0" align="center"/>
 </element>
@@ -1540,53 +1540,6 @@ design rules under a new name.</description>
 <mfgpreviewcolor name="substratecolor" color="0xFF786E46"/>
 </mfgpreviewcolors>
 <errors>
-<approved hash="4,1,4aff8c5da4aca791"/>
-<approved hash="4,1,38c2f58e78fb5028"/>
-<approved hash="4,1,3186eecb37c61367"/>
-<approved hash="4,1,581a597f8b118a74"/>
-<approved hash="4,1,51b21b6fcd9a1cab"/>
-<approved hash="4,1,401c417e6b106a72"/>
-<approved hash="4,1,80648103036d020a"/>
-<approved hash="4,1,981eb9cf9c3a0288"/>
-<approved hash="4,1,36152ab4c9e1b9c2"/>
-<approved hash="4,1,63ed495886978675"/>
-<approved hash="4,1,03f8705691059fec"/>
-<approved hash="4,1,a1eeefc49f4825a6"/>
-<approved hash="4,1,cd8925a9926cc051"/>
-<approved hash="4,1,a8311e3894f45fba"/>
-<approved hash="4,1,a4da705c2e299882"/>
-<approved hash="4,1,8677dc36fb063346"/>
-<approved hash="4,1,07f7ae5cca25a0d9"/>
-<approved hash="4,1,6e69c18ca10ca988"/>
-<approved hash="4,1,0a9fb44e672a40ca"/>
-<approved hash="4,1,341528b497a698bc"/>
-<approved hash="4,1,f81ff97833163271"/>
-<approved hash="4,1,cc9932490764e3cc"/>
-<approved hash="4,16,8677dc36fb063346"/>
-<approved hash="4,16,cc9932490764e3cc"/>
-<approved hash="4,16,981eb9cf9c3a0288"/>
-<approved hash="4,16,36152ab4c9e1b9c2"/>
-<approved hash="4,16,fcf15ee1d4e09400"/>
-<approved hash="4,16,6e69c18ca10ca988"/>
-<approved hash="4,16,0a9fb44e672a40ca"/>
-<approved hash="4,16,341528b497a698bc"/>
-<approved hash="4,16,60c8d923072b94b0"/>
-<approved hash="4,16,cabc962f4242cd53"/>
-<approved hash="4,16,7c63c8b3cab77187"/>
-<approved hash="4,16,f81ff97833163271"/>
-<approved hash="4,16,5ced495881aeba7a"/>
-<approved hash="4,16,4aff8c5da4aca791"/>
-<approved hash="4,16,1a73af9370752a4a"/>
-<approved hash="4,16,38c2f58e78fb5028"/>
-<approved hash="4,16,3186eecb37c61367"/>
-<approved hash="4,16,581a597f8b118a74"/>
-<approved hash="4,16,51b21b6fcd9a1cab"/>
-<approved hash="4,16,401c417e6b106a72"/>
-<approved hash="4,16,80648103036d020a"/>
-<approved hash="4,16,0eb30f56fce0f2e5"/>
-<approved hash="4,16,7c63c8b3cab77187"/>
-<approved hash="4,16,f1b7099b98bda59c"/>
-<approved hash="4,16,9bda705c2d26a0bb"/>
 <approved hash="7,39,51d0d2852e6e79d4"/>
 <approved hash="7,39,3852b984a1ac8717"/>
 <approved hash="7,39,3852200ccb2a99fd"/>
@@ -1640,7 +1593,6 @@ design rules under a new name.</description>
 <approved hash="7,39,354c2008cb2e94e3"/>
 <approved hash="7,39,09a218b7696ffee4"/>
 <approved hash="7,39,bc8d9faec9289c62"/>
-<approved hash="7,39,2bb82f67fab08790"/>
 <approved hash="7,39,b2919faec928927e"/>
 <approved hash="7,39,7dc74ed4dca81741"/>
 <approved hash="7,39,3b19db06f92867b6"/>
@@ -1650,7 +1602,6 @@ design rules under a new name.</description>
 <approved hash="7,39,439a728f17aee61c"/>
 <approved hash="7,39,3e0fdb7bb62862a0"/>
 <approved hash="7,39,3e0fb9db5cae604a"/>
-<approved hash="7,39,6df8d3db2d1e7ec5"/>
 <approved hash="7,39,360437fb7e288f2b"/>
 <approved hash="7,39,fafac9855984133c"/>
 <approved hash="7,39,70d94524da461a5f"/>
@@ -1716,6 +1667,53 @@ design rules under a new name.</description>
 <approved hash="4,16,191f7c7f14408db9"/>
 <approved hash="4,16,01071b2c72065d63"/>
 <approved hash="4,16,ee81d91a94f89cc3"/>
+<approved hash="4,1,e938e8b57d477cca"/>
+<approved hash="4,1,e3406441fc64cb62"/>
+<approved hash="4,1,c1fe37ff33668ae7"/>
+<approved hash="4,1,07520f8be2a7d10a"/>
+<approved hash="4,1,c9f098320548b896"/>
+<approved hash="4,1,8af654615a8ce9e6"/>
+<approved hash="4,1,cd010e082064d32c"/>
+<approved hash="4,1,a8311ed06f2da07a"/>
+<approved hash="4,1,2010f0ab13f6a57f"/>
+<approved hash="4,1,0b4be66833bac8c6"/>
+<approved hash="4,1,ac61cec9e65c0dc7"/>
+<approved hash="4,1,03f870be655c6fac"/>
+<approved hash="4,1,e1406641bc23e81c"/>
+<approved hash="4,1,6b466aca3d383cb4"/>
+<approved hash="4,1,172635ac29483d88"/>
+<approved hash="4,1,8469990bfb65dbc0"/>
+<approved hash="4,1,0b420acdc53fc4b0"/>
+<approved hash="4,1,e9bb551fc48a37ae"/>
+<approved hash="4,1,494048cbd539d4b2"/>
+<approved hash="4,1,426f570d672b78c6"/>
+<approved hash="4,1,f32265b71592420d"/>
+<approved hash="4,1,b4bcd681af65a0a5"/>
+<approved hash="4,16,0b4be66833bac8c6"/>
+<approved hash="4,16,426f570d672b78c6"/>
+<approved hash="4,16,e3406441fc64cb62"/>
+<approved hash="4,16,07520f8be2a7d10a"/>
+<approved hash="4,16,57003a1678d626b0"/>
+<approved hash="4,16,0eb30f5cb53abb25"/>
+<approved hash="4,16,1f10f0ab10cd9d76"/>
+<approved hash="4,16,3a23c8b3caad37cd"/>
+<approved hash="4,16,282635ac2e4101b3"/>
+<approved hash="4,16,66f492deeee75577"/>
+<approved hash="4,16,e9bb551fc48a37ae"/>
+<approved hash="4,16,494048cbd539d4b2"/>
+<approved hash="4,16,e938e8b57d477cca"/>
+<approved hash="4,16,c1fe37ff33668ae7"/>
+<approved hash="4,16,6b466aca3d383cb4"/>
+<approved hash="4,16,e1406641bc23e81c"/>
+<approved hash="4,16,3a23c8b3caad37cd"/>
+<approved hash="4,16,0b420acdc53fc4b0"/>
+<approved hash="4,16,8469990bfb65dbc0"/>
+<approved hash="4,16,2fe1feee13c6f4a1"/>
+<approved hash="4,16,b4bcd681af65a0a5"/>
+<approved hash="4,16,f32265b71592420d"/>
+<approved hash="4,16,d501b425a9f5a8b2"/>
+<approved hash="4,16,8af654615a8ce9e6"/>
+<approved hash="4,16,8804bcf7863fca0e"/>
 </errors>
 </board>
 </drawing>

@@ -1507,7 +1507,7 @@ Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 <description>Generated from &lt;b&gt;rcstick-f-small.brd&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
 <packages>
-<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:9157832/1" library_version="1" library_locally_modified="yes">
+<package name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:footprint:9157832/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
 <description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
 <circle x="3.5" y="11.8" radius="0.25" width="0" layer="21"/>
 <wire x1="-6" y1="-9.4" x2="-6" y2="9.4" width="0.15" layer="51"/>
@@ -1516,16 +1516,14 @@ by exp-lbrs.ulp</description>
 <wire x1="6" y1="-9.4" x2="-6" y2="-9.4" width="0.15" layer="51"/>
 <wire x1="-6.55" y1="5.65" x2="6.55" y2="5.65" width="0.15" layer="51"/>
 <wire x1="-4" y1="9.4" x2="4" y2="9.4" width="0.15" layer="21"/>
-<wire x1="5.85" y1="9.05" x2="5.85" y2="7.75" width="1.2" layer="46"/>
-<wire x1="-5.85" y1="9.05" x2="-5.85" y2="7.75" width="1.2" layer="46"/>
-<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0.01" layer="20"/>
-<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0.01" layer="20"/>
-<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0.01" layer="20" curve="180"/>
-<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0.01" layer="20"/>
-<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0.01" layer="20" curve="-180"/>
-<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0.01" layer="20" curve="180"/>
+<wire x1="6.45" y1="9.05" x2="6.45" y2="7.75" width="0" layer="20"/>
+<wire x1="5.25" y1="7.75" x2="5.25" y2="9.05" width="0" layer="20"/>
+<wire x1="5.25" y1="9.05" x2="6.45" y2="9.05" width="0" layer="20" curve="-180"/>
+<wire x1="5.25" y1="7.75" x2="6.45" y2="7.75" width="0" layer="20" curve="180"/>
+<wire x1="-5.25" y1="9.05" x2="-5.25" y2="7.75" width="0" layer="20"/>
+<wire x1="-6.45" y1="7.75" x2="-6.45" y2="9.05" width="0" layer="20"/>
+<wire x1="-6.45" y1="9.05" x2="-5.25" y2="9.05" width="0" layer="20" curve="-180"/>
+<wire x1="-6.45" y1="7.75" x2="-5.25" y2="7.75" width="0" layer="20" curve="180"/>
 <pad name="1" x="3.5" y="10.5" drill="0.93" diameter="1.42"/>
 <pad name="2" x="1" y="10.5" drill="0.93" diameter="1.42"/>
 <pad name="3" x="-1" y="10.5" drill="0.93" diameter="1.42"/>
@@ -1540,7 +1538,7 @@ by exp-lbrs.ulp</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:9157833/2" type="model" library_version="1" library_locally_modified="yes">
+<package3d name="MOLEX_48037-0001_1" urn="urn:adsk.eagle:package:9157833/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
 <description>Universal Serial Bus (USB) Shielded I/O Plug, Type A, Right Angle, Through Hole, 0.76µm Gold (Au) Plating, PCB Thickness 1.20mm-1.60mm, Lead-Free</description>
 <packageinstances>
 <packageinstance name="MOLEX_48037-0001_1"/>
@@ -1650,7 +1648,7 @@ by exp-lbrs.ulp</description>
 <part name="GND15" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C17" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p"/>
 <part name="GND16" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="X1" library="CRYSTAL3225" library_urn="urn:adsk.eagle:library:8815235" deviceset="CRYSTAL3225" device="HS" package3d_urn="urn:adsk.eagle:package:8815239/2" value="8MHz/15pF"/>
+<part name="X1" library="CRYSTAL3225" library_urn="urn:adsk.eagle:library:8815235" deviceset="CRYSTAL3225" device="HS" package3d_urn="urn:adsk.eagle:package:8815239/2" value="16MHz/10pF"/>
 <part name="C18" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p"/>
 <part name="C19" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="12p"/>
 <part name="GND4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>

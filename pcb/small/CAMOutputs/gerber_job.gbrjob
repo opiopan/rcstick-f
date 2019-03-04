@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2019-03-04T13:28:02Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.3.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.67,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "rcstick-f-small"
+        },
+        "Owner": "Hiroshi Murayama <opiopan@gmail.com>",
+        "Size": {
+            "X": 15.4,
+            "Y": 40
+        }
+    }
+}
