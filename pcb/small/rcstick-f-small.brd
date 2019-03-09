@@ -3,7 +3,7 @@
 <eagle version="9.3.0">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="50" unitdist="mil" unit="mm" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mm"/>
@@ -113,7 +113,7 @@
 <layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="c32bfccb-ff7c-c85a-67ed-160dc844cbdb"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="af5a37c8-9fb4-f3da-f422-9311cfa9bf6d"/>
 <plain>
 <dimension x1="0" y1="40" x2="0" y2="0" x3="-5.08" y3="20" textsize="1.778" layer="51"/>
 <dimension x1="15.4" y1="40" x2="0" y2="40" x3="7.7" y3="44.45" textsize="1.778" layer="51"/>
@@ -135,8 +135,8 @@
 <text x="3.556" y="7.493" size="0.6" layer="25" font="vector" align="center-left">SWCLK</text>
 <text x="8.636" y="22.225" size="0.6" layer="25" font="vector" align="center-left">RFCLK</text>
 <text x="2.032" y="22.098" size="0.6" layer="25" font="vector" align="bottom-center">LED1</text>
-<text x="14.732" y="30.607" size="2.5" layer="22" rot="MR0">rcstick</text>
-<text x="4.064" y="30.607" size="1.2" layer="22" font="vector" rot="MR0">V1.0</text>
+<text x="13.081" y="30.607" size="1.8" layer="22" rot="MR0">rcstick</text>
+<text x="5.334" y="30.607" size="1.2" layer="22" rot="MR0">V1.0</text>
 </plain>
 <libraries>
 <library name="gen-discrete3" urn="urn:adsk.eagle:library:8961849">
