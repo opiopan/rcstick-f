@@ -15,3 +15,9 @@
 *.pdf
 *.pro
 *.job
+CAMOutputs
+pcb/jig/rcstick-jig.dxf
+pcb/large/rcstick-f.dxf
+pcb/small/rcstick-f-small.dxf
+outputs
+.python-version
