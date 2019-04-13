@@ -29,6 +29,8 @@ Eagle dsign files are [here](pcb/small/). You can also use [this gerber data](ht
 <img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/back.png" width=750>
 </p>
 
+## BOM List
+
 Components | Value / Product Number | Remarks
 -----------|------------------------|------------------------------
 U1         | STM32F042K6T6          |

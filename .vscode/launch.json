@@ -1,0 +1,39 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Load & Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/firmware/build/rcstick-f.elf",
+            "cwd": "${workspaceFolder}/firmware",
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb",
+            "externalConsole": false,
+            "preLaunchTask": "Build",
+            "debugServerPath": "${workspaceFolder}/firmware/tools/debugserver",
+            "debugServerArgs": "janus.local ${workspaceFolder}/firmware/build/rcstick-f.elf",
+            "serverStarted": "END",
+            "miDebuggerServerAddress": "janus.local:3333"
+        },
+
+        {
+            "name": "Debug Current Image",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/firmware/build/rcstick-f.elf",
+            "cwd": "${workspaceFolder}/firmware",
+            "MIMode": "gdb",
+            "miDebuggerPath": "arm-none-eabi-gdb",
+            "externalConsole": false,
+            "debugServerPath": "${workspaceFolder}/firmware/tools/debugserver-light",
+            "debugServerArgs": "janus.local ${workspaceFolder}/firmware/build/rcstick-f.elf",
+            "serverStarted": "END",
+            "miDebuggerServerAddress": "janus.local:3333"
+        }
+    ]
+}
