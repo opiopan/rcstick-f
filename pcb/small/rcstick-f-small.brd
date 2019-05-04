@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.3.0">
+<eagle version="9.4.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -866,11 +866,11 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="6.096" y="29.083" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
 <element name="C22" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="9.271" y="29.464" smashed="yes">
-<attribute name="NAME" x="7.747" y="29.083" size="0.6" layer="25" font="vector" align="bottom-center"/>
+<attribute name="NAME" x="7.747" y="29.083" size="0.5" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="9.271" y="28.067" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
 <element name="C23" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1p" x="9.271" y="31.496" smashed="yes">
-<attribute name="NAME" x="7.747" y="31.115" size="0.6" layer="25" font="vector" align="bottom-center"/>
+<attribute name="NAME" x="7.747" y="31.115" size="0.5" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="9.271" y="30.099" size="0.762" layer="27" font="vector" align="bottom-center"/>
 </element>
 <element name="C24" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" package="RCL_C0402_HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="1.8p" x="12.446" y="29.972" smashed="yes">
@@ -1114,8 +1114,6 @@ design rules under a new name.</description>
 <wire x1="14.642" y1="27.395" x2="13.716" y2="28.321" width="0.5" layer="1"/>
 <wire x1="12.23" y1="26.66" x2="11.98" y2="26.91" width="0.5" layer="1"/>
 <wire x1="11.98" y1="26.91" x2="11.98" y2="28.321" width="0.5" layer="1"/>
-<wire x1="13.462" y1="25.95" x2="12.94" y2="25.95" width="0.5" layer="1"/>
-<wire x1="12.94" y1="25.95" x2="12.23" y2="26.66" width="0.5" layer="1"/>
 <wire x1="5.038" y1="21.463" x2="0.762" y2="21.463" width="0.5" layer="16"/>
 <wire x1="0.762" y1="18.472196875" x2="2.5027625" y2="16.731434375" width="0.5" layer="1"/>
 <wire x1="10.63" y1="24.14" x2="10.63" y2="22.898" width="0.5" layer="1"/>
@@ -1183,6 +1181,9 @@ design rules under a new name.</description>
 <via x="11.303" y="33.528" extent="1-16" drill="0.35"/>
 <via x="1.397" y="15.748" extent="1-16" drill="0.35"/>
 <via x="13.589" y="15.748" extent="1-16" drill="0.35"/>
+<wire x1="13.462" y1="25.95" x2="12.319" y2="25.95" width="0.5" layer="1"/>
+<wire x1="12.319" y1="25.95" x2="12.23" y2="26.039" width="0.5" layer="1"/>
+<wire x1="12.23" y1="26.039" x2="12.23" y2="26.66" width="0.5" layer="1"/>
 </signal>
 <signal name="+3V3" class="2">
 <contactref element="C2" pad="1"/>

@@ -48,7 +48,7 @@ C5         | 4.7uF (1005)           |
 C6, C7     | 15pF (1005)            | need to change value if X1's load capacitance is not 10pF
 C8         | 10nF (1005)
 C13, C14, C17| 220pF (1005)
-C18, C19   | 12pF (1005)            | need to change value if X2's load capacitance is not 10pF
+C18, C19   | 12pF (1005)            | need to change value if X2's load capacitance is not 9pF
 C20, C21   | 100pF (1005)           |
 C22, C23   | 1pF (1005)             |
 C24        | 1.8pF (1005)           |

@@ -96,8 +96,12 @@ void Error_Handler(void);
 #define RF_TEST_GPIO_Port GPIOA
 #define RF_INT_Pin GPIO_PIN_2
 #define RF_INT_GPIO_Port GPIOA
+#define RF_INT_EXTI_IRQn EXTI2_3_IRQn
 #define LED_Pin GPIO_PIN_1
 #define LED_GPIO_Port GPIOB
+#define BUTTON_Pin GPIO_PIN_8
+#define BUTTON_GPIO_Port GPIOB
+#define BUTTON_EXTI_IRQn EXTI4_15_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

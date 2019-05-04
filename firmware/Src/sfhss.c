@@ -16,9 +16,9 @@
 #define FALLBACK_COUNT 30
 
 // Some important initialization parameters, all others are either default,
-// IOCFG2   2F - GDO2_INV=0 GDO2_CFG=2F - HW0
+// IOCFG2   07 - GDO2_INV=0 GDO2_CFG=07 - assert when packet is received
 // IOCFG1   2E - GDO1_INV=0 GDO1_CFG=2E - High Impedance
-// IOCFG0   07 - GDO0_INV=0 GDO0_CFG=07 - assert when packet is received
+// IOCFG0   3F - GDO0_INV=0 GDO0_CFG=3F - CLK XOSC/192
 // FIFOTHR  07 - 33 decimal RX FIFO threshold
 // SYNC1    D3
 // SYNC0    91
@@ -56,11 +56,11 @@
 // FSCAL1   11
 // FSCAL0   11
 const uint8_t SFHSS_init_values[] = {
-  /* 00 */ 0x2F, 0x2E, 0x07, 0x07, 0xD3, 0x91, 0x0D, 0x04,
-  /* 08 */ 0x0C, 0x29, 0x10, 0x06, 0x00, 0x5C, 0x4E, SFHSS_FREQ0_VAL + SFHSS_COARSE,
-  /* 10 */ 0x7C, 0x43, 0x83, 0x23, 0x3B, 0x44, 0x07, 0x3c,
-  /* 18 */ 0x08, 0x1D, 0x1C, 0x43, 0x40, 0x91, 0x57, 0x6B,
-  /* 20 */ 0xF8, 0xB6, 0x10, 0xEA, 0x0A, 0x11, 0x11
+  /* 00 */ 0x07, 0x2e, 0x3f, 0x07, 0xD3, 0x91, 0x0D, 0x04,
+  /* 08 */ 0x0c, 0x29, 0x10, 0x06, 0x00, 0x5c, 0x4e, SFHSS_FREQ0_VAL + SFHSS_COARSE,
+  /* 10 */ 0x7c, 0x43, 0x83, 0x23, 0x3b, 0x44, 0x07, 0x3c,
+  /* 18 */ 0x08, 0x1d, 0x1c, 0x43, 0x40, 0x91, 0x57, 0x6b,
+  /* 20 */ 0xf8, 0xb6, 0x10, 0xea, 0x0a, 0x11, 0x11
 };
 
 static void chuneChannel(SFHSSCTX* ctx)
@@ -152,11 +152,10 @@ static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
     return TRUE;
 }
 
-void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500, TIM_HandleTypeDef* timer)
+void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500)
 {
     *ctx = (SFHSSCTX){
         .cc2500 = cc2500,
-        .timer = timer,
         .phase = SFHSS_INIT,
     };
     cc2500_writeRegisterBurst(ctx->cc2500, 0, SFHSS_init_values, sizeof(SFHSS_init_values));
@@ -175,9 +174,8 @@ void sfhss_calibrate(SFHSSCTX* ctx)
     ctx->phase = SFHSS_CALIBRATED;
 }
 
-void sfhss_schedule(SFHSSCTX* ctx)
+void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 {
-    int now = (int)__HAL_TIM_GET_COUNTER(ctx->timer);
     switch ((int)ctx->phase){
 
     case SFHSS_CALIBRATED:{

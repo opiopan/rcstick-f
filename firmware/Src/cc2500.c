@@ -6,6 +6,7 @@
  */
 
 #include "cc2500.h"
+#include "olog.h"
 
 #define CS_UP(ctx)      ((ctx)->cs ? 0 : \
                         (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_SET), (ctx)->cs = TRUE))
@@ -32,6 +33,11 @@ void cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_Han
 
     cc2500_begin(ctx);
     cc2500_reset(ctx);
+
+    uint8_t productid, version;
+    cc2500_readRegister(ctx, CC2500_30_PARTNUM, &productid);
+    cc2500_readRegister(ctx, CC2500_31_VERSION, &version);
+    OLOG_LOGI("CC2500: PARTNUM [%.2x], VERSION [%.2x]", productid, version);
     cc2500_strobe(ctx, CC2500_SIDLE);
     cc2500_commit(ctx);
 }
@@ -161,13 +167,16 @@ int cc2500_reset(CC2500CTX* ctx)
         return 0x80;
     }
     sdata = CC2500_SNOP;
+    int count=0;
     do {
+        count++;
         if (HAL_SPI_TransmitReceive(ctx->spi, &sdata, &rdata, 1, SPITIMEOUT) != HAL_OK){
             CS_UP(ctx);
             return 0x80;
         }
     }while (rdata == 0xff);
     CS_UP(ctx);
+    OLOG_LOGI("CC2500: waited for reset at %d times", count);
     return rc;
 }
 

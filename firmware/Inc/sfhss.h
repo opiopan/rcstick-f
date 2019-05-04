@@ -16,7 +16,7 @@
 #define SFHSS_CHNUM                 30
 #define SFHSS_CH(ctx)               ((ctx)->ch * 6 + 16)
 #define SFHSS_CALDATA(ctx)          ((ctx)->caldata[(ctx)->ch])
-#define SFHSS_SET_RECEIVED(ctx)     ((ctx)->received = 1, ((ctx)->timer ? (ctx)->rtime = __HAL_TIM_GET_COUNTER((ctx)->timer) : 0))
+#define SFHSS_SET_RECEIVED(ctx, now)     ((ctx)->received = 1, (ctx)->rtime = (now))
 #define SFHSS_RESET_RECEIVED(ctx)   ((ctx)->received = 0)
 #define SFHSS_ISDIRTY(ctx)          ((ctx)->packetPos == 0 && (ctx)->isDirty)
 #define SFHSS_RESET_DIRTY(ctx)      ((ctx)->isDirty = FALSE)
@@ -36,7 +36,6 @@ typedef enum
 
 typedef struct {
     CC2500CTX*          cc2500;
-    TIM_HandleTypeDef*  timer;
     int                 ch;
     volatile int        received;
     int                 rtime;
@@ -54,10 +53,10 @@ typedef struct {
     uint8_t             caldata[SFHSS_CHNUM];
 } SFHSSCTX;
 
-void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500, TIM_HandleTypeDef* timer);
+void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500);
 void sfhss_calibrate(SFHSSCTX* ctx);
 
-void sfhss_schedule(SFHSSCTX* ctx);
+void sfhss_schedule(SFHSSCTX* ctx, int32_t now);
 void sfhss_test(SFHSSCTX* ctx);
 
 #endif /* SFHSS_H_ */

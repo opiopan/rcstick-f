@@ -54,7 +54,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "rcstick.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -75,6 +75,7 @@
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
@@ -86,6 +87,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -126,8 +128,23 @@ int main(void)
   MX_SPI1_Init();
   MX_USB_DEVICE_Init();
   MX_TIM3_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  RcstickConf conf = {
+    .hrtimer = &htim2,
+    .spi = &hspi1,
+    .rf_cs_ch = RF_CS_GPIO_Port,
+    .rf_cs_pin = RF_CS_Pin,
+    .rf_test_ch = RF_TEST_GPIO_Port,
+    .rf_test_pin = RF_TEST_Pin,
+    .rf_int_ch = RF_INT_GPIO_Port,
+    .rf_int_pin = RF_INT_Pin,
+    .led_pwm_timer = &htim3,
+    .led_pwm_ch = TIM_CHANNEL_4,
+    .button_ch = BUTTON_GPIO_Port,
+    .button_pin = BUTTON_Pin,
+  };
+  run_rcstick(&conf);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,6 +154,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    for (int i = 0; i < 500; i += 10){
+      __HAL_TIM_SET_COMPARE(conf.led_pwm_timer, conf.led_pwm_ch, i);
+      HAL_Delay(10);
+    }
+
+    for (int i = 500; i >= 0; i -= 10){
+      __HAL_TIM_SET_COMPARE(conf.led_pwm_timer, conf.led_pwm_ch, i);
+      HAL_Delay(10);
+    }
+
+    HAL_Delay(600);
   }
   /* USER CODE END 3 */
 }
@@ -226,6 +254,51 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 48;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief TIM3 Initialization Function
   * @param None
   * @retval None
@@ -298,11 +371,30 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(RF_CS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : RF_TEST_Pin RF_INT_Pin */
-  GPIO_InitStruct.Pin = RF_TEST_Pin|RF_INT_Pin;
+  /*Configure GPIO pin : RF_TEST_Pin */
+  GPIO_InitStruct.Pin = RF_TEST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(RF_TEST_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : RF_INT_Pin */
+  GPIO_InitStruct.Pin = RF_INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(RF_INT_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_Pin */
+  GPIO_InitStruct.Pin = BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BUTTON_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_3_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 
 }
 
