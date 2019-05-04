@@ -8,7 +8,7 @@
 
 #define MSEC 1000
 #define SEC 1000000
-#define LPF_THRESHOLD 50 * MSEC
+#define LPF_THRESHOLD 20 * MSEC
 #define LONG_PRESS    2 * SEC
 #define ULTRA_LONG_PRESS 10 * SEC
 

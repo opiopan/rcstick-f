@@ -33,3 +33,37 @@ void olog_log(int level, const char *fmt, ...)
 
     olog_write(END_LOG, sizeof(END_LOG) - 1);
 }
+
+static print_memline(uint32_t addr, const char* buf)
+{
+    olog_printf("    %.8X : %s\n", addr, buf);
+}
+
+void olog_dumpmem(const void* mem, size_t len)
+{
+    static const char hex[] = "0123456789ABCDEF";
+    char buf[16 * 2 + 4];
+    const uint8_t* data = (const uint8_t*)mem;
+    char* out = buf;
+    uint32_t addr = (uint32_t)mem;
+    for (int i = 0; i < len; i++){
+        *out = hex[(data[i] & 0xf0) >> 4];
+        out++;
+        *out = hex[data[i] & 0x0f];
+        out++;
+        if (i % 4 == 3){
+            *out = ' ';
+            out++;
+        }
+        if (i % 16 == 15){
+            *out = '\0';
+            print_memline(addr, buf);
+            out = buf;
+            addr += 16;
+        }
+    }
+    if (out != buf){
+        *out = '\0';
+        print_memline(addr, buf);
+    }
+}

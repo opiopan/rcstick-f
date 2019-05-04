@@ -6,6 +6,7 @@
  */
 
 #include "sfhss.h"
+#include "olog.h"
 
 #define BINDING_MEASURE_COUNT 15
 #define SHORT_INTERVAL_MAX (6660 + 600)
@@ -172,6 +173,8 @@ void sfhss_calibrate(SFHSSCTX* ctx)
     }
     cc2500_commit(ctx->cc2500);
     ctx->phase = SFHSS_CALIBRATED;
+    OLOG_LOGI("SFHSS: retrieved %d ch calibrate data", sizeof(ctx->caldata));
+    olog_dumpmem(ctx->caldata, sizeof(ctx->caldata));
 }
 
 void sfhss_schedule(SFHSSCTX* ctx, int32_t now)

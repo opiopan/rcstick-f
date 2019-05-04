@@ -34,6 +34,7 @@ extern "C" {
 #define olog_printf()
 #define olog_vprintf()
 #define olog_log()
+#define olog_dumpmem()
 #elif OLOG_BACKEND == OLOG_BACKEND_SEGGER_RTT
 #include <SEGGER_RTT.h>
 #define olog_init() SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP)
@@ -41,12 +42,14 @@ extern "C" {
 #define olog_printf(...) SEGGER_RTT_printf(0, __VA_ARGS__)
 #define olog_vprintf(fmt, va_list) SEGGER_RTT_vprintf(0, (fmt), (va_list))
 void olog_log(int level, const char* fmt, ...);
+void olog_dumpmem(const void* mem, size_t len);
 #else
 #define olog_init()
 #define olog_write()
 #define olog_printf()
 #define olog_vprintf()
 #define olog_log()
+#define olog_dumpmem()
 #endif
 
 #if OLOG_LEVEL >= OLOG_FATAL
