@@ -177,8 +177,10 @@ void sfhss_calibrate(SFHSSCTX* ctx)
     olog_dumpmem(ctx->caldata, sizeof(ctx->caldata));
 }
 
-void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
+SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 {
+    SFHSS_EVENT rc = SFHSSEV_NONE;
+
     switch ((int)ctx->phase){
 
     case SFHSS_CALIBRATED:{
@@ -189,6 +191,8 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         SFHSS_RESET_RECEIVED(ctx);
         cc2500_strobe(ctx->cc2500, CC2500_SRX);
         ctx->phase = SFHSS_START_BINDING;
+        rc = SFHSSEV_START_BINDING;
+        OLOG_LOGD("SFHSS: change status to START-BINDING");
         break;
     }
 
@@ -201,12 +205,14 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         ctx->intervalSum[0] = 0;
         ctx->intervalSum[1] = 0;
         ctx->phase = SFHSS_FINDING_RADIO;
+        OLOG_LOGD("SFHSS: change status to FINDING-RADIO");
         break;
     }
 
     case SFHSS_FINDING_RADIO:{
         if (ctx->received){
             ctx->phase = SFHSS_BINDING;
+            OLOG_LOGD("SFHSS: change status to BINDING");
         }
         break;
     }
@@ -221,6 +227,7 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                 int interval = ctx->interval[cmd & 1];
                 if (!(interval > LONG_INTERVAL_MIN && interval < LONG_INTERVAL_MAX)){
                     ctx->phase = SFHSS_START_BINDING;
+                    OLOG_LOGD("SFHSS: change status to START-BINDING");
                 }
             }
             if (ctx->measureCount[0] > BINDING_MEASURE_COUNT &&
@@ -228,9 +235,11 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                 ctx->interval[0] = ctx->intervalSum[0] / (ctx->measureCount[0] - 1) / 30;
                 ctx->interval[1] = ctx->intervalSum[1] / (ctx->measureCount[1] - 1) / 30;
                 ctx->phase = SFHSS_BINDED;
+                OLOG_LOGD("SFHSS: change status to BINDED");
             }
         }else if (now - ctx->rtime > LONG_INTERVAL_MAX){
             ctx->phase = SFHSS_START_BINDING;
+            OLOG_LOGD("SFHSS: change status to START-BINDING");
         }
         break;
     }
@@ -243,6 +252,8 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         SFHSS_RESET_RECEIVED(ctx);
         cc2500_strobe(ctx->cc2500, CC2500_SRX);
         ctx->phase = SFHSS_CONNECTING1;
+        rc = SFHSSEV_START_CONNECTING;
+        OLOG_LOGD("SFHSS: change status to CONNECTING1");
         break;
     }
 
@@ -252,6 +263,7 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
             readPacket(ctx, &cmd);
             if (!(cmd & 1)){
                 ctx->phase = SFHSS_CONNECTING2;
+                OLOG_LOGD("SFHSS: change status to CONNECTING2");
             }
         }
         break;
@@ -264,11 +276,16 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
             if (cmd & 1){
                 if (ctx->ptime[1] - ctx->ptime[0] > ctx->interval[0] / 2){
                     ctx->phase = SFHSS_CONNECTING1;
-                }else{
+                    OLOG_LOGD("SFHSS: change status to CONNECTING1");
+                }
+                else
+                {
                     ctx->skipCount = 0;
                     ctx->phase = SFHSS_CONNECTED;
+                    OLOG_LOGD("SFHSS: change status to CONNECTED");
                     nextChannel(ctx, ctx->hopcode);
                     chuneChannelFast(ctx);
+                    rc = SFHSSEV_CONNECTED;
                 }
             }
         }
@@ -293,10 +310,14 @@ void sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                     chuneChannelFast(ctx);
                 }else{
                     ctx->phase = SFHSS_BINDED;
+                    OLOG_LOGD("SFHSS: change status to BINDED");
+                    rc = SFHSSEV_START_CONNECTING;
                 }
             }
         }
         break;
     }
     }
+
+    return rc;
 }

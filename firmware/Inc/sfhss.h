@@ -21,8 +21,7 @@
 #define SFHSS_ISDIRTY(ctx)          ((ctx)->packetPos == 0 && (ctx)->isDirty)
 #define SFHSS_RESET_DIRTY(ctx)      ((ctx)->isDirty = FALSE)
 
-typedef enum
-{
+typedef enum {
     SFHSS_INIT = 0,
     SFHSS_CALIBRATED,
     SFHSS_START_BINDING,
@@ -33,6 +32,14 @@ typedef enum
     SFHSS_CONNECTING2,
     SFHSS_CONNECTED,
 } SFHSS_PHASE;
+
+typedef enum {
+    SFHSSEV_NONE = 0,
+    SFHSSEV_START_FINDING,
+    SFHSSEV_START_BINDING,
+    SFHSSEV_START_CONNECTING,
+    SFHSSEV_CONNECTED
+}SFHSS_EVENT;
 
 typedef struct {
     CC2500CTX*          cc2500;
@@ -56,7 +63,7 @@ typedef struct {
 void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500);
 void sfhss_calibrate(SFHSSCTX* ctx);
 
-void sfhss_schedule(SFHSSCTX* ctx, int32_t now);
+SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now);
 void sfhss_test(SFHSSCTX* ctx);
 
 #endif /* SFHSS_H_ */

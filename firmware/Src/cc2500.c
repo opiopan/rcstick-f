@@ -15,11 +15,12 @@
 #define CS_UP_FORCE(ctx) (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_SET), (ctx)->cs = TRUE)
 #define CS_DOWN_FORCE(ctx) (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_RESET), (ctx)->cs = FALSE)
 #define SPITIMEOUT 500
+#define CC2500_PARTNUM 0x80
 
 /*---------------------------------------------------------------
  * initialize context
  *-------------------------------------------------------------*/
-void cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_HandleTypeDef* spi)
+BOOL cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_HandleTypeDef* spi)
 {
     *ctx = (CC2500CTX){
         .selector = {
@@ -34,12 +35,17 @@ void cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_Han
     cc2500_begin(ctx);
     cc2500_reset(ctx);
 
-    uint8_t productid, version;
-    cc2500_readRegister(ctx, CC2500_30_PARTNUM, &productid);
-    cc2500_readRegister(ctx, CC2500_31_VERSION, &version);
-    OLOG_LOGI("CC2500: PARTNUM [%.2x], VERSION [%.2x]", productid, version);
+    uint8_t partnum, version;
+    cc2500_readStatusRegister(ctx, CC2500_30_PARTNUM, &partnum);
+    cc2500_readStatusRegister(ctx, CC2500_31_VERSION, &version);
+    OLOG_LOGI("CC2500: PARTNUM [%.2x], VERSION [%.2x]", partnum, version);
+    if (partnum != CC2500_PARTNUM){
+        OLOG_LOGE("CC2500: PARTNUM is invalid, That means CC2500 migth not be working");
+    }
     cc2500_strobe(ctx, CC2500_SIDLE);
     cc2500_commit(ctx);
+
+    return partnum == CC2500_PARTNUM;
 }
 
 /*---------------------------------------------------------------

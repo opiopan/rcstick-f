@@ -34,7 +34,7 @@ void olog_log(int level, const char *fmt, ...)
     olog_write(END_LOG, sizeof(END_LOG) - 1);
 }
 
-static print_memline(uint32_t addr, const char* buf)
+static void print_memline(uint32_t addr, const char* buf)
 {
     olog_printf("    %.8X : %s\n", addr, buf);
 }

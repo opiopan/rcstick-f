@@ -21,7 +21,7 @@ typedef struct {
     BOOL cs:1;
 } CC2500CTX;
 
-void cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_HandleTypeDef* spi);
+BOOL cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_HandleTypeDef* spi);
 
 void cc2500_begin(CC2500CTX* ctx);
 void cc2500_commit(CC2500CTX* ctx);

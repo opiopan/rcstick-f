@@ -9,7 +9,7 @@
 #include "led.h"
 #include "olog.h"
 
-#define ON_VALUE 500
+#define ON_VALUE 80
 
 typedef enum {
     PK_END = 0,
@@ -28,18 +28,18 @@ typedef struct {
 #define SEQ_END {PK_END, 0}
 #define SEQ_LOOP {PK_LOOP, 0}
 
-const PHASE seq_error[] = {SEQ_ON(125000), SEQ_OFF(125000), SEQ_LOOP};
+const PHASE seq_error[] = {SEQ_ON(100000), SEQ_OFF(100000), SEQ_LOOP};
 const PHASE seq_finding[] = {SEQ_ON(200000), SEQ_OFF(1800000), SEQ_LOOP};
 const PHASE seq_binding[] = {SEQ_ON(100000), SEQ_OFF(100000), SEQ_ON(100000), SEQ_OFF(1700000), SEQ_LOOP};
-const PHASE seq_binded[] = {SEQ_ON(0), SEQ_END};
-const PHASE seq_disconnected[] = {SEQ_ON(100000), SEQ_OFF(100000), SEQ_ON(100000), SEQ_OFF(1700000), SEQ_LOOP};
+const PHASE seq_connecting[] = {SEQ_ON(200000), SEQ_OFF(900000), SEQ_LOOP};
+const PHASE seq_connected[] = {SEQ_ON(0), SEQ_END};
 
 const PHASE *seqs[] = {
     seq_error,
     seq_finding,
     seq_binding,
-    seq_binded,
-    seq_disconnected,
+    seq_connecting,
+    seq_connected,
 };
 
 static void apply_stage(LEDCTX* ctx, int32_t now)
@@ -68,6 +68,9 @@ void led_init(LEDCTX *ctx, TIM_HandleTypeDef *pwm_timer, uint16_t pwm_ch)
 
 void led_set_mode(LEDCTX *ctx, LEDMODE mode, int32_t now)
 {
+    if (ctx->mode == mode){
+        return;
+    }
     ctx->mode = mode;
     ctx->stage = 0;
     apply_stage(ctx, now);

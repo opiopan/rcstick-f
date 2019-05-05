@@ -34,6 +34,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 /*=====================================================================
+    loop on error state
+======================================================================*/
+void fatal_error()
+{
+    OLOG_LOGF("rcstick: couldn't work any more");
+    int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(app_config->hrtimer);
+    led_set_mode(&led_ctx, LEDMODE_ERROR, now);
+    while (TRUE){
+        int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(app_config->hrtimer);
+        led_schedule(&led_ctx, now);
+    }
+}
+
+/*=====================================================================
     Main logic
 ======================================================================*/
 void run_rcstick(const RcstickConf *conf)
@@ -53,12 +67,14 @@ void run_rcstick(const RcstickConf *conf)
     HAL_Delay(100);
     HAL_TIM_Base_Start(conf->hrtimer);
     HAL_TIM_PWM_Start(conf->led_pwm_timer, conf->led_pwm_ch);
-    cc2500_init(&cc2500_ctx, conf->rf_cs_ch, conf->rf_cs_pin, conf->spi);
+    led_init(&led_ctx, conf->led_pwm_timer, conf->led_pwm_ch);
+    if (!cc2500_init(&cc2500_ctx, conf->rf_cs_ch, conf->rf_cs_pin, conf->spi)){
+        fatal_error();
+    }
     sfhss_init(&sfhss_ctx, &cc2500_ctx);
     sfhss_calibrate(&sfhss_ctx);
     button_init(&button_ctx, conf->button_ch, conf->button_pin);
-    led_init(&led_ctx, conf->led_pwm_timer, conf->led_pwm_ch);
-
+    
     int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
     led_set_mode(&led_ctx, LEDMODE_FINDING, now);
 
@@ -69,12 +85,18 @@ void run_rcstick(const RcstickConf *conf)
     ----------------------------------------------------------------------*/
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
-        //sfhss_schedule(&sfhss_ctx, now);
+        //SFHSS_EVENT ev = sfhss_schedule(&sfhss_ctx, now);
         led_schedule(&led_ctx, now);
 
         switch(button_schedule(&button_ctx, now)){
+        case BUTTONEV_UP:
+            led_set_mode(&led_ctx, LEDMODE_ERROR, now);
+            break;
+        case BUTTONEV_LONG_PRESS:
+            led_set_mode(&led_ctx, LEDMODE_FINDING, now);
+            break;
         case BUTTONEV_ULTRA_LONG_PRESS:
-            OLOG_LOGI("rcstick: reboot in order to enter DFU mode");
+            OLOG_LOGW("rcstick: reboot in order to enter DFU mode");
             NVIC_SystemReset();
         default: 
             break;
