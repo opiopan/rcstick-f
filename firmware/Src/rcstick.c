@@ -36,7 +36,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 /*=====================================================================
     loop on error state
 ======================================================================*/
-void fatal_error()
+static void fatal_error()
 {
     OLOG_LOGF("rcstick: couldn't work any more");
     int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(app_config->hrtimer);
@@ -45,6 +45,29 @@ void fatal_error()
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(app_config->hrtimer);
         led_schedule(&led_ctx, now);
     }
+}
+
+/*=====================================================================
+    communicate with host
+======================================================================*/
+#define CONVDATA(val) ((((uint32_t)(val)-970) * 255) / 1100)
+static void send_report()
+{
+    struct{
+        uint8_t id;
+        uint8_t axis[8];
+    } report;
+
+    report.id = 1;
+    report.axis[0] = CONVDATA(sfhss_ctx.data[0]);
+    report.axis[1] = CONVDATA(sfhss_ctx.data[1]);
+    report.axis[2] = CONVDATA(sfhss_ctx.data[2]);
+    report.axis[3] = CONVDATA(sfhss_ctx.data[3]);
+    report.axis[4] = CONVDATA(sfhss_ctx.data[4]);
+    report.axis[5] = CONVDATA(sfhss_ctx.data[5]);
+    report.axis[6] = CONVDATA(sfhss_ctx.data[6]);
+    report.axis[7] = CONVDATA(sfhss_ctx.data[7]);
+    USBD_CUSTOM_HID_SendReport_FS((uint8_t *)&report, sizeof(report));
 }
 
 /*=====================================================================
@@ -83,17 +106,50 @@ void run_rcstick(const RcstickConf *conf)
     /*----------------------------------------------------------------------
     main loop
     ----------------------------------------------------------------------*/
+    int32_t logtime = 0;
+    BOOL needLog = FALSE;
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
-        //SFHSS_EVENT ev = sfhss_schedule(&sfhss_ctx, now);
+        switch (sfhss_schedule(&sfhss_ctx, now)){
+        case SFHSSEV_START_FINDING:
+            led_set_mode(&led_ctx, LEDMODE_FINDING, now);
+            break;
+        case SFHSSEV_START_BINDING:
+            led_set_mode(&led_ctx, LEDMODE_BINDING, now);
+            break;
+        case SFHSSEV_START_CONNECTING:
+            led_set_mode(&led_ctx, LEDMODE_CONNECTING, now);
+            break;
+        case SFHSSEV_CONNECTED:
+            led_set_mode(&led_ctx, LEDMODE_CONNECTED, now);
+            break;
+        default:
+            break;
+        }
+        if (SFHSS_ISDIRTY(&sfhss_ctx)){
+            send_report();
+            SFHSS_RESET_DIRTY(&sfhss_ctx);
+            if (needLog && now - logtime >= 1000000){
+                logtime = now;
+                olog_printf(
+                    "%9d: ch1[%.dx] ch2[%.dx] ch3[%.dx] ch4[%.dx]\n", now,
+                    sfhss_ctx.data[0], sfhss_ctx.data[1], sfhss_ctx.data[2], sfhss_ctx.data[3]);
+                olog_printf(
+                    "           ch5[%.dx] ch6[%.4d] ch7[%.4d] ch8[%.4d]\n",
+                    sfhss_ctx.data[4], sfhss_ctx.data[5], sfhss_ctx.data[6], sfhss_ctx.data[7]);
+            }
+        }
+
         led_schedule(&led_ctx, now);
 
         switch(button_schedule(&button_ctx, now)){
         case BUTTONEV_UP:
-            led_set_mode(&led_ctx, LEDMODE_ERROR, now);
+            needLog = !needLog;
+            logtime = now - 2000000;
             break;
         case BUTTONEV_LONG_PRESS:
-            led_set_mode(&led_ctx, LEDMODE_FINDING, now);
+            OLOG_LOGI("rcstick: restart binding");
+            SFHSS_START_BINDING(&sfhss_ctx);
             break;
         case BUTTONEV_ULTRA_LONG_PRESS:
             OLOG_LOGW("rcstick: reboot in order to enter DFU mode");

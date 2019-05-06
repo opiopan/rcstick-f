@@ -20,6 +20,7 @@
 #define SFHSS_RESET_RECEIVED(ctx)   ((ctx)->received = 0)
 #define SFHSS_ISDIRTY(ctx)          ((ctx)->packetPos == 0 && (ctx)->isDirty)
 #define SFHSS_RESET_DIRTY(ctx)      ((ctx)->isDirty = FALSE)
+#define SFHSS_START_BINDING(ctx)    ((ctx)->phase = SFHSS_CALIBRATED)
 
 typedef enum {
     SFHSS_INIT = 0,
