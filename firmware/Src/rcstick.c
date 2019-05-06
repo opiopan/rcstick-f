@@ -106,8 +106,10 @@ void run_rcstick(const RcstickConf *conf)
     /*----------------------------------------------------------------------
     main loop
     ----------------------------------------------------------------------*/
+    #define LOG_ON 1
+    #define LOG_RAW 2
+    int8_t logmode = LOG_RAW;
     int32_t logtime = 0;
-    BOOL needLog = FALSE;
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
         switch (sfhss_schedule(&sfhss_ctx, now)){
@@ -129,14 +131,27 @@ void run_rcstick(const RcstickConf *conf)
         if (SFHSS_ISDIRTY(&sfhss_ctx)){
             send_report();
             SFHSS_RESET_DIRTY(&sfhss_ctx);
-            if (needLog && now - logtime >= 1000000){
+            if ((logmode & LOG_ON) && now - logtime >= 1000000){
                 logtime = now;
-                olog_printf(
-                    "%9d: ch1[%.dx] ch2[%.dx] ch3[%.dx] ch4[%.dx]\n", now,
-                    sfhss_ctx.data[0], sfhss_ctx.data[1], sfhss_ctx.data[2], sfhss_ctx.data[3]);
-                olog_printf(
-                    "           ch5[%.dx] ch6[%.4d] ch7[%.4d] ch8[%.4d]\n",
-                    sfhss_ctx.data[4], sfhss_ctx.data[5], sfhss_ctx.data[6], sfhss_ctx.data[7]);
+                if (logmode & LOG_RAW){
+                    olog_printf(
+                        "%9d: ch1[%4d] ch2[%4d] ch3[%4d] ch4[%4d]\n", now,
+                        sfhss_ctx.data[0], sfhss_ctx.data[1], 
+                        sfhss_ctx.data[2], sfhss_ctx.data[3]);
+                    olog_printf(
+                        "           ch5[%4d] ch6[%4d] ch7[%4d] ch8[%4d]\n",
+                        sfhss_ctx.data[4], sfhss_ctx.data[5], 
+                        sfhss_ctx.data[6], sfhss_ctx.data[7]);
+                }else{
+                    olog_printf(
+                        "%9d: ch1[%3d] ch2[%3d] ch3[%3d] ch4[%3d]\n", now,
+                        CONVDATA(sfhss_ctx.data[0]), CONVDATA(sfhss_ctx.data[1]),
+                        CONVDATA(sfhss_ctx.data[2]), CONVDATA(sfhss_ctx.data[3]));
+                    olog_printf(
+                        "           ch5[%3d] ch6[%3d] ch7[%3d] ch8[%3d]\n",
+                        CONVDATA(sfhss_ctx.data[4]), CONVDATA(sfhss_ctx.data[5]),
+                        CONVDATA(sfhss_ctx.data[6]), CONVDATA(sfhss_ctx.data[7]));
+                }
             }
         }
 
@@ -144,7 +159,7 @@ void run_rcstick(const RcstickConf *conf)
 
         switch(button_schedule(&button_ctx, now)){
         case BUTTONEV_UP:
-            needLog = !needLog;
+            logmode = (logmode % 3) + 1;
             logtime = now - 2000000;
             break;
         case BUTTONEV_LONG_PRESS:
