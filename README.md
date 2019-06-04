@@ -9,10 +9,14 @@ This device is designed to be used to controll RC flight simulator by Futaba RC 
 [This product](https://www.google.com/search?q=WS1000+Spektrum&rlz=1C5CHFA_enJP742JP742&oq=WS1000+Spektrum&aqs=chrome..69i57j0l5.14185j0j8&sourceid=chrome&ie=UTF-8) is almost same with rcstick-f except supported protocol. I could'nt find a such kind of device supported Futaba RC protocol.<br>
 That's why I determined to start this project.
 
-## Project Status
-The PoC has been done in [this project](https://github.com/opiopan/sfhss-study).
-And PCB production finished.<br>
-Now I'm procuring components.
+## Futaba S-FHSS protocol
+S-FHSS is a 2.4 GHz band based RC transceiver protocol designed by Futaba.
+It is not brand new protocol, However many Futaba transmitter suport this protolol. And this protocol is well analyzed. That's why I choose S-FHSS for my own receiver imprementation.
+
+[This commentary article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/) and
+[this C source code](https://github.com/DeviationTX/deviation/blob/2ce0f46fe94d80198ae94fd5a6f6a008863ec420/src/protocol/sfhss_cc2500.c)
+which impremens S-FHSS transmitter are very helpful to understand the protocol.
+I sincerely appreciate there effort.
 
 ## PCB design
 Eagle dsign files are [here](pcb/small/). You can also use [this gerber data](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstic-f-gerber.zip) for production.
@@ -58,3 +62,36 @@ R2         | 56k ohm (1005)         |
 R3         | 100 ohm (1005)         |
 L1,L2,L3   | 1.2nH (1005)           |
 
+## Building Firmware
+1. **Requirements**<br>
+[arm-none-eabi-gcc](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
+must be installed in a directory indecateed by `PATH` environment variable.
+
+2. **Downloading Source Codes**<br>
+
+    ```shell
+    $ git clone https://github.com/opiopan/rcstick-f.git
+    ```
+
+3. **Compiling**
+    ```shell
+    $ cd rcstick-f/firmware
+    $ make all
+    ```
+
+## Downloading Firmware
+You can choose two way to download firmware to rcstick-f board.<br>
+One is downloading firmware via SWD by using debugger. rcstick-f exports a SWD I/F at J2 connector.<br>
+The other one is downloading it via USB port in DFU mode. You can switch rcstick-f in DFU mode by inserting that to USB port with the button pressed.
+
+If openocd is running to controll debugger, you can download by making ```flash``` target with ```DEBUGSERVER``` parameter.
+
+```shell
+$ make DEBUGSERVER=localhost flash
+```
+
+If rcstick-f is connected to USB port and that is in DFU mode, you can download by making ```dfuflash``` target.
+
+```shell
+$ make dfuflash
+```

@@ -53,21 +53,23 @@ static void fatal_error()
 #define CONVDATA(val) ((((uint32_t)(val)-970) * 255) / 1100)
 static void send_report()
 {
-    struct{
+    static struct{
         uint8_t id;
         uint8_t axis[8];
-    } report;
+    } report[4];
+    static int current;
 
-    report.id = 1;
-    report.axis[0] = CONVDATA(sfhss_ctx.data[0]);
-    report.axis[1] = CONVDATA(sfhss_ctx.data[1]);
-    report.axis[2] = CONVDATA(sfhss_ctx.data[2]);
-    report.axis[3] = CONVDATA(sfhss_ctx.data[3]);
-    report.axis[4] = CONVDATA(sfhss_ctx.data[4]);
-    report.axis[5] = CONVDATA(sfhss_ctx.data[5]);
-    report.axis[6] = CONVDATA(sfhss_ctx.data[6]);
-    report.axis[7] = CONVDATA(sfhss_ctx.data[7]);
-    USBD_CUSTOM_HID_SendReport_FS((uint8_t *)&report, sizeof(report));
+    report[current].id = 1;
+    report[current].axis[0] = CONVDATA(sfhss_ctx.data[0]);
+    report[current].axis[1] = CONVDATA(sfhss_ctx.data[1]);
+    report[current].axis[2] = CONVDATA(sfhss_ctx.data[2]);
+    report[current].axis[3] = CONVDATA(sfhss_ctx.data[3]);
+    report[current].axis[4] = CONVDATA(sfhss_ctx.data[4]);
+    report[current].axis[5] = CONVDATA(sfhss_ctx.data[5]);
+    report[current].axis[6] = CONVDATA(sfhss_ctx.data[6]);
+    report[current].axis[7] = CONVDATA(sfhss_ctx.data[7]);
+    USBD_CUSTOM_HID_SendReport_FS((uint8_t *)(report + current), sizeof(report[0]));
+    current = (current + 1) & 3;
 }
 
 /*=====================================================================
@@ -87,7 +89,7 @@ void run_rcstick(const RcstickConf *conf)
     Initialize peripherals & functions
     ----------------------------------------------------------------------*/
     app_config = conf;
-    HAL_Delay(100);
+    HAL_Delay(200);
     HAL_TIM_Base_Start(conf->hrtimer);
     HAL_TIM_PWM_Start(conf->led_pwm_timer, conf->led_pwm_ch);
     led_init(&led_ctx, conf->led_pwm_timer, conf->led_pwm_ch);
@@ -110,6 +112,7 @@ void run_rcstick(const RcstickConf *conf)
     #define LOG_RAW 2
     int8_t logmode = LOG_RAW;
     int32_t logtime = 0;
+    int32_t txtime = -1000000;
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
         switch (sfhss_schedule(&sfhss_ctx, now)){
@@ -128,9 +131,10 @@ void run_rcstick(const RcstickConf *conf)
         default:
             break;
         }
-        if (SFHSS_ISDIRTY(&sfhss_ctx)){
+        if (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx) && now - txtime >= 15000){
             send_report();
             SFHSS_RESET_DIRTY(&sfhss_ctx);
+            txtime = now;
             if ((logmode & LOG_ON) && now - logtime >= 1000000){
                 logtime = now;
                 if (logmode & LOG_RAW){
