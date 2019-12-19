@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.4.0">
+<eagle version="9.5.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -367,7 +367,7 @@ by exp-lbrs.ulp</description>
 <description>Generated from &lt;b&gt;rcstick-f.sch&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
 <packages>
-<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
+<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/3" library_version="2" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
 <circle x="-2.54" y="2.413" radius="0.2" width="0.127" layer="21"/>
 <wire x1="2.0574" y1="1.4732" x2="2.0574" y2="2.0574" width="0.127" layer="21"/>
@@ -405,7 +405,7 @@ by exp-lbrs.ulp</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
+<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/5" type="model" library_version="2" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
 <packageinstances>
 <packageinstance name="CC2500-RTY1_CC2500-HS"/>
@@ -959,7 +959,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="7.639240625" y="14.972034375" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="15.19179375" y="18.5380875" size="1.016" layer="27" font="vector" rot="R135"/>
 </element>
-<element name="U2" library="CC2500" library_urn="urn:adsk.eagle:library:8961792" package="CC2500-RTY1_CC2500-HS" package3d_urn="urn:adsk.eagle:package:8961796/2" value="CC2500" x="5.588" y="25.527" smashed="yes" rot="R90">
+<element name="U2" library="CC2500" library_urn="urn:adsk.eagle:library:8961792" package="CC2500-RTY1_CC2500-HS" package3d_urn="urn:adsk.eagle:package:8961796/5" value="CC2500" x="5.588" y="25.527" smashed="yes" rot="R90">
 <attribute name="NAME" x="5.588" y="28.448" size="0.762" layer="25" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="9.271" y="25.527" size="1.016" layer="27" font="vector" rot="R90" align="center"/>
 </element>
@@ -1184,6 +1184,14 @@ design rules under a new name.</description>
 <wire x1="13.462" y1="25.95" x2="12.319" y2="25.95" width="0.5" layer="1"/>
 <wire x1="12.319" y1="25.95" x2="12.23" y2="26.039" width="0.5" layer="1"/>
 <wire x1="12.23" y1="26.039" x2="12.23" y2="26.66" width="0.5" layer="1"/>
+<wire x1="11.896" y1="32.004" x2="11.303" y2="33.528" width="0" layer="19" extent="1-1"/>
+<wire x1="13.504" y1="21.717" x2="13.843" y2="21.759" width="0" layer="19" extent="1-16"/>
+<wire x1="8.763" y1="33.528" x2="9.821" y2="32.512" width="0" layer="19" extent="1-1"/>
+<wire x1="1.397" y1="15.748" x2="2.5027625" y2="16.731434375" width="0" layer="19" extent="1-1"/>
+<wire x1="13.589" y1="15.748" x2="12.897234375" y2="14.2565625" width="0" layer="19" extent="1-1"/>
+<wire x1="6.223" y1="33.528" x2="8.763" y2="33.528" width="0" layer="19" extent="1-1"/>
+<wire x1="3.683" y1="33.528" x2="6.223" y2="33.528" width="0" layer="19" extent="1-1"/>
+<wire x1="1.143" y1="33.528" x2="3.683" y2="33.528" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="+3V3" class="2">
 <contactref element="C2" pad="1"/>

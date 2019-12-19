@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.3.0">
+<eagle version="9.5.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1276,7 +1276,7 @@ Source: &lt;a href="http://www.alps.com/prod/info/E/HTML/Tact/SurfaceMount/SKRP/
 <description>Generated from &lt;b&gt;rcstick-f.sch&lt;/b&gt;&lt;p&gt;
 by exp-lbrs.ulp</description>
 <packages>
-<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/1" locally_modified="yes" library_version="1" library_locally_modified="yes">
+<package name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:footprint:8961794/3" library_version="2" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
 <circle x="-2.54" y="2.413" radius="0.2" width="0.127" layer="21"/>
 <wire x1="2.0574" y1="1.4732" x2="2.0574" y2="2.0574" width="0.127" layer="21"/>
@@ -1314,7 +1314,7 @@ by exp-lbrs.ulp</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/2" locally_modified="yes" type="model" library_version="1" library_locally_modified="yes">
+<package3d name="CC2500-RTY1_CC2500-HS" urn="urn:adsk.eagle:package:8961796/5" type="model" library_version="2" library_locally_modified="yes">
 <description>&lt;b&gt;QFN50P400X400X90-21N&lt;/b&gt;&lt;br&gt;</description>
 <packageinstances>
 <packageinstance name="CC2500-RTY1_CC2500-HS"/>
@@ -1354,7 +1354,7 @@ by exp-lbrs.ulp</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="CC2500" urn="urn:adsk.eagle:component:8961797/1" locally_modified="yes" prefix="U" library_version="1" library_locally_modified="yes">
+<deviceset name="CC2500" urn="urn:adsk.eagle:component:8961797/3" locally_modified="yes" prefix="U" library_version="2" library_locally_modified="yes">
 <description>&lt;b&gt;RF Transceiver&lt;/b&gt;&lt;p&gt;
 Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 <gates>
@@ -1387,7 +1387,7 @@ Source: &lt;a href=""&gt; Datasheet &lt;/a&gt;</description>
 <connect gate="G$1" pin="XOSC_Q2" pad="10"/>
 </connects>
 <package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:8961796/2"/>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:8961796/5"/>
 </package3dinstances>
 <technologies>
 <technology name=""/>
@@ -1632,7 +1632,7 @@ by exp-lbrs.ulp</description>
 <part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C10" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u"/>
 <part name="GND8" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="U2" library="CC2500" library_urn="urn:adsk.eagle:library:8961792" deviceset="CC2500" device="-HS" package3d_urn="urn:adsk.eagle:package:8961796/2" value="CC2500"/>
+<part name="U2" library="CC2500" library_urn="urn:adsk.eagle:library:8961792" deviceset="CC2500" device="-HS" package3d_urn="urn:adsk.eagle:package:8961796/5" value="CC2500"/>
 <part name="GND9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="+3V4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="C13" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="220p"/>
