@@ -3,7 +3,7 @@
 <eagle version="9.5.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="50" unitdist="mil" unit="mm" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mm"/>
@@ -113,7 +113,7 @@
 <layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="af5a37c8-9fb4-f3da-f422-9311cfa9bf6d"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmE2M2My" projecturn="a.cGVyc29uYWw6dWUyYmE2M2MyIzIwMTgwOTE3MTQ5MTY5Mjgx" f3durn="urn:adsk.wipprod:dm.lineage:Ka2zEVxqQJuLWRWjQCtt5A" pcbguid="2642404a-56bf-401e-824e-11ebb673c24c" lastpulledtime="2019-02-23T02:20:42Z" lastsyncedchangeguid="8718269b-5b06-6ed7-481f-8a582d51e3af"/>
 <plain>
 <dimension x1="0" y1="40" x2="0" y2="0" x3="-5.08" y3="20" textsize="1.778" layer="51"/>
 <dimension x1="15.4" y1="40" x2="0" y2="40" x3="7.7" y3="44.45" textsize="1.778" layer="51"/>
@@ -623,7 +623,7 @@ by exp-lbrs.ulp</description>
 <class number="2" name="pwr" width="0.2" drill="0">
 </class>
 </classes>
-<designrules name="Elecrow_2-layer_PCB_eagle_rule">
+<designrules name="Elecrow_2-layer_PCB_eagle_rule *">
 <description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
 &lt;p&gt;
 Die Standard-Design-Rules sind so gewählt, dass sie für 
@@ -642,7 +642,7 @@ design rules under a new name.</description>
 </description>
 <param name="layerSetup" value="(1*16)"/>
 <param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
-<param name="mtIsolate" value="1.6mm 1.2mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
+<param name="mtIsolate" value="0.93mm 1.2mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
 <param name="mdWireWire" value="6mil"/>
 <param name="mdWirePad" value="6mil"/>
 <param name="mdWireVia" value="6mil"/>
@@ -1184,14 +1184,6 @@ design rules under a new name.</description>
 <wire x1="13.462" y1="25.95" x2="12.319" y2="25.95" width="0.5" layer="1"/>
 <wire x1="12.319" y1="25.95" x2="12.23" y2="26.039" width="0.5" layer="1"/>
 <wire x1="12.23" y1="26.039" x2="12.23" y2="26.66" width="0.5" layer="1"/>
-<wire x1="11.896" y1="32.004" x2="11.303" y2="33.528" width="0" layer="19" extent="1-1"/>
-<wire x1="13.504" y1="21.717" x2="13.843" y2="21.759" width="0" layer="19" extent="1-16"/>
-<wire x1="8.763" y1="33.528" x2="9.821" y2="32.512" width="0" layer="19" extent="1-1"/>
-<wire x1="1.397" y1="15.748" x2="2.5027625" y2="16.731434375" width="0" layer="19" extent="1-1"/>
-<wire x1="13.589" y1="15.748" x2="12.897234375" y2="14.2565625" width="0" layer="19" extent="1-1"/>
-<wire x1="6.223" y1="33.528" x2="8.763" y2="33.528" width="0" layer="19" extent="1-1"/>
-<wire x1="3.683" y1="33.528" x2="6.223" y2="33.528" width="0" layer="19" extent="1-1"/>
-<wire x1="1.143" y1="33.528" x2="3.683" y2="33.528" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="+3V3" class="2">
 <contactref element="C2" pad="1"/>
@@ -1546,11 +1538,11 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <mfgpreviewcolors>
-<mfgpreviewcolor name="soldermaskcolor" color="0xC8008000"/>
+<mfgpreviewcolor name="soldermaskcolor" color="0xC804218A"/>
 <mfgpreviewcolor name="silkscreencolor" color="0xFFFEFEFE"/>
 <mfgpreviewcolor name="backgroundcolor" color="0xFF282828"/>
-<mfgpreviewcolor name="coppercolor" color="0xFFFFBF00"/>
-<mfgpreviewcolor name="substratecolor" color="0xFF786E46"/>
+<mfgpreviewcolor name="coppercolor" color="0xFFC4C4C4"/>
+<mfgpreviewcolor name="substratecolor" color="0xFF787878"/>
 </mfgpreviewcolors>
 <errors>
 <approved hash="7,39,51d0d2852e6e79d4"/>

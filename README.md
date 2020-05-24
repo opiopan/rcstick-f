@@ -18,30 +18,34 @@ It is not brand new protocol, However many Futaba transmitter suport this protol
 which impremens S-FHSS transmitter are very helpful to understand the protocol.
 I sincerely appreciate there effort.
 
-## PCB design
-Eagle dsign files are [here](pcb/small/). You can also use [this gerber data](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstic-f-gerber.zip) for production.
+## PCB Design
+I designed two types of PCB artworks for rcstick-f.<br>
+One is sufficiently small that QFP32 package of STM32 MCU is installed, the other one is very small that QFN32 package of MCU is installed.<br>
 
+<p align="center">
+<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors.jpg" width=750>
+</p>
+
+### Design FIles
+Board Type        | Eagle design files | Gerber files 
+------------------|--------------------|--------------
+QFP32 MCU version | [pcb/small](pcb/small)| [rcstick-f-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-gerber.zip)
+QFN32 MCU version | [pcb/tiny](pcb/tiny)| [rcstick-f-tiny-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-tiny-gerber.zip)
+
+### Schematic Diagram
 <p align="center">
 <img alt="PCB schema" src="images/schema.svg" width=800>
 </p>
 
-<p align="center">
-<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/front.png" width=750>
-</p>
-
-<p align="center">
-<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/back.png" width=750>
-</p>
-
-## BOM List
+### BOM List
 
 Components | Value / Product Number | Remarks
 -----------|------------------------|------------------------------
-U1         | STM32F042K6T6          |
+U1         | STM32F042K6T6 or STM32F042K6U6 |
 U2         | TI CC2500              | 
 U3         | MCP1703AT-3302E/CB     | SOT-23 LDO
 J1         | MOLEX 48037-0001       | USB type A male connector
-J2         | MOLEX 53047-0410       | **OPTIONAL for debugging**<br>firmware downloading can be proceeded by using DFU mode
+J2         | MOLEX 53047-0410       | **OPTIONAL for debugging**<br>Firmware downloading can be proceeded by using DFU mode
 X1         | 16MHz Crystal (3225)   | load capacitance: 10pF
 X2         | 26MHz Crystal (3225)   | load capacitance: 9pF
 LED1       | OSBL1608C1A            |

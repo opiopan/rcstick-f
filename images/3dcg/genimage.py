@@ -16,12 +16,12 @@ hmapbg_settings = RenderSettings(color=(0, 0, 0))
 mask_settings = RenderSettings(color=(0, 0, 0))
 maskbg_settings = RenderSettings(color=(1.0, 1.0, 1.0))
 
-blur_radius = 2
+blur_radius = 4
 
 #-------------------------------------------------------------
 # generate top base image
 #-------------------------------------------------------------
-ctx = GerberCairoContext(scale=40)
+ctx = GerberCairoContext(scale=80)
 print('### Top Base Image ###')
 print('loading... ', end='', flush=True)
 copper = load_layer(prefix + '.GTL')

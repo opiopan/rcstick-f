@@ -4,9 +4,9 @@ from gerberex import DxfFile, GerberComposition, DrillComposition
 
 exts = ['GTL', 'GTO', 'GTS', 'GBL', 'GBO', 'GBS']
 boards=[
-    ('../../pcb/small/CAMOutputs/rcstick-f-small.', 0, 0, 0),
+    ('../../pcb/tiny/CAMOutputs/rcstick-f-tiny.', 0, 0, 0),
 ]
-outline = gerberex.read('../../pcb/small/CAMOutputs/rcstick-f-small.GML')
+outline = gerberex.read('../../pcb/tiny/CAMOutputs/rcstick-f-tiny.GML')
 outputs = 'outputs/pcb'
 
 if not os.path.isdir('outputs'):
