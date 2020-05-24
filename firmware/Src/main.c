@@ -149,23 +149,9 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+  /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-    for (int i = 0; i < 500; i += 10){
-      __HAL_TIM_SET_COMPARE(conf.led_pwm_timer, conf.led_pwm_ch, i);
-      HAL_Delay(10);
-    }
-
-    for (int i = 500; i >= 0; i -= 10){
-      __HAL_TIM_SET_COMPARE(conf.led_pwm_timer, conf.led_pwm_ch, i);
-      HAL_Delay(10);
-    }
-
-    HAL_Delay(600);
-  }
+  /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
