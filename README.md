@@ -68,7 +68,7 @@ L1,L2,L3   | 1.2nH (1005)           |
 
 ## Building Firmware
 1. **Requirements**<br>
-[arm-none-eabi-gcc](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
+[GNU Arm Embedded Toolchain](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads)
 must be installed in a directory indecateed by `PATH` environment variable.
 
 2. **Downloading Source Codes**<br>
@@ -94,8 +94,21 @@ If openocd is running to controll debugger, you can download by making ```flash`
 $ make DEBUGSERVER=localhost flash
 ```
 
-If rcstick-f is connected to USB port and that is in DFU mode, you can download by making ```dfuflash``` target.
+If rcstick-f is connected to USB port and that is in DFU mode, you can download by making ```dfuflash``` target. In this case, [dfu-util](http://dfu-util.sourceforge.net) has to be installed in advance.
 
 ```shell
 $ make dfuflash
 ```
+## How to use rcstick-f
+1. Insert rcstick-f to USB port of your PC, and make sure that 
+    LED on rcstick-f flashs twice every two seconds.
+
+2. Turn on the power of RC transmitter.<br>
+    When rcstick-f detect that radio waves, LED flashing pattern is changed that flash once every one second.
+
+3. Wait until LED will light continuously that means rcstick-f is binded with RC transmitter.
+
+4. Now you can use your RC transmitter as a joystick on your PC.
+
+
+    
