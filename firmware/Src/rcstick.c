@@ -50,7 +50,17 @@ static void fatal_error()
 /*=====================================================================
     communicate with host
 ======================================================================*/
-#define CONVDATA(val) ((((uint32_t)(val)-970) * 255) / 1100)
+inline static int32_t CONVDATA(int32_t val) {
+    int32_t rc =  ((val - 970) * 255) / 1100;
+    if (rc < 0){
+        return 0;
+    }
+    if (rc > 255){
+        return 255;
+    }
+    return rc;
+}
+
 static void send_report()
 {
     static struct{
@@ -110,9 +120,13 @@ void run_rcstick(const RcstickConf *conf)
     ----------------------------------------------------------------------*/
     #define LOG_ON 1
     #define LOG_RAW 2
+    int initialstate = TRUE;
     int8_t logmode = LOG_RAW;
     int32_t logtime = 0;
     int32_t txtime = -1000000;
+    int32_t recvnum = 0;
+    int32_t lostnum = 0;
+
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
         switch (sfhss_schedule(&sfhss_ctx, now)){
@@ -127,11 +141,15 @@ void run_rcstick(const RcstickConf *conf)
             break;
         case SFHSSEV_CONNECTED:
             led_set_mode(&led_ctx, LEDMODE_CONNECTED, now);
+            initialstate = FALSE;
+            recvnum = 0;
+            lostnum = 0;
             break;
         default:
             break;
         }
-        if (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx) && now - txtime >= 15000){
+        if ((initialstate || (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx)))
+            && now - txtime >= 15000){
             send_report();
             SFHSS_RESET_DIRTY(&sfhss_ctx);
             txtime = now;
@@ -156,6 +174,14 @@ void run_rcstick(const RcstickConf *conf)
                         CONVDATA(sfhss_ctx.data[4]), CONVDATA(sfhss_ctx.data[5]),
                         CONVDATA(sfhss_ctx.data[6]), CONVDATA(sfhss_ctx.data[7]));
                 }
+                static const char ATTR_LOST[] = "\033[31m";
+                olog_printf(
+                    "           Received Packets: \033[32m%d\033[0m, Lost Packets: %s%d\033[0m\n",
+                    sfhss_ctx.stat_rcv - recvnum, 
+                    sfhss_ctx.stat_lost -lostnum == 0 ? "" : ATTR_LOST,
+                    sfhss_ctx.stat_lost - lostnum);
+                    recvnum = sfhss_ctx.stat_rcv;
+                    lostnum = sfhss_ctx.stat_lost;
             }
         }
 
@@ -164,6 +190,9 @@ void run_rcstick(const RcstickConf *conf)
         switch(button_schedule(&button_ctx, now)){
         case BUTTONEV_UP:
             logmode = (logmode % 3) + 1;
+            OLOG_LOGI("rcstick: log mode cahnged [%s, %s]",
+                logmode & LOG_ON ? "ON": "OFF",
+                logmode & LOG_RAW ? "RAW": "USB");
             logtime = now - 2000000;
             break;
         case BUTTONEV_LONG_PRESS:

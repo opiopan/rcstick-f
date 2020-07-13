@@ -221,16 +221,25 @@ int cc2500_readFIFO(CC2500CTX* ctx, uint8_t* buf, int length)
         CS_UP(ctx);
         return 0x80;
     }
-    if ((rc & CC2500_STATUS_CHIP_RDYn_BM) || CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM < length){
+    if (rc & CC2500_STATE_RX_OVERFLOW){
+        CS_UP(ctx);
+        OLOG_LOGE("CC2500: rx fifo is in state of overflow");
+        cc2500_strobe(ctx, CC2500_SFRX);
+        return rc | CC2500_STATUS_CHIP_RDYn_BM;
+    }
+    if (rc & CC2500_STATUS_CHIP_RDYn_BM){
         CS_UP(ctx);
         return rc | CC2500_STATUS_CHIP_RDYn_BM;
     }
 
     cmd = 0;
+    if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < length){
+        length = rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM;
+    }
     for (int i = 0; i < length; i++){
         if (HAL_SPI_TransmitReceive(ctx->spi, &cmd, buf + i, 1, SPITIMEOUT) != HAL_OK){
-            CS_UP(ctx);
-            return 0x80;
+                CS_UP(ctx);
+                return 0x80;
         }
     }
 

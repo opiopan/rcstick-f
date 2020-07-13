@@ -52,6 +52,8 @@ typedef struct {
     int                 intervalSum[2];
     int                 measureCount[2];
     int                 skipCount;
+    int                 stat_rcv;
+    int                 stat_lost;
     BOOL                isDirty;
     int32_t             txaddr;
     SFHSS_PHASE         phase;

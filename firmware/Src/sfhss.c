@@ -5,6 +5,7 @@
  *      Author: opiopan@gmail.com
  */
 
+#include <string.h>
 #include "sfhss.h"
 #include "olog.h"
 
@@ -104,8 +105,20 @@ static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
     uint16_t txaddr = 0;
     uint8_t hopcode;
 
-    cc2500_readFIFO(ctx->cc2500, buf, sizeof(buf));
-    SFHSS_RESET_RECEIVED(ctx);
+    int rc;
+    do {
+        rc = cc2500_readFIFO(ctx->cc2500, buf, sizeof(buf));
+        if (rc & CC2500_STATUS_CHIP_RDYn_BM){
+            return FALSE;
+        }
+        SFHSS_RESET_RECEIVED(ctx);
+        if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < sizeof(buf)){
+            OLOG_LOGE("SFHSS: insufficient packet data [%d]", rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM);
+            return FALSE;
+        }
+
+        rc = cc2500_strobe(ctx->cc2500, CC2500_SNOP);
+    }while ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) != 0);
 
     uint8_t* pkt = buf + 0;
     txaddr = (uint16_t)pkt[1] << 8 | pkt[2];
@@ -159,6 +172,7 @@ void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500)
         .cc2500 = cc2500,
         .phase = SFHSS_INIT,
     };
+    ctx->data[2] = 2047;
     cc2500_writeRegisterBurst(ctx->cc2500, 0, SFHSS_init_values, sizeof(SFHSS_init_values));
 }
 
@@ -286,6 +300,8 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                 else
                 {
                     ctx->skipCount = 0;
+                    ctx->stat_rcv = 0;
+                    ctx->stat_lost = 0;
                     ctx->phase = SFHSS_CONNECTED;
                     OLOG_LOGI("SFHSS: connect to transmitter [%.4X]", ctx->txaddr);
                     OLOG_LOGD("SFHSS: change status to CONNECTED");
@@ -302,17 +318,27 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         if (ctx->received){
             uint8_t cmd;
             readPacket(ctx, &cmd);
+            ctx->stat_rcv++;
             if (cmd & 1){
                 nextChannel(ctx, ctx->hopcode);
                 chuneChannelFast(ctx);
             }
+            if (ctx->skipCount > 0){
+                OLOG_LOGD("SFHSS: recover connection after skipping %d times", ctx->skipCount);
+                ctx->skipCount = 0;
+                ctx->ptime[((cmd & 1) + 1) & 1] = now;
+            }
         }else{
             int elapse = now - ctx->ptime[ctx->packetPos];
             if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
-                ctx->skipCount++;
+                int skipnum = ctx->packetPos == 0 ? 1 :  2;
+                ctx->skipCount += skipnum;
                 if (ctx->skipCount < FALLBACK_COUNT){
+                    ctx->stat_lost = skipnum + 1;
                     ctx->packetPos = 0;
-                    nextChannel(ctx, ctx->hopcode);
+                    for (int i = 0; i < skipnum; i++){
+                        nextChannel(ctx, ctx->hopcode);
+                    }
                     chuneChannelFast(ctx);
                 }else{
                     ctx->phase = SFHSS_BINDED;
