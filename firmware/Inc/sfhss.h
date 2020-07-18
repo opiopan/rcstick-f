@@ -54,6 +54,7 @@ typedef struct {
     int                 skipCount;
     int                 stat_rcv;
     int                 stat_lost;
+    int                 stat_skip;
     BOOL                isDirty;
     int32_t             txaddr;
     SFHSS_PHASE         phase;

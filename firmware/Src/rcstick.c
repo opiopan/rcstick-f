@@ -123,9 +123,9 @@ void run_rcstick(const RcstickConf *conf)
     int initialstate = TRUE;
     int8_t logmode = LOG_RAW;
     int32_t logtime = 0;
-    int32_t txtime = -1000000;
     int32_t recvnum = 0;
     int32_t lostnum = 0;
+    int32_t skipnum = 0;
 
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
@@ -144,16 +144,15 @@ void run_rcstick(const RcstickConf *conf)
             initialstate = FALSE;
             recvnum = 0;
             lostnum = 0;
+            skipnum = 0;
             break;
         default:
             break;
         }
-        if ((initialstate || (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx)))
-            && now - txtime >= 15000){
+        if (initialstate || (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx))){
             send_report();
             SFHSS_RESET_DIRTY(&sfhss_ctx);
-            txtime = now;
-            if ((logmode & LOG_ON) && now - logtime >= 1000000){
+            if (!initialstate && (logmode & LOG_ON) && now - logtime >= 1000000){
                 logtime = now;
                 if (logmode & LOG_RAW){
                     olog_printf(
@@ -175,13 +174,17 @@ void run_rcstick(const RcstickConf *conf)
                         CONVDATA(sfhss_ctx.data[6]), CONVDATA(sfhss_ctx.data[7]));
                 }
                 static const char ATTR_LOST[] = "\033[31m";
+                static const char ATTR_SKIP[] = "\033[31m";
                 olog_printf(
-                    "           Received Packets: \033[32m%d\033[0m, Lost Packets: %s%d\033[0m\n",
-                    sfhss_ctx.stat_rcv - recvnum, 
-                    sfhss_ctx.stat_lost -lostnum == 0 ? "" : ATTR_LOST,
-                    sfhss_ctx.stat_lost - lostnum);
-                    recvnum = sfhss_ctx.stat_rcv;
-                    lostnum = sfhss_ctx.stat_lost;
+                    "           RCV: \033[32m%d\033[0m, LOST: %s%d\033[0m SKIP: %s%d\033[0m\n",
+                    sfhss_ctx.stat_rcv - recvnum,
+                    sfhss_ctx.stat_lost - lostnum == 0 ? "" : ATTR_LOST,
+                    sfhss_ctx.stat_lost - lostnum,
+                    sfhss_ctx.stat_skip - skipnum == 0 ? "" : ATTR_SKIP,
+                    sfhss_ctx.stat_skip - skipnum);
+                recvnum = sfhss_ctx.stat_rcv;
+                lostnum = sfhss_ctx.stat_lost;
+                skipnum = sfhss_ctx.stat_skip;
             }
         }
 
