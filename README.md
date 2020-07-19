@@ -109,7 +109,16 @@ $ make dfuflash
 
 3. Wait until LED will light continuously that means rcstick-f is binded with RC transmitter.
 
-4. Now you can use your RC transmitter as a joystick on your PC.
+4. Now you can use your RC transmitter as a joystick on your PC.<br>
+    First time to use rcstick-f on a PC, you may need to calibrate a joystick as next section.
 
+## Calibration
+Since a range of values for each channel of a transmitter is biased in a range that packet structure can be expressed, rcstick-f must be calibrated by OS function or application fucntion at first.<br>
+On Windows, you can [carribrate a controller and save that result as system wide configuration](https://www.tenforums.com/tutorials/103910-calibrate-game-controller-windows-10-a.html). 
+On Mac, calibration should be done for each application.
 
-    
+This inconvenience results from inefficiency of S-FHSS protocol.<br>
+S-FHSS data packet provides 12 bit payload for each channel. That means channel that the range of values which each channel can take is 0 to 4095.<br>
+However, actual transmitter uses range of approximately only 10 bit values. In my transmitter [Futaba 10J](https://www.rc.futaba.co.jp/propo/air/10j.html) case, minimum value is 946 and maximum value is 2094. 1149 level that 2049 - 946 + 1 is lazar-thin larger than the range of 10 bit values. Moreever, maximum value 2049 is only 2 larger than the range of 11 bits value.<br>
+I don't know why Futaba design the payload in pakcet as 10 bits value. As mentioned in [this article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/),
+There are many inefficiency other than channel value payload case.

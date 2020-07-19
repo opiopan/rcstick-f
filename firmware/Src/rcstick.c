@@ -63,22 +63,24 @@ inline static int32_t CONVDATA(int32_t val) {
 
 static void send_report()
 {
-    static struct{
+    static struct {
         uint8_t id;
-        uint8_t axis[8];
-    } report[4];
-    static int current;
+        struct {
+            uint8_t l;
+            uint8_t h;
+        } axis[6];
+    } report[4]; 
+    static int current = 0;
+    #define SETDATA(a, d) (((a).h = ((d) >> 4) & 0xff), ((a).l = ((d) & 0xf) << 4))
 
     report[current].id = 1;
-    report[current].axis[0] = CONVDATA(sfhss_ctx.data[0]);
-    report[current].axis[1] = CONVDATA(sfhss_ctx.data[1]);
-    report[current].axis[2] = CONVDATA(sfhss_ctx.data[2]);
-    report[current].axis[3] = CONVDATA(sfhss_ctx.data[3]);
-    report[current].axis[4] = CONVDATA(sfhss_ctx.data[4]);
-    report[current].axis[5] = CONVDATA(sfhss_ctx.data[5]);
-    report[current].axis[6] = CONVDATA(sfhss_ctx.data[6]);
-    report[current].axis[7] = CONVDATA(sfhss_ctx.data[7]);
-    USBD_CUSTOM_HID_SendReport_FS((uint8_t *)(report + current), sizeof(report[0]));
+    SETDATA(report[current].axis[0], sfhss_ctx.data[0]);
+    SETDATA(report[current].axis[1], sfhss_ctx.data[1]);
+    SETDATA(report[current].axis[2], sfhss_ctx.data[2]);
+    SETDATA(report[current].axis[3], sfhss_ctx.data[3]);
+    SETDATA(report[current].axis[4], sfhss_ctx.data[4]);
+    SETDATA(report[current].axis[5], sfhss_ctx.data[5]);
+    USBD_CUSTOM_HID_SendReport_FS((uint8_t*)(report + current), sizeof(report[0]));
     current = (current + 1) & 3;
 }
 
@@ -165,13 +167,13 @@ void run_rcstick(const RcstickConf *conf)
                         sfhss_ctx.data[6], sfhss_ctx.data[7]);
                 }else{
                     olog_printf(
-                        "%9d: ch1[%3d] ch2[%3d] ch3[%3d] ch4[%3d]\n", now,
-                        CONVDATA(sfhss_ctx.data[0]), CONVDATA(sfhss_ctx.data[1]),
-                        CONVDATA(sfhss_ctx.data[2]), CONVDATA(sfhss_ctx.data[3]));
+                        "%9d: ch1[%.4x] ch2[%.4x] ch3[%.4x] ch4[%.4x]\n", now,
+                        sfhss_ctx.data[0] << 4, sfhss_ctx.data[1] << 4,
+                        sfhss_ctx.data[2] << 4, sfhss_ctx.data[3] << 4);
                     olog_printf(
-                        "           ch5[%3d] ch6[%3d] ch7[%3d] ch8[%3d]\n",
-                        CONVDATA(sfhss_ctx.data[4]), CONVDATA(sfhss_ctx.data[5]),
-                        CONVDATA(sfhss_ctx.data[6]), CONVDATA(sfhss_ctx.data[7]));
+                        "           ch5[%.4x] ch6[%.4x] ch7[%.4x] ch8[%.4x]\n",
+                        sfhss_ctx.data[4] << 4, sfhss_ctx.data[5] << 4,
+                        sfhss_ctx.data[6] << 4, sfhss_ctx.data[7] << 4);
                 }
                 static const char ATTR_LOST[] = "\033[31m";
                 static const char ATTR_SKIP[] = "\033[31m";

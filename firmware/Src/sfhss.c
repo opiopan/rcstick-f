@@ -174,7 +174,7 @@ void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500)
         .cc2500 = cc2500,
         .phase = SFHSS_INIT,
     };
-    ctx->data[2] = 2047;
+    ctx->data[2] = 4095;
     cc2500_writeRegisterBurst(ctx->cc2500, 0, SFHSS_init_values, sizeof(SFHSS_init_values));
 }
 

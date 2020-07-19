@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * Copyright (c) 2019 STMicroelectronics International N.V. 
+  * Copyright (c) 2020 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -103,9 +103,9 @@
 /*---------- -----------*/
 #define USBD_SELF_POWERED     0
 /*---------- -----------*/
-#define USBD_CUSTOMHID_OUTREPORT_BUF_SIZE     9
+#define USBD_CUSTOMHID_OUTREPORT_BUF_SIZE     13
 /*---------- -----------*/
-#define USBD_CUSTOM_HID_REPORT_DESC_SIZE     41
+#define USBD_CUSTOM_HID_REPORT_DESC_SIZE     39
 
 /****************************************/
 /* #define for FS and HS identification */

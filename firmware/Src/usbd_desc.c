@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * Copyright (c) 2019 STMicroelectronics International N.V. 
+  * Copyright (c) 2020 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -94,9 +94,9 @@
 #define USBD_VID     1155
 #define USBD_LANGID_STRING     1033
 #define USBD_MANUFACTURER_STRING     "opiopan@gmail.com"
-#define USBD_PID_FS     22352
+#define USBD_PID_FS     22355
 #define USBD_PRODUCT_STRING_FS     "rcstick-f"
-#define USBD_SERIALNUMBER_STRING_FS     "00000000001A"
+#define USBD_SERIALNUMBER_STRING_FS     "00000000001B"
 #define USBD_CONFIGURATION_STRING_FS     "rcstic-f Joystick Configuration"
 #define USBD_INTERFACE_STRING_FS     "rcstick-f Joystick Interface"
 
