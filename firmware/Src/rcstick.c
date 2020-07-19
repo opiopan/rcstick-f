@@ -50,17 +50,6 @@ static void fatal_error()
 /*=====================================================================
     communicate with host
 ======================================================================*/
-inline static int32_t CONVDATA(int32_t val) {
-    int32_t rc =  ((val - 970) * 255) / 1100;
-    if (rc < 0){
-        return 0;
-    }
-    if (rc > 255){
-        return 255;
-    }
-    return rc;
-}
-
 static void send_report()
 {
     static struct {
