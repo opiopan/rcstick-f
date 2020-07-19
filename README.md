@@ -120,5 +120,5 @@ On Mac, calibration should be done for each application.
 This inconvenience results from inefficiency of S-FHSS protocol.<br>
 S-FHSS data packet provides 12 bit payload for each channel. That means channel that the range of values which each channel can take is 0 to 4095.<br>
 However, actual transmitter uses range of approximately only 10 bit values. In my transmitter [Futaba 10J](https://www.rc.futaba.co.jp/propo/air/10j.html) case, minimum value is 946 and maximum value is 2094. 1149 level that 2049 - 946 + 1 is lazar-thin larger than the range of 10 bit values. Moreever, maximum value 2049 is only 2 larger than the range of 11 bits value.<br>
-I don't know why Futaba design the payload in pakcet as 10 bits value. As mentioned in [this article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/),
+I don't know why Futaba didn't design the payload in pakcet as 10 bits value. As mentioned in [this article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/),
 There are many inefficiency other than channel value payload case.
