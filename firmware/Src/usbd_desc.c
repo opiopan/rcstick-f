@@ -94,9 +94,9 @@
 #define USBD_VID     1155
 #define USBD_LANGID_STRING     1033
 #define USBD_MANUFACTURER_STRING     "opiopan@gmail.com"
-#define USBD_PID_FS     22355
+#define USBD_PID_FS     22358
 #define USBD_PRODUCT_STRING_FS     "rcstick-f"
-#define USBD_SERIALNUMBER_STRING_FS     "00000000001B"
+#define USBD_SERIALNUMBER_STRING_FS     "0000001C"
 #define USBD_CONFIGURATION_STRING_FS     "rcstic-f Joystick Configuration"
 #define USBD_INTERFACE_STRING_FS     "rcstick-f Joystick Interface"
 

@@ -1,6 +1,6 @@
 rcstick-f
 ====
-<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=450 align="right">
+<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=380 align="right">
 
 rcstick-f is a USB HID device which has 8 analog axis.
 And this device is also a RF receiver which conplient with Futaba S-FHSS protocol.<br>
@@ -9,6 +9,18 @@ This device is designed to be used to controll RC flight simulator by Futaba RC 
 [This product](https://www.google.com/search?q=WS1000+Spektrum&rlz=1C5CHFA_enJP742JP742&oq=WS1000+Spektrum&aqs=chrome..69i57j0l5.14185j0j8&sourceid=chrome&ie=UTF-8) is almost same with rcstick-f except supported protocol. <br>
 The reason why I determined to start this project is that I could'nt find a such kind of device supported Futaba RC protocol.<br>
 
+Each channel of S-FHSS transmitter is mapped to each USB HID axis as below.
+
+Channel  | USB HID usage
+---------|---------------
+CH 1     | X
+CH 2     | Y
+CH 3     | Z
+CH 4     | X rotation
+CH 5     | Y rotation
+CH 6     | Z rotation
+CH 7     | Slider
+CH 8     | Throttle
 
 ## Futaba S-FHSS protocol
 S-FHSS is a 2.4 GHz band based RC transceiver protocol designed by Futaba.

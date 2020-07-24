@@ -57,7 +57,7 @@ static void send_report()
         struct {
             uint8_t l;
             uint8_t h;
-        } axis[6];
+        } axis[8];
     } report[4]; 
     static int current = 0;
     #define SETDATA(a, d) (((a).h = ((d) >> 4) & 0xff), ((a).l = ((d) & 0xf) << 4))
@@ -69,6 +69,8 @@ static void send_report()
     SETDATA(report[current].axis[3], sfhss_ctx.data[3]);
     SETDATA(report[current].axis[4], sfhss_ctx.data[4]);
     SETDATA(report[current].axis[5], sfhss_ctx.data[5]);
+    SETDATA(report[current].axis[6], sfhss_ctx.data[6]);
+    SETDATA(report[current].axis[7], sfhss_ctx.data[7]);
     USBD_CUSTOM_HID_SendReport_FS((uint8_t*)(report + current), sizeof(report[0]));
     current = (current + 1) & 3;
 }
