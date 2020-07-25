@@ -1,26 +1,21 @@
 rcstick-f
 ====
-<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=380 align="right">
+<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=420 align="right">
 
 rcstick-f is a USB HID device which has 8 analog axis.
 And this device is also a RF receiver which conplient with Futaba S-FHSS protocol.<br>
 This device is designed to be used to controll RC flight simulator by Futaba RC transmitter.
 
-[This product](https://www.google.com/search?q=WS1000+Spektrum&rlz=1C5CHFA_enJP742JP742&oq=WS1000+Spektrum&aqs=chrome..69i57j0l5.14185j0j8&sourceid=chrome&ie=UTF-8) is almost same with rcstick-f except supported protocol. <br>
+One of the most simple and common way to use RC transmitter as controller of RC flight simulator is handling PPM signal exported from the trainer port on a transmitter.<br>
+Some simulator software can recognize PPM signal through audio input, So in this case, you have to do is just connect cable between the trainer port on a transmitter and mic input port on a PC.<br>
+Or using USB dongle that convert PPM signal to USB HID device, such as [these products](https://www.ebay.com/sch/i.html?_nkw=RC+simulator+USB+dongle+cable&_sacat=0&LH_TitleDesc=0&_osacat=0&_odkw=rc+simulator+usb+dongle), is also popular.<br>
+The advantages of these PPM signal based solution are inexpencive and compatibe with many transmitter products. The most disadvantages is that the cable between  a transmitter and PC is very annoying.
+
+On the other hand, in recent years the products, that behave wireless RF receiver and USB HID device, have appeared in the world. For example, [SPEKTRUM WS1000](https://www.spektrumrc.com/Products/Default.aspx?ProdID=SPMWS1000) for DSM2/DSMX protocol or [FrSky XSR-SIM](https://www.frsky-rc.com/product/xsr-sim/) for FrSky protocol.<br>
+These products are designed for a specific protocol. So comatibility is lower than the PPM signal based solution. However, users can enjoy highly convenience due to wireless connection.<br>
+In addition, that is more responsive and higher precision than the PPM signale based solution since there is no unnecessary data conversion such as ADC data to PPM.
+
 The reason why I determined to start this project is that I could'nt find a such kind of device supported Futaba RC protocol.<br>
-
-Each channel of S-FHSS transmitter is mapped to each USB HID axis as below.
-
-Channel  | USB HID usage
----------|---------------
-CH 1     | X
-CH 2     | Y
-CH 3     | Z
-CH 4     | X rotation
-CH 5     | Y rotation
-CH 6     | Z rotation
-CH 7     | Slider
-CH 8     | Throttle
 
 ## Futaba S-FHSS protocol
 S-FHSS is a 2.4 GHz band based RC transceiver protocol designed by Futaba.
@@ -122,6 +117,19 @@ $ make dfuflash
 3. Wait until LED will light continuously that means rcstick-f is binded with RC transmitter.
 
 4. Now you can use your RC transmitter as a joystick on your PC.<br>
+    Each channel of S-FHSS transmitter is mapped to each USB HID axis as below.
+
+    Channel  | USB HID usage
+    ---------|---------------
+    CH 1     | X
+    CH 2     | Y
+    CH 3     | Z
+    CH 4     | X rotation
+    CH 5     | Y rotation
+    CH 6     | Z rotation
+    CH 7     | Slider
+    CH 8     | Throttle
+
     First time to use rcstick-f on a PC, you may need to calibrate a joystick as next section.
 
 ## Calibration
