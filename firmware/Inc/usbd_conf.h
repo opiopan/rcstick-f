@@ -105,7 +105,7 @@
 /*---------- -----------*/
 #define USBD_CUSTOMHID_OUTREPORT_BUF_SIZE     17
 /*---------- -----------*/
-#define USBD_CUSTOM_HID_REPORT_DESC_SIZE     63
+#define USBD_CUSTOM_HID_REPORT_DESC_SIZE     43
 
 /****************************************/
 /* #define for FS and HS identification */

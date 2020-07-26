@@ -1,6 +1,6 @@
 rcstick-f
 ====
-<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=420 align="right">
+<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=400 align="right">
 
 rcstick-f is a USB HID device which has 8 analog axis.
 And this device is also a RF receiver which conplient with Futaba S-FHSS protocol.<br>
@@ -16,6 +16,10 @@ These products are designed for a specific protocol. So comatibility is lower th
 In addition, that is more responsive and higher precision than the PPM signale based solution since there is no unnecessary data conversion such as ADC data to PPM.
 
 The reason why I determined to start this project is that I could'nt find a such kind of device supported Futaba RC protocol.<br>
+
+<p align="center">
+<img alt="demo" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/demo.gif">
+</p>
 
 ## Futaba S-FHSS protocol
 S-FHSS is a 2.4 GHz band based RC transceiver protocol designed by Futaba.
@@ -96,22 +100,41 @@ You can choose two way to download firmware to rcstick-f board.<br>
 One is downloading firmware via SWD by using debugger. rcstick-f exports a SWD I/F at J2 connector.<br>
 The other one is downloading it via USB port in DFU mode. You can switch rcstick-f in DFU mode by inserting that to USB port with the button pressed.
 
-If openocd is running to controll debugger, you can download by making ```flash``` target with ```DEBUGSERVER``` parameter.
+### Downloading via Debugger
+1. **Preparing Debugger**<br>
+    Make sure that a debugger is connected with rcstick-f J2 port and debugger controlling software which behave as GDB server such as OpenOCD is running.
 
-```shell
-$ make DEBUGSERVER=localhost flash
-```
+2. **Downloading**<br>
+    You can download a firmware by making ```flash``` target with ```DEBUGSERVER``` parameter.
+    If debugger controlling software is running same PC, specify ```localhost``` for ```DEBUGSERVER``` parameter.
 
-If rcstick-f is connected to USB port and that is in DFU mode, you can download by making ```dfuflash``` target. In this case, [dfu-util](http://dfu-util.sourceforge.net) has to be installed in advance.
+    ```shell
+    $ make DEBUGSERVER=localhost flash
+    ```
+### Downloading via USB
+1. **Install required software**<br>
+    Make sure that following software is installed.
+    - [dfu-util](http://dfu-util.sourceforge.net)
 
-```shell
-$ make dfuflash
-```
+2. **Switching rcstick-f in DFU mode**<br>
+    Insert rcstick-f to USB port with the button (SW1) is pressed.
+
+3. **Downloading**<br>
+    You can download just by making ```dfuflash``` target.
+
+    ```shell
+    $ make dfuflash
+    ```
+
+4. **Exsiting from DFU mode**<br>
+    Pull out rcstick-f from USB port, then re-insert that to USB port.
+
+
 ## How to use rcstick-f
 1. Insert rcstick-f to USB port of your PC, and make sure that 
     LED on rcstick-f flashs twice every two seconds.
 
-2. Turn on the power of RC transmitter.<br>
+2. Turn on the power of RC transmitter, and make sure that transmitter protocol is S-FHSS.<br>
     When rcstick-f detect that radio waves, LED flashing pattern is changed that flash once every one second.
 
 3. Wait until LED will light continuously that means rcstick-f is binded with RC transmitter.
@@ -128,7 +151,7 @@ $ make dfuflash
     CH 5     | Y rotation
     CH 6     | Z rotation
     CH 7     | Slider
-    CH 8     | Throttle
+    CH 8     | Slider
 
     First time to use rcstick-f on a PC, you may need to calibrate a joystick as next section.
 
@@ -138,7 +161,7 @@ On Windows, you can [carribrate a controller and save that result as system wide
 On Mac, calibration should be done for each application.
 
 This inconvenience results from inefficiency of S-FHSS protocol.<br>
-S-FHSS data packet provides 12 bit payload for each channel. That means channel that the range of values which each channel can take is 0 to 4095.<br>
+S-FHSS data packet provides 12 bit payload for each channel. That means the range of values which each channel can take is 0 to 4095.<br>
 However, actual transmitter uses range of approximately only 10 bit values. In my transmitter [Futaba 10J](https://www.rc.futaba.co.jp/propo/air/10j.html) case, minimum value is 946 and maximum value is 2094. 1149 level that 2049 - 946 + 1 is lazar-thin larger than the range of 10 bit values. Moreever, maximum value 2049 is only 2 larger than the range of 11 bit value.<br>
 I don't know why Futaba didn't design the payload in pakcet as 10 bit value. As mentioned in [this article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/),
 There are many inefficiency other than channel value payload case.
