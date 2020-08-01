@@ -182,13 +182,17 @@ void run_rcstick(const RcstickConf *conf)
                         sfhss_ctx.data[6], sfhss_ctx.data[7]);
                 }else{
                     olog_printf(
-                        "%9d: ch1[%.4x] ch2[%.4x] ch3[%.4x] ch4[%.4x]\n", now,
-                        sfhss_ctx.data[0] << 4, sfhss_ctx.data[1] << 4,
-                        sfhss_ctx.data[2] << 4, sfhss_ctx.data[3] << 4);
+                        "%9d: ch1[%4d] ch2[%4d] ch3[%4d] ch4[%4d]\n", now,
+                        sfhss_ctx.data[0] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[1] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[2] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[3] - SFHSS_CENTERPOS_WIDTH);
                     olog_printf(
-                        "           ch5[%.4x] ch6[%.4x] ch7[%.4x] ch8[%.4x]\n",
-                        sfhss_ctx.data[4] << 4, sfhss_ctx.data[5] << 4,
-                        sfhss_ctx.data[6] << 4, sfhss_ctx.data[7] << 4);
+                        "           ch5[%4d] ch6[%4d] ch7[%4d] ch8[%4d]\n",
+                        sfhss_ctx.data[4] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[5] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[6] - SFHSS_CENTERPOS_WIDTH,
+                        sfhss_ctx.data[7] - SFHSS_CENTERPOS_WIDTH);
                 }
                 static const char ATTR_LOST[] = "\033[31m";
                 static const char ATTR_SKIP[] = "\033[31m";

@@ -198,7 +198,7 @@ Find the appropriate end point ratio as following steps.
     - No mixing with other channels
     - Throttle curve and Pitch curve: should start from 0% and  end to 100%
 
-    Then, make position of all sticks, slide levers, and switches associated with channel 1 to channel 8 center.<br>
+    Then, make position of all sticks, slide levers, and switches associated with channels 1 to 8 center.<br>
     If that is impossible due to association with 2 position switch, reduce end point ratio significantry for that channel.
 
 2. **Binding rcstick-f and transmitter**<br>
