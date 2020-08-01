@@ -50,29 +50,48 @@ static void fatal_error()
 /*=====================================================================
     communicate with host
 ======================================================================*/
-static void send_report()
+typedef struct {
+    uint8_t l;
+    uint8_t h;
+} AXISDATA;
+
+static inline void SETDATA(AXISDATA* usbdata, uint16_t rxdata, int* clipped){
+    int data = (int)rxdata - SFHSS_CENTERPOS_WIDTH;
+    if (data > 511){
+        data = 511;
+        (*clipped)++;
+    }else if (data < -511){
+        data = -511;
+        (*clipped)++;
+    }
+    data <<= 6;
+    usbdata->h = (data & 0xff00) >> 8;
+    usbdata->l = data & 0xff;
+}
+
+static int send_report()
 {
     static struct {
         uint8_t id;
-        struct {
-            uint8_t l;
-            uint8_t h;
-        } axis[8];
+        AXISDATA axis[8];
     } report[4]; 
     static int current = 0;
-    #define SETDATA(a, d) (((a).h = ((d) >> 4) & 0xff), ((a).l = ((d) & 0xf) << 4))
+
+    int clipped = 0;
 
     report[current].id = 1;
-    SETDATA(report[current].axis[0], sfhss_ctx.data[0]);
-    SETDATA(report[current].axis[1], sfhss_ctx.data[1]);
-    SETDATA(report[current].axis[2], sfhss_ctx.data[2]);
-    SETDATA(report[current].axis[3], sfhss_ctx.data[3]);
-    SETDATA(report[current].axis[4], sfhss_ctx.data[4]);
-    SETDATA(report[current].axis[5], sfhss_ctx.data[5]);
-    SETDATA(report[current].axis[6], sfhss_ctx.data[6]);
-    SETDATA(report[current].axis[7], sfhss_ctx.data[7]);
+    SETDATA(report[current].axis + 0, sfhss_ctx.data[0], &clipped);
+    SETDATA(report[current].axis + 1, sfhss_ctx.data[1], &clipped);
+    SETDATA(report[current].axis + 2, sfhss_ctx.data[2], &clipped);
+    SETDATA(report[current].axis + 3, sfhss_ctx.data[3], &clipped);
+    SETDATA(report[current].axis + 4, sfhss_ctx.data[4], &clipped);
+    SETDATA(report[current].axis + 5, sfhss_ctx.data[5], &clipped);
+    SETDATA(report[current].axis + 6, sfhss_ctx.data[6], &clipped);
+    SETDATA(report[current].axis + 7, sfhss_ctx.data[7], &clipped);
     USBD_CUSTOM_HID_SendReport_FS((uint8_t*)(report + current), sizeof(report[0]));
     current = (current + 1) & 3;
+
+    return clipped;
 }
 
 /*=====================================================================
@@ -119,6 +138,8 @@ void run_rcstick(const RcstickConf *conf)
     int32_t recvnum = 0;
     int32_t lostnum = 0;
     int32_t skipnum = 0;
+    int clipped = 0;
+    BOOL testmode = FALSE;
 
     while (TRUE){
         int32_t now = (int32_t)__HAL_TIM_GET_COUNTER(conf->hrtimer);
@@ -133,7 +154,7 @@ void run_rcstick(const RcstickConf *conf)
             led_set_mode(&led_ctx, LEDMODE_CONNECTING, now);
             break;
         case SFHSSEV_CONNECTED:
-            led_set_mode(&led_ctx, LEDMODE_CONNECTED, now);
+            led_set_mode(&led_ctx, testmode && !clipped ? LEDMODE_TESTMODE : LEDMODE_CONNECTED, now);
             initialstate = FALSE;
             recvnum = 0;
             lostnum = 0;
@@ -143,8 +164,11 @@ void run_rcstick(const RcstickConf *conf)
             break;
         }
         if (initialstate || (sfhss_ctx.phase == SFHSS_CONNECTED && SFHSS_ISDIRTY(&sfhss_ctx))){
-            send_report();
+            clipped = send_report();
             SFHSS_RESET_DIRTY(&sfhss_ctx);
+            if (sfhss_ctx.phase == SFHSS_CONNECTED && testmode){
+                led_set_mode(&led_ctx, clipped ? LEDMODE_CONNECTED : LEDMODE_TESTMODE, now);
+            }
             if (!initialstate && (logmode & LOG_ON) && now - logtime >= 1000000){
                 logtime = now;
                 if (logmode & LOG_RAW){
@@ -190,6 +214,14 @@ void run_rcstick(const RcstickConf *conf)
                 logmode & LOG_ON ? "ON": "OFF",
                 logmode & LOG_RAW ? "RAW": "USB");
             logtime = now - 2000000;
+            testmode = !testmode;
+            if (sfhss_ctx.phase == SFHSS_CONNECTED){
+                led_set_mode(&led_ctx,
+                             testmode && !clipped ? LEDMODE_TESTMODE : LEDMODE_CONNECTED,
+                             now);
+            }
+            OLOG_LOGI("rcstick: test mode cahnged [%s]",
+                testmode ? "ON": "OFF");
             break;
         case BUTTONEV_LONG_PRESS:
             OLOG_LOGI("rcstick: restart binding");

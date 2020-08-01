@@ -22,6 +22,8 @@
 #define SFHSS_RESET_DIRTY(ctx)      ((ctx)->isDirty = FALSE)
 #define SFHSS_START_BINDING(ctx)    ((ctx)->phase = SFHSS_CALIBRATED)
 
+#define SFHSS_CENTERPOS_WIDTH       1520  // PWM pulse width of cetner position (usec)
+
 typedef enum {
     SFHSS_INIT = 0,
     SFHSS_CALIBRATED,

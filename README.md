@@ -131,8 +131,10 @@ The other one is downloading it via USB port in DFU mode. You can switch rcstick
 
 
 ## How to use rcstick-f
+0. Make sure that the settings of transmitter are appropriate as [next section](#transmitter-settings).
+
 1. Insert rcstick-f to USB port of your PC, and make sure that 
-    LED on rcstick-f flashs twice every two seconds.
+    LED on rcstick-f flashes twice every two seconds.
 
 2. Turn on the power of RC transmitter, and make sure that transmitter protocol is S-FHSS.<br>
     When rcstick-f detect that radio waves, LED flashing pattern is changed that flash once every one second.
@@ -153,15 +155,63 @@ The other one is downloading it via USB port in DFU mode. You can switch rcstick
     CH 7     | Slider
     CH 8     | Slider
 
-    First time to use rcstick-f on a PC, you may need to calibrate a joystick as next section.
+## Transmitter Settings
+I recommend you to register a dedicated model for rcstick-f in your transmitter. That model should be satisfy following conditions.
 
-## Calibration
-Since a range of values for each channel of a transmitter is biased in a range that packet structure can be expressed, rcstick-f must be calibrated by OS function or application fucntion at first.<br>
-On Windows, you can [carribrate a controller and save that result as system wide configuration](https://www.tenforums.com/tutorials/103910-calibrate-game-controller-windows-10-a.html). 
-On Mac, calibration should be done for each application.
+- **Communication Protocol**<br>
+    Choose ```S-FHSS``` for communication protocol since rcstick-f can recognize only S-FHSS protocol.
+    <p align="center">
+    <img alt="protocol setting screen" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/tx_model.jpg" width=300>
+    </p>
 
-This inconvenience results from inefficiency of S-FHSS protocol.<br>
-S-FHSS data packet provides 12 bit payload for each channel. That means the range of values which each channel can take is 0 to 4095.<br>
-However, actual transmitter uses range of approximately only 10 bit values. In my transmitter [Futaba 10J](https://www.rc.futaba.co.jp/propo/air/10j.html) case, minimum value is 946 and maximum value is 2094. 1149 level that 2049 - 946 + 1 is lazar-thin larger than the range of 10 bit values. Moreever, maximum value 2049 is only 2 larger than the range of 11 bit value.<br>
-I don't know why Futaba didn't design the payload in pakcet as 10 bit value. As mentioned in [this article](https://rfengfpv.wordpress.com/2017/01/10/futaba-s-fhss-protocol-overview/),
-There are many inefficiency other than channel value payload case.
+- **End Point**<br>
+    Set end point for each channl as that rx PWM output pulse width will be in range between 1009us and 2031us.<br> 
+    In S-HFSS packet, each channel position is expressed as 12 bit number. And that values are equivalent of PWM pulse width output from rx in microsecond. So value of a channel which is on center position will be 1520.<br>
+    rcstick-f generates values for each axis of USB HID by subtracting 1520 from value in S-HFSS packet, and clips values in range of 10 bit 2's complement number, that is  between -511 to 511.<br>
+    Therefore, the most efficient setting of end point is that each channel value will be in range between 1520 - 511 and 1520 + 511.<br>
+
+    In case of [Futaba 10J](https://www.rc.futaba.co.jp/english/propo/air/10j.html), the end point settings satisfied above condition are 124% or 125% for channels 1 to 4 and 92% or 93% for channels 5 to 8.
+
+    rcstick-f provides a helper function to determine proper endpoint ratio. Refer the [next section](#function-to-detect-value-clipping) for the details.
+
+    <p align="center">
+    <img alt="end point setting screen" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/tx_endpoint.jpg" width=300>
+    </p>
+
+- **Servo Reverse**<br>
+    In order to prevent runaway when flight simulate is started without a connection between rcstick-f and transmitter, rcstick-f set throttle axis value correspond to channel 3 as -511 that is minimum value in range of each axis.<br>
+    For Futaba transmitter, the more you raise the throttle stick, the more transmitter shorten the PWM pulse width. So to align default value the above, enable servo reversing of channel 3.
+
+    <p align="center">
+    <img alt="reverse setting screen" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/tx_reverse.jpg" width=300>
+    </p>
+
+## Function to detect value clipping
+As mentioned previous section, setting end point ratio as largest value within the range expressiblee by rcstick-f is important. To determine that appropriate end point ratio, rcstick-f has a mode to detect clipping value for channel. <br>
+Find the appropriate end point ratio as following steps.
+
+1. **Preparing**<br>
+    To ensure that movable area of servo exactly maches end point setting, make sure following settings for each channel.
+
+    - Trim and Sub trim: should be reset
+    - Dual Rate: should be 100%
+    - No mixing with other channels
+    - Throttle curve and Pitch curve: should start from 0% and  end to 100%
+
+    Then, make position of all sticks, slide levers, and switches associated with channel 1 to channel 8 center.<br>
+    If that is impossible due to association with 2 position switch, reduce end point ratio significantry for that channel.
+
+2. **Binding rcstick-f and transmitter**<br>
+    Bind transmitter with rcstick-f according to steps described in the section ["How to use rcstick-f"](#how-to-use-rcstick-f).<br>
+
+3. **Changing mode of rcstick-f**<br>
+    Press a button on the rcstick-f in order to enable a function to detect value clipping. LED on the rcstick-f will flash three times in one second.<br>
+    If LED still light continuously, a channel vallue is larger than 1520 + 511 or less than 1520 - 511 at least. Make sure that all channel settings are satisfied conditions mentiond in step 1.
+
+4. **Determining enb point ratio**<br>
+    Choose any one channel, then move the stick, the slide bar, or the switch assosiated with taht channel to the maximum position or minimum position.<br>
+    If LED is still flashing, the value of cahnnel is in range and is not clipped. In this case, increase end point ratio by 1% until LED is flashing.<br>
+    If LED flashing pattern is changed that it light continuously, the value of channel is out of range and is clipped. In this case, decrease end point ratio by 1% by LED start to flash.<br>
+
+    Usually, you can apply same ratio determined above for all other channels. However you should be careful if your transmitter is entry model such as [10J](https://www.rc.futaba.co.jp/english/propo/air/10j.html).<br>
+    It's well known taht servo angle in 100% end point for channels 5 and later is wider than ther servo angle for channels 1 to 4 in some Futaba transmitter. If you use that kind of transmitter, you need to determine for two channels at least.

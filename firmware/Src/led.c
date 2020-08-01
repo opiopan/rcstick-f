@@ -33,6 +33,8 @@ const PHASE seq_finding[] = {SEQ_ON(100000), SEQ_OFF(100000), SEQ_ON(100000), SE
 const PHASE seq_binding[] = {SEQ_ON(250000), SEQ_OFF(250000), SEQ_LOOP};
 const PHASE seq_connecting[] = {SEQ_ON(200000), SEQ_OFF(1800000), SEQ_LOOP};
 const PHASE seq_connected[] = {SEQ_ON(0), SEQ_END};
+const PHASE seq_testmode[] = {SEQ_ON(100000), SEQ_OFF(100000), SEQ_ON(100000), SEQ_OFF(100000), SEQ_ON(100000), 
+                              SEQ_OFF(500000), SEQ_LOOP};
 
 const PHASE *seqs[] = {
     seq_error,
@@ -40,6 +42,7 @@ const PHASE *seqs[] = {
     seq_binding,
     seq_connecting,
     seq_connected,
+    seq_testmode,
 };
 
 static void apply_stage(LEDCTX* ctx, int32_t now)

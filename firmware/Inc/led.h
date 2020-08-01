@@ -16,6 +16,7 @@ typedef enum{
     LEDMODE_BINDING,
     LEDMODE_CONNECTING,
     LEDMODE_CONNECTED,
+    LEDMODE_TESTMODE,
 } LEDMODE;
 
 typedef struct {

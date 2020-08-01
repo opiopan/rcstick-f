@@ -173,8 +173,16 @@ void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500)
     *ctx = (SFHSSCTX){
         .cc2500 = cc2500,
         .phase = SFHSS_INIT,
-    };
-    ctx->data[2] = 4095;
+        .data = {
+            SFHSS_CENTERPOS_WIDTH,
+            SFHSS_CENTERPOS_WIDTH,
+            0,
+            SFHSS_CENTERPOS_WIDTH,
+            SFHSS_CENTERPOS_WIDTH,
+            SFHSS_CENTERPOS_WIDTH,
+            SFHSS_CENTERPOS_WIDTH,
+            SFHSS_CENTERPOS_WIDTH,
+        }};
     cc2500_writeRegisterBurst(ctx->cc2500, 0, SFHSS_init_values, sizeof(SFHSS_init_values));
 }
 
