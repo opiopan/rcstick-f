@@ -11,11 +11,11 @@ Some simulator software can recognize PPM signal through audio input, So in this
 Or using USB dongle that convert PPM signal to USB HID device, such as [these products](https://www.ebay.com/sch/i.html?_nkw=RC+simulator+USB+dongle+cable&_sacat=0&LH_TitleDesc=0&_osacat=0&_odkw=rc+simulator+usb+dongle), is also popular.<br>
 The advantages of these PPM signal based solution are inexpencive and compatibe with many transmitter products. The most disadvantages is that the cable between  a transmitter and PC is very annoying.
 
-On the other hand, in recent years the products, that behave wireless RF receiver and USB HID device, have appeared in the world. For example, [SPEKTRUM WS1000](https://www.spektrumrc.com/Products/Default.aspx?ProdID=SPMWS1000) for DSM2/DSMX protocol or [FrSky XSR-SIM](https://www.frsky-rc.com/product/xsr-sim/) for FrSky protocol.<br>
+On the other hand, in recent years, the products that behave wireless RF receiver and USB HID device have appeared in the world. For example, [SPEKTRUM WS1000](https://www.spektrumrc.com/Products/Default.aspx?ProdID=SPMWS1000) for DSM2/DSMX protocol or [FrSky XSR-SIM](https://www.frsky-rc.com/product/xsr-sim/) for FrSky protocol.<br>
 These products are designed for a specific protocol. So comatibility is lower than the PPM signal based solution. However, users can enjoy highly convenience due to wireless connection.<br>
 In addition, that is more responsive and higher precision than the PPM signale based solution since there is no unnecessary data conversion such as ADC data to PPM.
 
-The reason why I determined to start this project is that I could'nt find a such kind of device supported Futaba RC protocol.<br>
+The reason why I determined to start this project is that I could'nt find a such kind of wireless device supported Futaba RC protocol.<br>
 
 <p align="center">
 <img alt="demo" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/demo.gif">
@@ -32,7 +32,10 @@ I sincerely appreciate there effort.
 
 ## PCB Design
 I designed two types of PCB artworks for rcstick-f.<br>
-One is sufficiently small that QFP32 package of STM32 MCU is installed, the other one is very small that QFN32 package of MCU is installed.<br>
+One is sufficiently small that QFP32 package of STM32 MCU is installed, the other one is very small that QFN32 package of MCU is installed.
+
+Both artworks are optimized to enable hand soldering by using a soldering iron. You don't need a reflow oven or a hot air gun.<br>
+All pad and parts spaceing are designed to allow contacting soldering iron. grand pad located center of QFN package is also able to be soldered through a via from back side of PCB.
 
 <p align="center">
 <img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors.jpg" width=750>
@@ -158,13 +161,13 @@ The other one is downloading it via USB port in DFU mode. You can switch rcstick
 ## Transmitter Settings
 I recommend you to register a dedicated model for rcstick-f in your transmitter. That model should be satisfy following conditions.
 
-- **Communication Protocol**<br>
+- **Communication Protocol (REQUIRED)**<br>
     Choose ```S-FHSS``` for communication protocol since rcstick-f can recognize only S-FHSS protocol.
     <p align="center">
     <img alt="protocol setting screen" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/tx_model.jpg" width=300>
     </p>
 
-- **End Point**<br>
+- **End Point (RECOMMENDED)**<br>
     Set end point for each channl as that rx PWM output pulse width will be in range between 1009us and 2031us.<br> 
     In S-HFSS packet, each channel position is expressed as 12 bit number. And that values are equivalent of PWM pulse width output from rx in microsecond. So value of a channel which is on center position will be 1520.<br>
     rcstick-f generates values for each axis of USB HID by subtracting 1520 from value in S-HFSS packet, and clips values in range of 10 bit 2's complement number, that is  between -511 to 511.<br>
@@ -178,7 +181,7 @@ I recommend you to register a dedicated model for rcstick-f in your transmitter.
     <img alt="end point setting screen" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/tx_endpoint.jpg" width=300>
     </p>
 
-- **Servo Reverse**<br>
+- **Servo Reverse (RECOMMENDED)**<br>
     In order to prevent runaway when flight simulate is started without a connection between rcstick-f and transmitter, rcstick-f set throttle axis value correspond to channel 3 as -511 that is minimum value in range of each axis.<br>
     For Futaba transmitter, the more you raise the throttle stick, the more transmitter shorten the PWM pulse width. So to align default value the above, enable servo reversing of channel 3.
 

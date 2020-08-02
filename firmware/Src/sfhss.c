@@ -77,8 +77,19 @@ static void chuneChannel(SFHSSCTX* ctx)
 static void chuneChannelFast(SFHSSCTX* ctx)
 {
     cc2500_begin(ctx->cc2500);
-    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
     cc2500_writeRegister(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_commit(ctx->cc2500);
+}
+
+static void chuneChannelFastWithFIFOFlash(SFHSSCTX *ctx)
+{
+    cc2500_begin(ctx->cc2500);
+    cc2500_strobe(ctx->cc2500, CC2500_SIDLE);
+    cc2500_writeRegister(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_strobe(ctx->cc2500, CC2500_SFRX);
+    cc2500_strobe(ctx->cc2500, CC2500_SRX);
     cc2500_commit(ctx->cc2500);
 }
 
@@ -342,15 +353,13 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         }else{
             int elapse = now - ctx->ptime[ctx->packetPos];
             if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
-                int skipnum = ctx->packetPos == 0 ? 1 :  2;
-                ctx->skipCount += skipnum;
+                int skipnum = ctx->packetPos == 0 ? 2 : 1;
+                ctx->skipCount++;
                 if (ctx->skipCount < FALLBACK_COUNT){
-                    ctx->stat_lost += skipnum + 1;
+                    ctx->stat_lost += skipnum;
                     ctx->packetPos = 0;
-                    for (int i = 0; i < skipnum; i++){
-                        nextChannel(ctx, ctx->hopcode);
-                    }
-                    chuneChannelFast(ctx);
+                    nextChannel(ctx, ctx->hopcode);
+                    chuneChannelFastWithFIFOFlash(ctx);
                 }else{
                     ctx->phase = SFHSS_BINDED;
                     OLOG_LOGW("SFHSS: lost connection", ctx->txaddr);
