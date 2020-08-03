@@ -25,3 +25,4 @@ build
 .vscode/ipch
 outputs
 outputs2
+outputs-tiny

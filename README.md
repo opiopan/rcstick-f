@@ -35,7 +35,7 @@ I designed two types of PCB artworks for rcstick-f.<br>
 One is sufficiently small that QFP32 package of STM32 MCU is installed, the other one is very small that QFN32 package of MCU is installed.
 
 Both artworks are optimized to enable hand soldering by using a soldering iron. You don't need a reflow oven or a hot air gun.<br>
-All pad and parts spaceing are designed to allow contacting soldering iron. grand pad located center of QFN package is also able to be soldered through a via from back side of PCB.
+All pads and parts spaceing are designed to allow contacting soldering iron. grand pad located center of QFN package is also able to be soldered through a via from back side of PCB.
 
 <p align="center">
 <img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors.jpg" width=750>
