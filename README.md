@@ -1,6 +1,6 @@
 rcstick-f
 ====
-<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board01.jpg" width=400 align="right">
+<img alt="board image" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/board02.jpg" width=400 align="right">
 
 rcstick-f is a USB HID device which has 8 analog axis.
 And this device is also a RF receiver which conplient with Futaba S-FHSS protocol.<br>
@@ -80,6 +80,9 @@ R1         | 10k ohm (1005)         |
 R2         | 56k ohm (1005)         |
 R3         | 100 ohm (1005)         |
 L1,L2,L3   | 1.2nH (1005)           |
+
+### Case design
+You can download [STL data](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/case.zip) of case for tiny version of PCB. That is desined assuming that is printed by resin printer.
 
 ## Building Firmware
 1. **Requirements**<br>
@@ -217,4 +220,4 @@ Find the appropriate end point ratio as following steps.
     If LED flashing pattern is changed that it light continuously, the value of channel is out of range and is clipped. In this case, decrease end point ratio by 1% by LED start to flash.<br>
 
     Usually, you can apply same ratio determined above for all other channels. However you should be careful if your transmitter is entry model such as [10J](https://www.rc.futaba.co.jp/english/propo/air/10j.html).<br>
-    It's well known taht servo angle in 100% end point for channels 5 and later is wider than ther servo angle for channels 1 to 4 in some Futaba transmitter. If you use that kind of transmitter, you need to determine for two channels at least.
+    It's well known taht servo angle in 100% end point for channels 5 and later is wider than the servo angle for channels 1 to 4 in some Futaba transmitter. If you use that kind of transmitter, you need to determine for two channels at least.
