@@ -81,8 +81,13 @@ R2         | 56k ohm (1005)         |
 R3         | 100 ohm (1005)         |
 L1,L2,L3   | 1.2nH (1005)           |
 
-### Case design
-You can download [STL data](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/case.zip) of case for tiny version of PCB. That is desined assuming that is printed by resin printer.
+### Case Design
+You can download [STL data](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/case.zip) of case for tiny version of PCB. That is desined assuming that is printed by resin printer.<br>
+Note that PCB thickness should be 1.2mm if you apply this case design.
+
+<p align="center">
+<img alt="case structure" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/case-structure.jpg" width=700>
+</p>
 
 ## Building Firmware
 1. **Requirements**<br>
