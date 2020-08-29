@@ -67,30 +67,28 @@ const uint8_t SFHSS_init_values[] = {
 
 static void chuneChannel(SFHSSCTX* ctx)
 {
-    cc2500_begin(ctx->cc2500);
     cc2500_strobe(ctx->cc2500, CC2500_SIDLE);
     cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
     cc2500_strobe(ctx->cc2500, CC2500_SCAL);
-    cc2500_commit(ctx->cc2500);
 }
 
 static void chuneChannelFast(SFHSSCTX* ctx)
 {
-    cc2500_begin(ctx->cc2500);
-    cc2500_writeRegister(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
-    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
-    cc2500_commit(ctx->cc2500);
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_commitMultipleOps(ctx->cc2500);
 }
 
 static void chuneChannelFastWithFIFOFlash(SFHSSCTX *ctx)
 {
-    cc2500_begin(ctx->cc2500);
-    cc2500_strobe(ctx->cc2500, CC2500_SIDLE);
-    cc2500_writeRegister(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
-    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
-    cc2500_strobe(ctx->cc2500, CC2500_SFRX);
-    cc2500_strobe(ctx->cc2500, CC2500_SRX);
-    cc2500_commit(ctx->cc2500);
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SIDLE);
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SFRX);
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SRX);
+    cc2500_commitMultipleOps(ctx->cc2500);
 }
 
 static void nextChannel(SFHSSCTX* ctx, uint8_t hopcode)
@@ -112,28 +110,25 @@ volatile int addrcount = 0;
 
 static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
 {
-    uint8_t buf[15];
+    struct {
+        uint8_t status;
+        uint8_t data[15];
+    } buf;
     uint16_t txaddr = 0;
     uint8_t hopcode;
 
-    int rc;
-    do {
-        ctx->stat_skip++;
-        rc = cc2500_readFIFO(ctx->cc2500, buf, sizeof(buf));
-        if (rc & CC2500_STATUS_CHIP_RDYn_BM){
-            return FALSE;
-        }
-        SFHSS_RESET_RECEIVED(ctx);
-        if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < sizeof(buf)){
-            OLOG_LOGE("SFHSS: insufficient packet data [%d]", rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM);
-            return FALSE;
-        }
+    int rc = cc2500_readFIFO(ctx->cc2500, (uint8_t*)&buf, sizeof(buf));
+    SFHSS_RESET_RECEIVED(ctx);
+    if (rc & CC2500_STATUS_CHIP_RDYn_BM){
+        OLOG_LOGW("SFHSS: failed packet recieve [%x]", rc);
+        return FALSE;
+    }
+    if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < sizeof(buf.data)){
+        OLOG_LOGE("SFHSS: insufficient packet data [%d]", rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM);
+        return FALSE;
+    }
 
-        rc = cc2500_strobe(ctx->cc2500, CC2500_SNOP);
-    }while ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) != 0);
-    ctx->stat_skip--;
-
-    uint8_t* pkt = buf + 0;
+    uint8_t* pkt = buf.data;
     txaddr = (uint16_t)pkt[1] << 8 | pkt[2];
     hopcode = ((pkt[11] & 0x7) << 2) | ((pkt[12]  & 0xc0) >> 6);
     *cmd = pkt[12] & 0x3f;
@@ -199,14 +194,12 @@ void sfhss_init(SFHSSCTX* ctx, CC2500CTX* cc2500)
 
 void sfhss_calibrate(SFHSSCTX* ctx)
 {
-    cc2500_begin(ctx->cc2500);
     for (int i = 0; i < SFHSS_CHNUM; i++){
         ctx->ch = i;
         chuneChannel(ctx);
         cc2500_waitForState(ctx->cc2500, CC2500_STATE_IDLE);
         cc2500_readRegister(ctx->cc2500, CC2500_25_FSCAL1, &SFHSS_CALDATA(ctx));
     }
-    cc2500_commit(ctx->cc2500);
     ctx->phase = SFHSS_CALIBRATED;
     OLOG_LOGI("SFHSS: retrieved %d ch calibrate data", sizeof(ctx->caldata));
     olog_dumpmem(ctx->caldata, sizeof(ctx->caldata));

@@ -8,12 +8,8 @@
 #include "cc2500.h"
 #include "olog.h"
 
-#define CS_UP(ctx)      ((ctx)->cs ? 0 : \
-                        (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_SET), (ctx)->cs = TRUE))
-#define CS_DOWN(ctx)    ((ctx)->inTransaction ? 0 : \
-                        (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_RESET), (ctx)->cs = FALSE))
-#define CS_UP_FORCE(ctx) (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_SET), (ctx)->cs = TRUE)
-#define CS_DOWN_FORCE(ctx) (HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_RESET), (ctx)->cs = FALSE)
+#define CS_UP(ctx)      HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_SET)
+#define CS_DOWN(ctx)    HAL_GPIO_WritePin((ctx)->selector.ch, (ctx)->selector.pin, GPIO_PIN_RESET)
 #define SPITIMEOUT 500
 #define CC2500_PARTNUM 0x80
 
@@ -32,7 +28,6 @@ BOOL cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_Han
 
     CS_UP(ctx);
 
-    cc2500_begin(ctx);
     cc2500_reset(ctx);
 
     uint8_t partnum, version;
@@ -43,33 +38,27 @@ BOOL cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_Han
         OLOG_LOGE("CC2500: PARTNUM is invalid, That means CC2500 migth not be working");
     }
     cc2500_strobe(ctx, CC2500_SIDLE);
-    cc2500_commit(ctx);
 
     return partnum == CC2500_PARTNUM;
 }
 
 /*---------------------------------------------------------------
- * initialize context
- *-------------------------------------------------------------*/
-void cc2500_begin(CC2500CTX *ctx)
-{
-    //ctx->inTransaction++;
-}
-
-void cc2500_commit(CC2500CTX *ctx)
-{
-    /*
-    ctx->inTransaction--;
-    if (ctx->inTransaction == 0){
-        CS_UP_FORCE(ctx);
-    }
-    */
-}
-
-/*---------------------------------------------------------------
  * basic communication
  *-------------------------------------------------------------*/
-int cc2500_writeRegister(CC2500CTX* ctx, uint8_t addr, uint8_t value)
+int cc2500_strobe(CC2500CTX *ctx, uint8_t state)
+{
+    uint8_t rc = 0x80;
+    state |= CC2500_READ_SINGLE;
+    CS_DOWN(ctx);
+    if (HAL_SPI_TransmitReceive(ctx->spi, &state, &rc, 1, SPITIMEOUT) != HAL_OK){
+        CS_UP(ctx);
+        return 0x80;
+    }
+    CS_UP(ctx);
+    return rc;
+}
+
+int cc2500_writeRegister(CC2500CTX *ctx, uint8_t addr, uint8_t value)
 {
     uint8_t rc = 0x80;
     addr |= CC2500_WRITE_SINGLE;
@@ -186,19 +175,6 @@ int cc2500_reset(CC2500CTX* ctx)
     return rc;
 }
 
-int cc2500_strobe(CC2500CTX* ctx, uint8_t state)
-{
-    uint8_t rc = 0x80;
-    state |= CC2500_READ_SINGLE;
-    CS_DOWN(ctx);
-    if (HAL_SPI_TransmitReceive(ctx->spi, &state, &rc, 1, SPITIMEOUT) != HAL_OK){
-        CS_UP(ctx);
-        return 0x80;
-    }
-    CS_UP(ctx);
-    return rc;
-}
-
 int cc2500_strobeR(CC2500CTX* ctx, uint8_t state)
 {
     uint8_t rc = 0x80;
@@ -214,37 +190,25 @@ int cc2500_strobeR(CC2500CTX* ctx, uint8_t state)
 
 int cc2500_readFIFO(CC2500CTX* ctx, uint8_t* buf, int length)
 {
-    uint8_t rc = 0x80;
-    uint8_t cmd = CC2500_3F_RXFIFO | CC2500_READ_BURST;
     CS_DOWN(ctx);
-    if (HAL_SPI_TransmitReceive(ctx->spi, &cmd, &rc, 1, SPITIMEOUT) != HAL_OK){
+    static uint8_t sbuf[64 + 1] = {CC2500_3F_RXFIFO | CC2500_READ_BURST};
+    if(HAL_SPI_TransmitReceive(ctx->spi, sbuf, buf, length, SPITIMEOUT) != HAL_OK){
         CS_UP(ctx);
         return 0x80;
     }
-    if (rc & CC2500_STATE_RX_OVERFLOW){
+    if (buf[0] & CC2500_STATE_RX_OVERFLOW){
         CS_UP(ctx);
         OLOG_LOGE("CC2500: rx fifo is in state of overflow");
         cc2500_strobe(ctx, CC2500_SFRX);
-        return rc | CC2500_STATUS_CHIP_RDYn_BM;
+        return buf[0] | CC2500_STATUS_CHIP_RDYn_BM;
     }
-    if (rc & CC2500_STATUS_CHIP_RDYn_BM){
+    if (buf[0] & CC2500_STATUS_CHIP_RDYn_BM){
         CS_UP(ctx);
-        return rc | CC2500_STATUS_CHIP_RDYn_BM;
-    }
-
-    cmd = 0;
-    if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < length){
-        length = rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM;
-    }
-    for (int i = 0; i < length; i++){
-        if (HAL_SPI_TransmitReceive(ctx->spi, &cmd, buf + i, 1, SPITIMEOUT) != HAL_OK){
-                CS_UP(ctx);
-                return 0x80;
-        }
+        return buf[0] | CC2500_STATUS_CHIP_RDYn_BM;
     }
 
     CS_UP(ctx);
-    return rc;
+    return buf[0];
 }
 
 int cc2500_waitForState(CC2500CTX* ctx, uint8_t state)
@@ -260,4 +224,60 @@ int cc2500_waitForState(CC2500CTX* ctx, uint8_t state)
     }while ((rdata & CC2500_STATUS_STATE_BM) != state);
     CS_UP(ctx);
     return rdata;
+}
+
+/*---------------------------------------------------------------
+ * multiple commands communications
+ *-------------------------------------------------------------*/
+BOOL cc2500_beginMulitipleOps(CC2500CTX *ctx)
+{
+    ctx->bufpos = 0;
+    return TRUE;
+}
+
+BOOL cc2500_commitMultipleOps(CC2500CTX *ctx)
+{
+    int rc = HAL_OK;
+    if (ctx->bufpos){
+        CS_DOWN(ctx);
+        rc = HAL_SPI_TransmitReceive(ctx->spi, ctx->sbuf, ctx->rbuf, ctx->bufpos, SPITIMEOUT);
+        CS_UP(ctx);
+        ctx->bufpos = 0;
+    }
+    return rc == HAL_OK;
+}
+
+uint8_t *cc2500_addStrobeOps(CC2500CTX *ctx, uint8_t state)
+{
+    if (ctx->bufpos + 1 >= CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = state | CC2500_READ_SINGLE;
+    uint8_t* rc = ctx->rbuf + ctx->bufpos;
+    ctx->bufpos++;
+    return rc;
+}
+
+uint8_t *cc2500_addWriteRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value)
+{
+    if (ctx->bufpos + 2 >= CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = addr | CC2500_WRITE_SINGLE;
+    ctx->sbuf[ctx->bufpos + 1] = value;
+    uint8_t *rc = ctx->rbuf + ctx->bufpos;
+    ctx->bufpos += 2;
+    return rc;
+}
+
+uint8_t *cc2500_addReadRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value)
+{
+    if (ctx->bufpos + 2 >= CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = addr | CC2500_READ_SINGLE;
+    ctx->sbuf[ctx->bufpos + 1] = value;
+    uint8_t *rc = ctx->rbuf + ctx->bufpos;
+    ctx->bufpos += 2;
+    return rc;
 }
