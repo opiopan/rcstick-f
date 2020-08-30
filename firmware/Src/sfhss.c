@@ -17,6 +17,8 @@
 #define HOPPING_TIMEOUT 200
 #define FALLBACK_COUNT 30
 
+#define PACKET_LENGTH 15
+
 // Some important initialization parameters, all others are either default,
 // IOCFG2   07 - GDO2_INV=0 GDO2_CFG=07 - assert when packet is received
 // IOCFG1   2E - GDO1_INV=0 GDO1_CFG=2E - High Impedance
@@ -104,29 +106,42 @@ static void nextChannel(SFHSSCTX* ctx, uint8_t hopcode)
     ctx->ch = ch;
 }
 
-static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
+static BOOL readPacket(SFHSSCTX *ctx)
 {
-    struct {
-        uint8_t status;
-        uint8_t data[15];
-    } buf;
-    uint16_t txaddr = 0;
-    uint8_t hopcode;
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    ctx->dmabuf = cc2500_addReadFIFOOps(ctx->cc2500, PACKET_LENGTH);
+    return cc2500_commitMultipleOps(ctx->cc2500);
+}
 
-    int rc = cc2500_readFIFO(ctx->cc2500, (uint8_t*)&buf, sizeof(buf));
+static BOOL readPacketDMA(SFHSSCTX *ctx)
+{
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    ctx->dmabuf = cc2500_addReadFIFOOps(ctx->cc2500, PACKET_LENGTH);
+    return cc2500_issueDMAforMultipleOps(ctx->cc2500);
+}
+
+static BOOL completeReadPacketDMA(SFHSSCTX *ctx)
+{
+    return cc2500_commitMultipleOps(ctx->cc2500);
+}
+
+static BOOL parsePacket(SFHSSCTX *ctx, uint8_t *cmd)
+{
     SFHSS_RESET_RECEIVED(ctx);
+
+    int rc = ctx->dmabuf[0];
     if (rc & CC2500_STATUS_CHIP_RDYn_BM){
         OLOG_LOGW("SFHSS: failed packet recieve [%x]", rc);
         return FALSE;
     }
-    if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < sizeof(buf.data)){
+    if ((rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM) < PACKET_LENGTH){
         OLOG_LOGE("SFHSS: insufficient packet data [%d]", rc & CC2500_STATUS_FIFO_BYTES_AVAILABLE_BM);
         return FALSE;
     }
 
-    uint8_t* pkt = buf.data;
-    txaddr = (uint16_t)pkt[1] << 8 | pkt[2];
-    hopcode = ((pkt[11] & 0x7) << 2) | ((pkt[12]  & 0xc0) >> 6);
+    uint8_t *pkt = ctx->dmabuf + 1;
+    uint16_t txaddr = (uint16_t)pkt[1] << 8 | pkt[2];
+    uint8_t hopcode = ((pkt[11] & 0x7) << 2) | ((pkt[12]  & 0xc0) >> 6);
     *cmd = pkt[12] & 0x3f;
 
     if (ctx->txaddr < 0){
@@ -245,7 +260,7 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
     case SFHSS_BINDING:{
         if (ctx->received){
             uint8_t cmd;
-            if (!readPacket(ctx, &cmd)){
+            if (!readPacket(ctx) || !parsePacket(ctx, &cmd)){
                 break;
             }
             if (ctx->measureCount[cmd & 1] > 1){
@@ -288,7 +303,8 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
     case SFHSS_CONNECTING1:{
         if (ctx->received){
             uint8_t cmd;
-            readPacket(ctx, &cmd);
+            readPacket(ctx);
+            parsePacket(ctx, &cmd);
             if (!(cmd & 1)){
                 ctx->phase = SFHSS_CONNECTING2;
                 OLOG_LOGD("SFHSS: change status to CONNECTING2");
@@ -300,7 +316,8 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
     case SFHSS_CONNECTING2:{
         if (ctx->received){
             uint8_t cmd;
-            readPacket(ctx, &cmd);
+            readPacket(ctx);
+            parsePacket(ctx, &cmd);
             if (cmd & 1){
                 if (ctx->ptime[1] - ctx->ptime[0] > ctx->interval[0] / 2){
                     ctx->phase = SFHSS_CONNECTING1;
@@ -323,11 +340,33 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 
     case SFHSS_CONNECTED:{
         if (ctx->received){
+            if (readPacketDMA(ctx)){
+                ctx->phase = SFHSS_PAKCET_RECEIVING;
+            }else{
+                ctx->phase = SFHSS_ABNORMAL_HOPPING;
+            }
+        }else{
+            int elapse = now - ctx->ptime[ctx->packetPos];
+            if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
+                ctx->phase = SFHSS_ABNORMAL_HOPPING;
+            }
+        }
+        break;
+    }
+
+    case SFHSS_PAKCET_RECEIVING:{
+        if (!CC2500_DMA_IS_WORKING(ctx->cc2500)){
+            if (!completeReadPacketDMA(ctx)){
+                ctx->phase = SFHSS_ABNORMAL_HOPPING;
+                break;
+            }
             uint8_t cmd;
-            if (readPacket(ctx, &cmd)){
+            if (parsePacket(ctx, &cmd)){
                 ctx->stat_rcv++;
                 if (cmd & 1){
                     ctx->phase = SFHSS_HOPPING;
+                }else{
+                    ctx->phase = SFHSS_CONNECTED;
                 }
                 if (ctx->skipCount > 0){
                     OLOG_LOGD("SFHSS: recover connection after skipping %d times", ctx->skipCount);
@@ -335,11 +374,6 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                     ctx->ptime[((cmd & 1) + 1) & 1] = now;
                 }
             }else{
-                ctx->phase = SFHSS_ABNORMAL_HOPPING;
-            }
-        }else{
-            int elapse = now - ctx->ptime[ctx->packetPos];
-            if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
                 ctx->phase = SFHSS_ABNORMAL_HOPPING;
             }
         }

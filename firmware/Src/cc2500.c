@@ -23,7 +23,8 @@ BOOL cc2500_init(CC2500CTX* ctx, GPIO_TypeDef* sel_ch, uint16_t sel_pin, SPI_Han
             .ch = sel_ch,
             .pin = sel_pin
         },
-        .spi = spi
+        .spi = spi,
+        .dmastat = CC2500_DMA_IDLE,
     };
 
     CS_UP(ctx);
@@ -231,25 +232,56 @@ int cc2500_waitForState(CC2500CTX* ctx, uint8_t state)
  *-------------------------------------------------------------*/
 BOOL cc2500_beginMulitipleOps(CC2500CTX *ctx)
 {
-    ctx->bufpos = 0;
-    return TRUE;
+    if (ctx->dmastat == CC2500_DMA_IDLE){
+        ctx->bufpos = 0;
+        return TRUE;
+    }else{
+        return FALSE;
+    }
+}
+
+BOOL cc2500_issueDMAforMultipleOps(CC2500CTX *ctx)
+{
+    if (ctx->dmastat == CC2500_DMA_IDLE){
+        int rc = HAL_OK;
+        if (ctx->bufpos){
+            CS_DOWN(ctx);
+            rc = HAL_SPI_TransmitReceive_DMA(ctx->spi, ctx->sbuf, ctx->rbuf, ctx->bufpos);
+            if (rc == HAL_OK){
+                ctx->dmastat = CC2500_DMA_WORKING;
+            }
+        }
+        return rc == HAL_OK;
+    }else{
+        return FALSE;
+    }
 }
 
 BOOL cc2500_commitMultipleOps(CC2500CTX *ctx)
 {
-    int rc = HAL_OK;
-    if (ctx->bufpos){
-        CS_DOWN(ctx);
-        rc = HAL_SPI_TransmitReceive(ctx->spi, ctx->sbuf, ctx->rbuf, ctx->bufpos, SPITIMEOUT);
+    if (ctx->dmastat == CC2500_DMA_IDLE){
+        int rc = HAL_OK;
+        if (ctx->bufpos){
+            CS_DOWN(ctx);
+            rc = HAL_SPI_TransmitReceive(ctx->spi, ctx->sbuf, ctx->rbuf, ctx->bufpos, SPITIMEOUT);
+            CS_UP(ctx);
+            ctx->bufpos = 0;
+        }
+        return rc == HAL_OK;
+    }else if (ctx->dmastat != CC2500_DMA_WORKING){
+        BOOL rc = (ctx->dmastat == CC2500_DMA_COMPLETE);
         CS_UP(ctx);
         ctx->bufpos = 0;
+        ctx->dmastat = CC2500_DMA_IDLE;
+        return rc;
+    }else{
+        return FALSE;
     }
-    return rc == HAL_OK;
 }
 
 uint8_t *cc2500_addStrobeOps(CC2500CTX *ctx, uint8_t state)
 {
-    if (ctx->bufpos + 1 >= CC2500_BULKOPSMAX){
+    if (ctx->bufpos + 1 > CC2500_BULKOPSMAX){
         return NULL;
     }
     ctx->sbuf[ctx->bufpos] = state | CC2500_READ_SINGLE;
@@ -260,7 +292,7 @@ uint8_t *cc2500_addStrobeOps(CC2500CTX *ctx, uint8_t state)
 
 uint8_t *cc2500_addWriteRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value)
 {
-    if (ctx->bufpos + 2 >= CC2500_BULKOPSMAX){
+    if (ctx->bufpos + 2 > CC2500_BULKOPSMAX){
         return NULL;
     }
     ctx->sbuf[ctx->bufpos] = addr | CC2500_WRITE_SINGLE;
@@ -272,12 +304,23 @@ uint8_t *cc2500_addWriteRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value)
 
 uint8_t *cc2500_addReadRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value)
 {
-    if (ctx->bufpos + 2 >= CC2500_BULKOPSMAX){
+    if (ctx->bufpos + 2 > CC2500_BULKOPSMAX){
         return NULL;
     }
     ctx->sbuf[ctx->bufpos] = addr | CC2500_READ_SINGLE;
     ctx->sbuf[ctx->bufpos + 1] = value;
     uint8_t *rc = ctx->rbuf + ctx->bufpos;
     ctx->bufpos += 2;
+    return rc;
+}
+
+uint8_t *cc2500_addReadFIFOOps(CC2500CTX *ctx, int length)
+{
+    if (ctx->bufpos + length + 1 > CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = CC2500_3F_RXFIFO | CC2500_READ_BURST;
+    uint8_t *rc = ctx->rbuf + ctx->bufpos;
+    ctx->bufpos += length + 1;
     return rc;
 }

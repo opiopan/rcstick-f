@@ -34,6 +34,7 @@ typedef enum {
     SFHSS_CONNECTING1,
     SFHSS_CONNECTING2,
     SFHSS_CONNECTED,
+    SFHSS_PAKCET_RECEIVING,
     SFHSS_HOPPING,
     SFHSS_ABNORMAL_HOPPING,
 } SFHSS_PHASE;
@@ -60,6 +61,7 @@ typedef struct {
     int                 stat_lost;
     int                 stat_failsafe;
     BOOL                isDirty;
+    uint8_t *           dmabuf;
     int32_t             txaddr;
     SFHSS_PHASE         phase;
     uint8_t             packetPos;
