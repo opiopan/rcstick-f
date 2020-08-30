@@ -34,6 +34,8 @@ typedef enum {
     SFHSS_CONNECTING1,
     SFHSS_CONNECTING2,
     SFHSS_CONNECTED,
+    SFHSS_HOPPING,
+    SFHSS_ABNORMAL_HOPPING,
 } SFHSS_PHASE;
 
 typedef enum {
@@ -56,7 +58,7 @@ typedef struct {
     int                 skipCount;
     int                 stat_rcv;
     int                 stat_lost;
-    int                 stat_skip;
+    int                 stat_failsafe;
     BOOL                isDirty;
     int32_t             txaddr;
     SFHSS_PHASE         phase;

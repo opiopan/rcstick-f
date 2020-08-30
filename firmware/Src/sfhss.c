@@ -14,7 +14,7 @@
 #define SHORT_INTERVAL_MIN (6801 - 612)
 #define LONG_INTERVAL_MAX (6801 * 30 + 612)
 #define LONG_INTERVAL_MIN (6801 * 30 - 612)
-#define HOPPING_TIMEOUT 1000
+#define HOPPING_TIMEOUT 200
 #define FALLBACK_COUNT 30
 
 // Some important initialization parameters, all others are either default,
@@ -104,10 +104,6 @@ static void nextChannel(SFHSSCTX* ctx, uint8_t hopcode)
     ctx->ch = ch;
 }
 
-volatile int normalCount = 0;
-volatile int failsafeCount = 0;
-volatile int addrcount = 0;
-
 static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
 {
     struct {
@@ -148,9 +144,8 @@ static BOOL readPacket(SFHSSCTX* ctx, uint8_t* cmd)
     data[3] = (((uint16_t)pkt[10] & 0x7f) << 5) | (((uint16_t)pkt[11] & 0xf8) >> 3);
 
     if (*cmd & 4){
-        failsafeCount++;
+        ctx->stat_failsafe++;
     }else{
-        normalCount++;
         int offset = (*cmd & 1) << 2;
         ctx->isDirty |=
                 data[0] != ctx->data[offset + 0] ||  data[1] != ctx->data[offset + 1] ||
@@ -310,13 +305,10 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                 if (ctx->ptime[1] - ctx->ptime[0] > ctx->interval[0] / 2){
                     ctx->phase = SFHSS_CONNECTING1;
                     OLOG_LOGD("SFHSS: change status to CONNECTING1");
-                }
-                else
-                {
+                }else{
                     ctx->skipCount = 0;
                     ctx->stat_rcv = 0;
                     ctx->stat_lost = 0;
-                    ctx->stat_skip = 0;
                     ctx->phase = SFHSS_CONNECTED;
                     OLOG_LOGI("SFHSS: connect to transmitter [%.4X]", ctx->txaddr);
                     OLOG_LOGD("SFHSS: change status to CONNECTED");
@@ -332,34 +324,50 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
     case SFHSS_CONNECTED:{
         if (ctx->received){
             uint8_t cmd;
-            readPacket(ctx, &cmd);
-            ctx->stat_rcv++;
-            if (cmd & 1){
-                nextChannel(ctx, ctx->hopcode);
-                chuneChannelFast(ctx);
-            }
-            if (ctx->skipCount > 0){
-                OLOG_LOGD("SFHSS: recover connection after skipping %d times", ctx->skipCount);
-                ctx->skipCount = 0;
-                ctx->ptime[((cmd & 1) + 1) & 1] = now;
+            if (readPacket(ctx, &cmd)){
+                ctx->stat_rcv++;
+                if (cmd & 1){
+                    ctx->phase = SFHSS_HOPPING;
+                }
+                if (ctx->skipCount > 0){
+                    OLOG_LOGD("SFHSS: recover connection after skipping %d times", ctx->skipCount);
+                    ctx->skipCount = 0;
+                    ctx->ptime[((cmd & 1) + 1) & 1] = now;
+                }
+            }else{
+                ctx->phase = SFHSS_ABNORMAL_HOPPING;
             }
         }else{
             int elapse = now - ctx->ptime[ctx->packetPos];
             if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
-                int skipnum = ctx->packetPos == 0 ? 2 : 1;
-                ctx->skipCount++;
-                if (ctx->skipCount < FALLBACK_COUNT){
-                    ctx->stat_lost += skipnum;
-                    ctx->packetPos = 0;
-                    nextChannel(ctx, ctx->hopcode);
-                    chuneChannelFastWithFIFOFlash(ctx);
-                }else{
-                    ctx->phase = SFHSS_BINDED;
-                    OLOG_LOGW("SFHSS: lost connection", ctx->txaddr);
-                    OLOG_LOGD("SFHSS: change status to BINDED");
-                    rc = SFHSSEV_START_CONNECTING;
-                }
+                ctx->phase = SFHSS_ABNORMAL_HOPPING;
             }
+        }
+        break;
+    }
+
+    case SFHSS_HOPPING:{
+        nextChannel(ctx, ctx->hopcode);
+        chuneChannelFast(ctx);
+        ctx->phase = SFHSS_CONNECTED;
+        break;
+    }
+
+    case SFHSS_ABNORMAL_HOPPING:{
+        int skipnum = ctx->packetPos == 0 ? 2 : 1;
+        ctx->skipCount++;
+        if (ctx->skipCount < FALLBACK_COUNT){
+            ctx->stat_lost += skipnum;
+            ctx->packetPos = 0;
+            nextChannel(ctx, ctx->hopcode);
+            chuneChannelFastWithFIFOFlash(ctx);
+            ctx->phase = SFHSS_CONNECTED;
+        }
+        else{
+            ctx->phase = SFHSS_BINDED;
+            OLOG_LOGW("SFHSS: lost connection", ctx->txaddr);
+            OLOG_LOGD("SFHSS: change status to BINDED");
+            rc = SFHSSEV_START_CONNECTING;
         }
         break;
     }

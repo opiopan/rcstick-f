@@ -137,7 +137,7 @@ void run_rcstick(const RcstickConf *conf)
     int32_t logtime = 0;
     int32_t recvnum = 0;
     int32_t lostnum = 0;
-    int32_t skipnum = 0;
+    int32_t failsafenum = 0;
     int clipped = 0;
     BOOL testmode = FALSE;
 
@@ -158,7 +158,6 @@ void run_rcstick(const RcstickConf *conf)
             initialstate = FALSE;
             recvnum = 0;
             lostnum = 0;
-            skipnum = 0;
             break;
         default:
             break;
@@ -195,17 +194,17 @@ void run_rcstick(const RcstickConf *conf)
                         sfhss_ctx.data[7] - SFHSS_CENTERPOS_WIDTH);
                 }
                 static const char ATTR_LOST[] = "\033[31m";
-                static const char ATTR_SKIP[] = "\033[31m";
+                static const char ATTR_SKIP[] = "\033[32m";
                 olog_printf(
-                    "           RCV: \033[32m%d\033[0m, LOST: %s%d\033[0m SKIP: %s%d\033[0m\n",
+                    "           RCV: \033[32m%d\033[0m, LOST: %s%d\033[0m FAILSAFE: %s%d\033[0m\n",
                     sfhss_ctx.stat_rcv - recvnum,
                     sfhss_ctx.stat_lost - lostnum == 0 ? "" : ATTR_LOST,
                     sfhss_ctx.stat_lost - lostnum,
-                    sfhss_ctx.stat_skip - skipnum == 0 ? "" : ATTR_SKIP,
-                    sfhss_ctx.stat_skip - skipnum);
+                    sfhss_ctx.stat_failsafe - failsafenum == 0 ? "" : ATTR_SKIP,
+                    sfhss_ctx.stat_failsafe - failsafenum);
                 recvnum = sfhss_ctx.stat_rcv;
                 lostnum = sfhss_ctx.stat_lost;
-                skipnum = sfhss_ctx.stat_skip;
+                failsafenum = sfhss_ctx.stat_failsafe;
             }
         }
 
