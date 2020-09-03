@@ -4,7 +4,8 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/firmware/**",
-                "/opt/gcc-arm-none-eabi/arm-none-eabi/include"
+                "/opt/gcc-arm-none-eabi/arm-none-eabi/include",
+                "${workspaceFolder}/firmware/Middlewares/ST/STM32_USB_Device_Library/Core/Inc"
             ],
             "defines": [
                 "STM32F042x6",

@@ -37,6 +37,7 @@ typedef enum {
     SFHSS_PAKCET_RECEIVING,
     SFHSS_HOPPING,
     SFHSS_ABNORMAL_HOPPING,
+    SFHSS_COMPLETE_HOPPING,
 } SFHSS_PHASE;
 
 typedef enum {
@@ -48,6 +49,22 @@ typedef enum {
 }SFHSS_EVENT;
 
 typedef struct {
+    int rcv;
+    int lost;
+    int failsafe;
+    int proc_rcv_cnt;
+    int proc_rcv_time;
+    int proc_endrcv_cnt;
+    int proc_endrcv_time;
+    int proc_hopping_cnt;
+    int proc_hopping_time;
+    int proc_ahopping_cnt;
+    int proc_ahopping_time;
+    int proc_endhopping_cnt;
+    int proc_endhopping_time;
+} SFHSS_STAT;
+
+typedef struct {
     CC2500CTX*          cc2500;
     int                 ch;
     volatile int        received;
@@ -57,9 +74,6 @@ typedef struct {
     int                 intervalSum[2];
     int                 measureCount[2];
     int                 skipCount;
-    int                 stat_rcv;
-    int                 stat_lost;
-    int                 stat_failsafe;
     BOOL                isDirty;
     uint8_t *           dmabuf;
     int32_t             txaddr;
@@ -67,6 +81,7 @@ typedef struct {
     uint8_t             packetPos;
     uint16_t            data[8];
     uint8_t             hopcode;
+    SFHSS_STAT          stat;
     uint8_t             caldata[SFHSS_CHNUM];
 } SFHSSCTX;
 

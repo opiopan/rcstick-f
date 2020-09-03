@@ -67,6 +67,7 @@ void led_init(LEDCTX *ctx, TIM_HandleTypeDef *pwm_timer, uint16_t pwm_ch)
        .pwm_timer = pwm_timer,
        .pwm_ch = pwm_ch,
    };
+   HAL_TIM_PWM_Start(ctx->pwm_timer, ctx->pwm_ch);
 }
 
 void led_set_mode(LEDCTX *ctx, LEDMODE mode, int32_t now)

@@ -7,7 +7,12 @@
 
 #include <string.h>
 #include "sfhss.h"
+#include "hrtimer.h"
 #include "olog.h"
+
+#define SFHSS_ENABLE_DMA_READFIFO
+//#define SFHSS_ENABLE_DMA_HOPPING
+//#define SFHSS_ENABLE_DMA_AHOPPING
 
 #define BINDING_MEASURE_COUNT 15
 #define SHORT_INTERVAL_MAX (6801 + 612)
@@ -69,12 +74,14 @@ const uint8_t SFHSS_init_values[] = {
 
 static void chuneChannel(SFHSSCTX* ctx)
 {
-    cc2500_strobe(ctx->cc2500, CC2500_SIDLE);
-    cc2500_writeRegister(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
-    cc2500_strobe(ctx->cc2500, CC2500_SCAL);
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SIDLE);
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SCAL);
+    cc2500_commitMultipleOps(ctx->cc2500);
 }
 
-static void chuneChannelFast(SFHSSCTX* ctx)
+static void chuneChannelFast(SFHSSCTX *ctx)
 {
     cc2500_beginMulitipleOps(ctx->cc2500);
     cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
@@ -82,6 +89,17 @@ static void chuneChannelFast(SFHSSCTX* ctx)
     cc2500_commitMultipleOps(ctx->cc2500);
 }
 
+#ifdef SFHSS_ENABLE_DMA_HOPPING
+static void chuneChannelFastDMA(SFHSSCTX* ctx)
+{
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_issueDMAforMultipleOps(ctx->cc2500);
+}
+#endif
+
+#ifndef SFHSS_ENABLE_DMA_AHOPPING
 static void chuneChannelFastWithFIFOFlash(SFHSSCTX *ctx)
 {
     cc2500_beginMulitipleOps(ctx->cc2500);
@@ -92,6 +110,25 @@ static void chuneChannelFastWithFIFOFlash(SFHSSCTX *ctx)
     cc2500_addStrobeOps(ctx->cc2500, CC2500_SRX);
     cc2500_commitMultipleOps(ctx->cc2500);
 }
+
+#else
+static void chuneChannelFastWithFIFOFlashDMA(SFHSSCTX* ctx)
+{
+    cc2500_beginMulitipleOps(ctx->cc2500);
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SIDLE);
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_25_FSCAL1, SFHSS_CALDATA(ctx));
+    cc2500_addWriteRegisterOps(ctx->cc2500, CC2500_0A_CHANNR, SFHSS_CH(ctx));
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SFRX);
+    cc2500_addStrobeOps(ctx->cc2500, CC2500_SRX);
+    cc2500_issueDMAforMultipleOps(ctx->cc2500);
+}
+#endif
+
+#if defined(SFHSS_ENABLE_DMA_HOPPING) || defined(SFHSS_ENABLE_DMA_AHOPPING)
+static void completeChuneChannelDMA(SFHSSCTX* ctx){
+    cc2500_commitMultipleOps(ctx->cc2500);
+}
+#endif
 
 static void nextChannel(SFHSSCTX* ctx, uint8_t hopcode)
 {
@@ -113,6 +150,7 @@ static BOOL readPacket(SFHSSCTX *ctx)
     return cc2500_commitMultipleOps(ctx->cc2500);
 }
 
+#ifdef SFHSS_ENABLE_DMA_READFIFO
 static BOOL readPacketDMA(SFHSSCTX *ctx)
 {
     cc2500_beginMulitipleOps(ctx->cc2500);
@@ -124,6 +162,7 @@ static BOOL completeReadPacketDMA(SFHSSCTX *ctx)
 {
     return cc2500_commitMultipleOps(ctx->cc2500);
 }
+#endif
 
 static BOOL parsePacket(SFHSSCTX *ctx, uint8_t *cmd)
 {
@@ -159,7 +198,7 @@ static BOOL parsePacket(SFHSSCTX *ctx, uint8_t *cmd)
     data[3] = (((uint16_t)pkt[10] & 0x7f) << 5) | (((uint16_t)pkt[11] & 0xf8) >> 3);
 
     if (*cmd & 4){
-        ctx->stat_failsafe++;
+        ctx->stat.failsafe++;
     }else{
         int offset = (*cmd & 1) << 2;
         ctx->isDirty |=
@@ -323,9 +362,6 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                     ctx->phase = SFHSS_CONNECTING1;
                     OLOG_LOGD("SFHSS: change status to CONNECTING1");
                 }else{
-                    ctx->skipCount = 0;
-                    ctx->stat_rcv = 0;
-                    ctx->stat_lost = 0;
                     ctx->phase = SFHSS_CONNECTED;
                     OLOG_LOGI("SFHSS: connect to transmitter [%.4X]", ctx->txaddr);
                     OLOG_LOGD("SFHSS: change status to CONNECTED");
@@ -340,11 +376,17 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 
     case SFHSS_CONNECTED:{
         if (ctx->received){
+            #ifdef SFHSS_ENABLE_DMA_READFIFO
             if (readPacketDMA(ctx)){
+            #else
+            if (readPacket(ctx)){
+            #endif
                 ctx->phase = SFHSS_PAKCET_RECEIVING;
             }else{
                 ctx->phase = SFHSS_ABNORMAL_HOPPING;
             }
+            ctx->stat.proc_rcv_cnt++;
+            ctx->stat.proc_rcv_time += HRTIMER_GETTIME() - now;
         }else{
             int elapse = now - ctx->ptime[ctx->packetPos];
             if (elapse > (ctx->interval[ctx->packetPos] * (ctx->skipCount + 1)) + HOPPING_TIMEOUT){
@@ -356,13 +398,15 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 
     case SFHSS_PAKCET_RECEIVING:{
         if (!CC2500_DMA_IS_WORKING(ctx->cc2500)){
+            #ifdef SFHSS_ENABLE_DMA_READFIFO
             if (!completeReadPacketDMA(ctx)){
                 ctx->phase = SFHSS_ABNORMAL_HOPPING;
                 break;
             }
+            #endif
             uint8_t cmd;
             if (parsePacket(ctx, &cmd)){
-                ctx->stat_rcv++;
+                ctx->stat.rcv++;
                 if (cmd & 1){
                     ctx->phase = SFHSS_HOPPING;
                 }else{
@@ -373,6 +417,8 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
                     ctx->skipCount = 0;
                     ctx->ptime[((cmd & 1) + 1) & 1] = now;
                 }
+                ctx->stat.proc_endrcv_cnt++;
+                ctx->stat.proc_endrcv_time += HRTIMER_GETTIME() - now;
             }else{
                 ctx->phase = SFHSS_ABNORMAL_HOPPING;
             }
@@ -382,8 +428,15 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
 
     case SFHSS_HOPPING:{
         nextChannel(ctx, ctx->hopcode);
+        #ifdef SFHSS_ENABLE_DMA_HOPPING
+        chuneChannelFastDMA(ctx);
+        ctx->phase = SFHSS_COMPLETE_HOPPING;
+        #else
         chuneChannelFast(ctx);
         ctx->phase = SFHSS_CONNECTED;
+        #endif
+        ctx->stat.proc_hopping_cnt++;
+        ctx->stat.proc_hopping_time += HRTIMER_GETTIME() - now;
         break;
     }
 
@@ -391,18 +444,36 @@ SFHSS_EVENT sfhss_schedule(SFHSSCTX* ctx, int32_t now)
         int skipnum = ctx->packetPos == 0 ? 2 : 1;
         ctx->skipCount++;
         if (ctx->skipCount < FALLBACK_COUNT){
-            ctx->stat_lost += skipnum;
+            ctx->stat.lost += skipnum;
             ctx->packetPos = 0;
             nextChannel(ctx, ctx->hopcode);
+            #ifdef SFHSS_ENABLE_DMA_AHOPPING
+            chuneChannelFastWithFIFOFlashDMA(ctx);
+            ctx->phase = SFHSS_COMPLETE_HOPPING;
+            #else
             chuneChannelFastWithFIFOFlash(ctx);
             ctx->phase = SFHSS_CONNECTED;
-        }
-        else{
+            #endif
+            ctx->stat.proc_ahopping_cnt++;
+            ctx->stat.proc_ahopping_time += HRTIMER_GETTIME() - now;
+        }else{
             ctx->phase = SFHSS_BINDED;
             OLOG_LOGW("SFHSS: lost connection", ctx->txaddr);
             OLOG_LOGD("SFHSS: change status to BINDED");
             rc = SFHSSEV_START_CONNECTING;
         }
+        break;
+    }
+
+    case SFHSS_COMPLETE_HOPPING:{
+        #if defined(SFHSS_ENABLE_DMA_HOPPING) || defined(SFHSS_ENABLE_DMA_AHOPPING)
+        if (!CC2500_DMA_IS_WORKING(ctx->cc2500)){
+            completeChuneChannelDMA(ctx);
+            ctx->phase = SFHSS_CONNECTED;
+            ctx->stat.proc_endhopping_cnt++;
+            ctx->stat.proc_endhopping_time += HRTIMER_GETTIME() - now;
+        }
+        #endif
         break;
     }
     }

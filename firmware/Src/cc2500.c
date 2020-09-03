@@ -115,11 +115,9 @@ int cc2500_writeRegisterBurst(CC2500CTX* ctx, uint8_t addr, const uint8_t* value
         CS_UP(ctx);
         return rc;
     }
-    for (int i = 0; i < len; i++){
-        if (HAL_SPI_Transmit(ctx->spi, (uint8_t*)values + i, 1, SPITIMEOUT) != HAL_OK){
-            CS_UP(ctx);
-            return 0x80;
-        }
+    if (HAL_SPI_Transmit(ctx->spi, (uint8_t*)values, len, SPITIMEOUT) != HAL_OK){
+        CS_UP(ctx);
+        return 0x80;
     }
     CS_UP(ctx);
     return rc;
@@ -138,12 +136,9 @@ int cc2500_readRegisterBurst(CC2500CTX* ctx, uint8_t addr, uint8_t* values, int 
         CS_UP(ctx);
         return rc;
     }
-    uint8_t dummy = 0;
-    for (int i = 0; i < len; i++){
-        if (HAL_SPI_TransmitReceive(ctx->spi, &dummy, values + i, 1, SPITIMEOUT) != HAL_OK){
-            CS_UP(ctx);
-            return 0x80;
-        }
+    if (HAL_SPI_Receive(ctx->spi, values, len, SPITIMEOUT) != HAL_OK){
+        CS_UP(ctx);
+        return 0x80;
     }
     CS_UP(ctx);
     return rc;
@@ -246,9 +241,10 @@ BOOL cc2500_issueDMAforMultipleOps(CC2500CTX *ctx)
         int rc = HAL_OK;
         if (ctx->bufpos){
             CS_DOWN(ctx);
+            ctx->dmastat = CC2500_DMA_WORKING;
             rc = HAL_SPI_TransmitReceive_DMA(ctx->spi, ctx->sbuf, ctx->rbuf, ctx->bufpos);
-            if (rc == HAL_OK){
-                ctx->dmastat = CC2500_DMA_WORKING;
+            if (rc != HAL_OK){
+                ctx->dmastat = CC2500_DMA_IDLE;
             }
         }
         return rc == HAL_OK;
