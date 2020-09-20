@@ -165,6 +165,67 @@ static void print_log(int now, SFHSS_STAT* stat, BOOL rawmode)
 }
 
 /*=====================================================================
+    SPI performance measurement (experimental code)
+======================================================================*/
+static void measureSpiPerf()
+{
+    #define MESURENUM 10
+    struct {
+        int first_half;
+        int latter_half;
+    }data[MESURENUM];
+    int begin;
+
+    /*------------------------------------------------------------------
+        Polling
+    ------------------------------------------------------------------*/
+    for (int i = 0; i < MESURENUM; i++){
+        begin = HRTIMER_GETTIME();
+        cc2500_beginMulitipleOps(&cc2500_ctx);
+        cc2500_addReadRegisterBurstOps(&cc2500_ctx, 0, (i * 2 + 1));
+        cc2500_commitMultipleOps(&cc2500_ctx);
+        data[i].first_half = HRTIMER_GETTIME() - begin;
+    }
+    olog_printf("\n    SPI/POLLING performance (us)\n");
+    olog_printf("           2B|  4B|  6B|  8B| 10B| 12B| 14B| 16B| 18B| 20B\n");
+    olog_printf("    ----+----+----+----+----+----+----+----+----+----+----\n");
+    olog_printf("    all |%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d\n\n",
+                data[0].first_half, data[1].first_half, data[2].first_half,
+                data[3].first_half, data[4].first_half,
+                data[5].first_half, data[6].first_half, data[7].first_half,
+                data[8].first_half, data[9].first_half);
+
+    /*------------------------------------------------------------------
+        DMA
+    ------------------------------------------------------------------*/
+    for (int i = 0; i < MESURENUM; i++)
+    {
+        begin = HRTIMER_GETTIME();
+        cc2500_beginMulitipleOps(&cc2500_ctx);
+        cc2500_addReadRegisterBurstOps(&cc2500_ctx, 0, (i * 2 + 1));
+        cc2500_issueDMAforMultipleOps(&cc2500_ctx);
+        data[i].first_half = HRTIMER_GETTIME() - begin;
+        while(CC2500_DMA_IS_WORKING(&cc2500_ctx));
+        begin = HRTIMER_GETTIME();
+        cc2500_commitMultipleOps(&cc2500_ctx);
+        data[i].latter_half = HRTIMER_GETTIME() - begin;
+    }
+    olog_printf("    SPI/DMA performance (us)\n");
+    olog_printf("           2B|  4B|  6B|  8B| 10B| 12B| 14B| 16B| 18B| 20B\n");
+    olog_printf("    ----+----+----+----+----+----+----+----+----+----+----\n");
+    olog_printf("    pre |%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d\n",
+                data[0].first_half, data[1].first_half, data[2].first_half,
+                data[3].first_half, data[4].first_half,
+                data[5].first_half, data[6].first_half, data[7].first_half,
+                data[8].first_half, data[9].first_half);
+    olog_printf("    post|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d|%4d\n\n",
+                data[0].latter_half, data[1].latter_half, data[2].latter_half,
+                data[3].latter_half, data[4].latter_half,
+                data[5].latter_half, data[6].latter_half, data[7].latter_half,
+                data[8].latter_half, data[9].latter_half);
+}
+
+/*=====================================================================
     Main logic
 ======================================================================*/
 void run_rcstick(const RcstickConf *conf)
@@ -196,6 +257,8 @@ void run_rcstick(const RcstickConf *conf)
     led_set_mode(&led_ctx, LEDMODE_FINDING, now);
 
     OLOG_LOGI("rcstick: initialization finish");
+
+    measureSpiPerf();
 
     /*----------------------------------------------------------------------
         main loop

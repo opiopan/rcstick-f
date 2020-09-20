@@ -320,3 +320,28 @@ uint8_t *cc2500_addReadFIFOOps(CC2500CTX *ctx, int length)
     ctx->bufpos += length + 1;
     return rc;
 }
+
+uint8_t *cc2500_addReadRegisterBurstOps(CC2500CTX *ctx, uint8_t addr, int length)
+{
+    if (ctx->bufpos + length + 1 > CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = addr | CC2500_READ_BURST;
+    uint8_t *rc = ctx->rbuf + ctx->bufpos;
+    ctx->bufpos += length + 1;
+    return rc;
+}
+
+uint8_t *cc2500_addWriteRegisterBurstOps(CC2500CTX *ctx, uint8_t addr, uint8_t *values, int length)
+{
+    if (ctx->bufpos + length + 1 > CC2500_BULKOPSMAX){
+        return NULL;
+    }
+    ctx->sbuf[ctx->bufpos] = addr | CC2500_WRITE_BURST;
+    uint8_t *rc = ctx->rbuf + ctx->bufpos;
+    for (int i = 0; i < length; i++){
+        ctx->sbuf[ctx->bufpos + i + 1] = values[i];
+    }
+    ctx->bufpos += length + 1;
+    return rc;
+}

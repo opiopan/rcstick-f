@@ -56,6 +56,8 @@ uint8_t* cc2500_addStrobeOps(CC2500CTX *ctx, uint8_t state);
 uint8_t* cc2500_addWriteRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value);
 uint8_t* cc2500_addReadRegisterOps(CC2500CTX *ctx, uint8_t addr, uint8_t value);
 uint8_t* cc2500_addReadFIFOOps(CC2500CTX *ctx, int length);
+uint8_t *cc2500_addReadRegisterBurstOps(CC2500CTX *ctx, uint8_t addr, int length);
+uint8_t *cc2500_addWriteRegisterBurstOps(CC2500CTX *ctx, uint8_t addr, uint8_t *values, int length);
 
 #define cc2500_readStatusRegister(ctx, addr, value) cc2500_readRegisterBurst(ctx, addr, value, 1)
 
