@@ -11,6 +11,7 @@
 #include "led.h"
 #include "button.h"
 #include "olog.h"
+#include "version.h"
 
 #include "project.h"
 
@@ -234,6 +235,7 @@ void run_rcstick(const RcstickConf *conf)
     olog_printf("\033[0m\n\n");
     olog_printf("----------------------------------------------------\n");
     olog_printf("rcstick-f\n");
+    olog_printf("     firmware version: %s\n", version_string);
     olog_printf("     copyright: opiopan@gmail.com\n");
     olog_printf("     repository: https://github.com/opiopan/rcstick-f\n");
     olog_printf("----------------------------------------------------\n");

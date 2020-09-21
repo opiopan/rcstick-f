@@ -50,6 +50,7 @@ Src/rcstick.c \
 Src/led.c \
 Src/button.c \
 Src/hrtimer.c \
+Src/version.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pcd_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c \
@@ -167,7 +168,7 @@ LIBDIR =
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+all: update_version $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 
 
 #######################################
@@ -248,6 +249,18 @@ initrtt: check_remote all
 "send -- \"quit\n\";" || exit 1
 	@echo
 	
+update_version:
+	@OLD=`if [ -f build/.version ];then cat build/.version;fi`;\
+	NEW=`tools/version`;\
+	if ! [ "$$NEW" = "$$OLD" ];then\
+	    (echo 'const char version_string[] = "'"$$NEW"'";';\
+	     echo 'const char manufacturer_string[] = "Hiroshi Murayama <opiopan@gmail.com> / Firmware version: '"$$NEW"'";') >\
+	        Src/version.c;\
+	    echo "$$NEW" > build/.version;\
+	    rm -f build/rcstick-f.bin;\
+	    rm -f build/rcstick-f.elf;\
+	fi
+
 check_remote:
 	@if [ "$(DEBUGSERVER)" = "" ];then \
 	    echo >&2;\

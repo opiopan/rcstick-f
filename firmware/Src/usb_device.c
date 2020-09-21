@@ -56,7 +56,7 @@
 #include "usbd_custom_hid_if.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "version.h"
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -83,17 +83,23 @@ USBD_HandleTypeDef hUsbDeviceFS;
  * -- Insert your external function declaration here --
  */
 /* USER CODE BEGIN 1 */
+static uint8_t* get_manufacturer_str(USBD_SpeedTypeDef speed, uint16_t *length)
+{
+  __ALIGN_BEGIN static uint8_t strDesc[USBD_MAX_STR_DESC_SIZ] __ALIGN_END;
+  USBD_GetString((uint8_t *)manufacturer_string, strDesc, length);
+  return strDesc;
+}
 
-/* USER CODE END 1 */
+    /* USER CODE END 1 */
 
-/**
+    /**
   * Init USB device Library, add supported class and start the library
   * @retval None
   */
-void MX_USB_DEVICE_Init(void)
+    void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
-  
+  FS_Desc.GetManufacturerStrDescriptor = get_manufacturer_str;
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
   
   /* Init Device Library, add supported class and start the library. */
