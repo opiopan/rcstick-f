@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.6.1">
+<eagle version="9.6.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -256,81 +256,6 @@
 </library>
 <library name="stm32" urn="urn:adsk.eagle:library:7041200">
 <packages>
-<package name="LQFP32-M" urn="urn:adsk.eagle:footprint:7041201/2" library_version="4">
-<description>&lt;b&gt;LQFP32&lt;/b&gt;&lt;p&gt;
-7 x 7 mm, 32-pin low-profile quad flat package</description>
-<wire x1="-3.5" y1="-3.5" x2="-3.5" y2="3.5" width="0.127" layer="21"/>
-<wire x1="-3.5" y1="3.5" x2="3.5" y2="3.5" width="0.127" layer="21"/>
-<wire x1="3.5" y1="3.5" x2="3.5" y2="-3.5" width="0.127" layer="21"/>
-<wire x1="3.5" y1="-3.5" x2="-3.5" y2="-3.5" width="0.127" layer="21"/>
-<smd name="1" x="-2.8" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="2" x="-2" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="3" x="-1.2" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="4" x="-0.4" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="5" x="0.4" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="6" x="1.19" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="7" x="1.99" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="8" x="2.79" y="-4.55" dx="0.54" dy="1.4" layer="1"/>
-<smd name="9" x="4.55" y="-2.8" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="10" x="4.55" y="-2" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="11" x="4.55" y="-1.2" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="12" x="4.55" y="-0.4" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="13" x="4.55" y="0.4" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="14" x="4.55" y="1.2" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="15" x="4.55" y="2" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="16" x="4.55" y="2.8" dx="0.54" dy="1.4" layer="1" rot="R90"/>
-<smd name="17" x="2.8" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="18" x="2" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="19" x="1.2" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="20" x="0.4" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="21" x="-0.4" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="22" x="-1.2" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="23" x="-2" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="24" x="-2.8" y="4.55" dx="0.54" dy="1.4" layer="1" rot="R180"/>
-<smd name="25" x="-4.55" y="2.8" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="26" x="-4.55" y="2" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="27" x="-4.55" y="1.2" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="28" x="-4.55" y="0.4" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="29" x="-4.55" y="-0.4" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="30" x="-4.55" y="-1.2" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="31" x="-4.55" y="-2" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<smd name="32" x="-4.55" y="-2.8" dx="0.54" dy="1.4" layer="1" rot="R270"/>
-<rectangle x1="-2.985" y1="-4.5" x2="-2.615" y2="-3.5" layer="51"/>
-<rectangle x1="-2.185" y1="-4.5" x2="-1.815" y2="-3.5" layer="51"/>
-<rectangle x1="-1.385" y1="-4.5" x2="-1.015" y2="-3.5" layer="51"/>
-<rectangle x1="-0.585" y1="-4.5" x2="-0.215" y2="-3.5" layer="51"/>
-<rectangle x1="0.215" y1="-4.5" x2="0.585" y2="-3.5" layer="51"/>
-<rectangle x1="1.015" y1="-4.5" x2="1.385" y2="-3.5" layer="51"/>
-<rectangle x1="1.815" y1="-4.5" x2="2.185" y2="-3.5" layer="51"/>
-<rectangle x1="2.615" y1="-4.5" x2="2.985" y2="-3.5" layer="51"/>
-<rectangle x1="3.815" y1="-3.3" x2="4.185" y2="-2.3" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="-2.5" x2="4.185" y2="-1.5" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="-1.7" x2="4.185" y2="-0.7" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="-0.9" x2="4.185" y2="0.1" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="-0.1" x2="4.185" y2="0.9" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="0.7" x2="4.185" y2="1.7" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="1.5" x2="4.185" y2="2.5" layer="51" rot="R90"/>
-<rectangle x1="3.815" y1="2.3" x2="4.185" y2="3.3" layer="51" rot="R90"/>
-<rectangle x1="2.615" y1="3.5" x2="2.985" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="1.815" y1="3.5" x2="2.185" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="1.015" y1="3.5" x2="1.385" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="0.215" y1="3.5" x2="0.585" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="-0.585" y1="3.5" x2="-0.215" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="-1.385" y1="3.5" x2="-1.015" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="-2.185" y1="3.5" x2="-1.815" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="-2.985" y1="3.5" x2="-2.615" y2="4.5" layer="51" rot="R180"/>
-<rectangle x1="-4.185" y1="2.3" x2="-3.815" y2="3.3" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="1.5" x2="-3.815" y2="2.5" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="0.7" x2="-3.815" y2="1.7" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="-0.1" x2="-3.815" y2="0.9" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="-0.9" x2="-3.815" y2="0.1" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="-1.7" x2="-3.815" y2="-0.7" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="-2.5" x2="-3.815" y2="-1.5" layer="51" rot="R270"/>
-<rectangle x1="-4.185" y1="-3.3" x2="-3.815" y2="-2.3" layer="51" rot="R270"/>
-<circle x="-2.72" y="-2.76" radius="0.45" width="0.127" layer="21"/>
-<text x="-3.11" y="5.89" size="1.016" layer="25" font="vector">&gt;Name</text>
-<text x="-3.145" y="-7.45" size="1.016" layer="27" font="vector">&gt;Value</text>
-</package>
 <package name="UQFPN32" urn="urn:adsk.eagle:footprint:20323420/1" library_version="4">
 <wire x1="-2.5" y1="2.1" x2="-2.5" y2="2.5" width="0.127" layer="21"/>
 <wire x1="2.5" y1="2.5" x2="2.5" y2="2.1" width="0.127" layer="21"/>
@@ -492,13 +417,6 @@
 </package>
 </packages>
 <packages3d>
-<package3d name="LQFP32-M" urn="urn:adsk.eagle:package:7041205/3" type="model" library_version="4">
-<description>&lt;b&gt;LQFP32&lt;/b&gt;&lt;p&gt;
-7 x 7 mm, 32-pin low-profile quad flat package</description>
-<packageinstances>
-<packageinstance name="LQFP32-M"/>
-</packageinstances>
-</package3d>
 <package3d name="UQFPN32" urn="urn:adsk.eagle:package:20323428/2" type="model" library_version="4">
 <packageinstances>
 <packageinstance name="UQFPN32"/>
@@ -511,7 +429,7 @@
 </package3d>
 </packages3d>
 <symbols>
-<symbol name="STM32_32PIN_TYP1" urn="urn:adsk.eagle:symbol:7041204/2" library_version="4">
+<symbol name="STM32_32PIN_TYP2" urn="urn:adsk.eagle:symbol:24501608/1" library_version="9">
 <pin name="PA0-WKUP" x="22.86" y="-33.02" length="middle" rot="R180"/>
 <pin name="PA1" x="22.86" y="-30.48" length="middle" rot="R180"/>
 <pin name="PA2" x="22.86" y="-27.94" length="middle" rot="R180"/>
@@ -542,27 +460,27 @@
 <pin name="PA12" x="22.86" y="-2.54" length="middle" rot="R180"/>
 <pin name="VDD@1" x="-22.86" y="27.94" length="middle" direction="pwr"/>
 <pin name="VDD@2" x="-22.86" y="25.4" length="middle" direction="pwr"/>
-<pin name="GND@1" x="-22.86" y="15.24" length="middle" direction="pwr"/>
-<pin name="GND@2" x="-22.86" y="12.7" length="middle" direction="pwr"/>
-<wire x1="-17.78" y1="-35.56" x2="-17.78" y2="30.48" width="0.254" layer="94"/>
-<wire x1="-17.78" y1="30.48" x2="17.78" y2="30.48" width="0.254" layer="94"/>
-<wire x1="17.78" y1="30.48" x2="17.78" y2="-35.56" width="0.254" layer="94"/>
+<pin name="GND" x="-22.86" y="15.24" length="middle" direction="pwr"/>
+<pin name="PB2" x="22.86" y="15.24" length="middle" rot="R180"/>
+<pin name="PB8" x="22.86" y="30.48" length="middle" rot="R180"/>
+<wire x1="-17.78" y1="-35.56" x2="-17.78" y2="33.02" width="0.254" layer="94"/>
+<wire x1="-17.78" y1="33.02" x2="17.78" y2="33.02" width="0.254" layer="94"/>
+<wire x1="17.78" y1="33.02" x2="17.78" y2="-35.56" width="0.254" layer="94"/>
 <wire x1="17.78" y1="-35.56" x2="-17.78" y2="-35.56" width="0.254" layer="94"/>
-<text x="0" y="33.02" size="1.778" layer="95" align="bottom-center">&gt;Name</text>
+<text x="0" y="35.56" size="1.778" layer="95" align="bottom-center">&gt;Name</text>
 <text x="0" y="-38.1" size="1.778" layer="96" align="bottom-center">&gt;Value</text>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="STM32F042K*T" urn="urn:adsk.eagle:component:20323436/7" prefix="U" library_version="8">
+<deviceset name="STM32F042K6U" urn="urn:adsk.eagle:component:24501609/1" library_version="9">
 <gates>
-<gate name="G$1" symbol="STM32_32PIN_TYP1" x="0" y="0"/>
+<gate name="G$1" symbol="STM32_32PIN_TYP2" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="LQFP32-M">
+<device name="" package="UQFPN32">
 <connects>
 <connect gate="G$1" pin="BOOT0" pad="31"/>
-<connect gate="G$1" pin="GND@1" pad="32"/>
-<connect gate="G$1" pin="GND@2" pad="16"/>
+<connect gate="G$1" pin="GND" pad="VSS"/>
 <connect gate="G$1" pin="NRST" pad="4"/>
 <connect gate="G$1" pin="OSC_IN" pad="2"/>
 <connect gate="G$1" pin="OSC_OUT" pad="3"/>
@@ -584,53 +502,13 @@
 <connect gate="G$1" pin="PA9" pad="19"/>
 <connect gate="G$1" pin="PB0" pad="14"/>
 <connect gate="G$1" pin="PB1" pad="15"/>
+<connect gate="G$1" pin="PB2" pad="16"/>
 <connect gate="G$1" pin="PB3" pad="26"/>
 <connect gate="G$1" pin="PB4" pad="27"/>
 <connect gate="G$1" pin="PB5" pad="28"/>
 <connect gate="G$1" pin="PB6" pad="29"/>
 <connect gate="G$1" pin="PB7" pad="30"/>
-<connect gate="G$1" pin="VDD@1" pad="1"/>
-<connect gate="G$1" pin="VDD@2" pad="17"/>
-<connect gate="G$1" pin="VDDA" pad="5"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:7041205/3"/>
-</package3dinstances>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="-UQFPN32" package="UQFPN32">
-<connects>
-<connect gate="G$1" pin="BOOT0" pad="31"/>
-<connect gate="G$1" pin="GND@1" pad="32 VSS"/>
-<connect gate="G$1" pin="GND@2" pad="16"/>
-<connect gate="G$1" pin="NRST" pad="4"/>
-<connect gate="G$1" pin="OSC_IN" pad="2"/>
-<connect gate="G$1" pin="OSC_OUT" pad="3"/>
-<connect gate="G$1" pin="PA0-WKUP" pad="6"/>
-<connect gate="G$1" pin="PA1" pad="7"/>
-<connect gate="G$1" pin="PA10" pad="20"/>
-<connect gate="G$1" pin="PA11" pad="21"/>
-<connect gate="G$1" pin="PA12" pad="22"/>
-<connect gate="G$1" pin="PA13" pad="23"/>
-<connect gate="G$1" pin="PA14" pad="24"/>
-<connect gate="G$1" pin="PA15" pad="25"/>
-<connect gate="G$1" pin="PA2" pad="8"/>
-<connect gate="G$1" pin="PA3" pad="9"/>
-<connect gate="G$1" pin="PA4" pad="10"/>
-<connect gate="G$1" pin="PA5" pad="11"/>
-<connect gate="G$1" pin="PA6" pad="12"/>
-<connect gate="G$1" pin="PA7" pad="13"/>
-<connect gate="G$1" pin="PA8" pad="18"/>
-<connect gate="G$1" pin="PA9" pad="19"/>
-<connect gate="G$1" pin="PB0" pad="14"/>
-<connect gate="G$1" pin="PB1" pad="15"/>
-<connect gate="G$1" pin="PB3" pad="26"/>
-<connect gate="G$1" pin="PB4" pad="27"/>
-<connect gate="G$1" pin="PB5" pad="28"/>
-<connect gate="G$1" pin="PB6" pad="29"/>
-<connect gate="G$1" pin="PB7" pad="30"/>
+<connect gate="G$1" pin="PB8" pad="32"/>
 <connect gate="G$1" pin="VDD@1" pad="1"/>
 <connect gate="G$1" pin="VDD@2" pad="17"/>
 <connect gate="G$1" pin="VDDA" pad="5"/>
@@ -642,11 +520,10 @@
 <technology name=""/>
 </technologies>
 </device>
-<device name="UQFPN32-M" package="UQFPN32-M">
+<device name="-M" package="UQFPN32-M">
 <connects>
 <connect gate="G$1" pin="BOOT0" pad="31"/>
-<connect gate="G$1" pin="GND@1" pad="32 VSS VSSH"/>
-<connect gate="G$1" pin="GND@2" pad="16"/>
+<connect gate="G$1" pin="GND" pad="VSS VSSH"/>
 <connect gate="G$1" pin="NRST" pad="4"/>
 <connect gate="G$1" pin="OSC_IN" pad="2"/>
 <connect gate="G$1" pin="OSC_OUT" pad="3"/>
@@ -668,11 +545,13 @@
 <connect gate="G$1" pin="PA9" pad="19"/>
 <connect gate="G$1" pin="PB0" pad="14"/>
 <connect gate="G$1" pin="PB1" pad="15"/>
+<connect gate="G$1" pin="PB2" pad="16"/>
 <connect gate="G$1" pin="PB3" pad="26"/>
 <connect gate="G$1" pin="PB4" pad="27"/>
 <connect gate="G$1" pin="PB5" pad="28"/>
 <connect gate="G$1" pin="PB6" pad="29"/>
 <connect gate="G$1" pin="PB7" pad="30"/>
+<connect gate="G$1" pin="PB8" pad="32"/>
 <connect gate="G$1" pin="VDD@1" pad="1"/>
 <connect gate="G$1" pin="VDD@2" pad="17"/>
 <connect gate="G$1" pin="VDDA" pad="5"/>
@@ -1907,7 +1786,7 @@ by exp-lbrs.ulp</description>
 <part name="+3V1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="+3V2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="GND3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="U1" library="stm32" library_urn="urn:adsk.eagle:library:7041200" deviceset="STM32F042K*T" device="UQFPN32-M" package3d_urn="urn:adsk.eagle:package:20323426/7" value="STM32F042K6U6"/>
+<part name="U1" library="stm32" library_urn="urn:adsk.eagle:library:7041200" deviceset="STM32F042K6U" device="-M" package3d_urn="urn:adsk.eagle:package:20323426/7" value="STM32F042K6U6"/>
 <part name="C3" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u"/>
 <part name="C4" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="0.1u"/>
 <part name="C5" library="gen-discrete3" library_urn="urn:adsk.eagle:library:8961849" deviceset="RCL_C-EU" device="C0402-HS" package3d_urn="urn:adsk.eagle:package:8961862/2" value="4.7u"/>
@@ -2019,7 +1898,7 @@ by exp-lbrs.ulp</description>
 <attribute name="VALUE" x="50.8" y="132.08" size="1.778" layer="96"/>
 </instance>
 <instance part="U1" gate="G$1" x="99.06" y="106.68" smashed="yes">
-<attribute name="NAME" x="99.06" y="139.7" size="1.778" layer="95" align="bottom-center"/>
+<attribute name="NAME" x="99.06" y="140.462" size="1.778" layer="95" align="bottom-center"/>
 <attribute name="VALUE" x="99.06" y="68.58" size="1.778" layer="96" align="bottom-center"/>
 </instance>
 <instance part="C3" gate="G$1" x="43.18" y="149.86" smashed="yes">
@@ -2286,16 +2165,12 @@ by exp-lbrs.ulp</description>
 <junction x="53.34" y="139.7"/>
 <pinref part="GND3" gate="1" pin="GND"/>
 <wire x1="53.34" y1="137.16" x2="53.34" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="GND@2"/>
-<wire x1="76.2" y1="119.38" x2="73.66" y2="119.38" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="119.38" x2="73.66" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="121.92" x2="73.66" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="129.54" x2="63.5" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="129.54" x2="63.5" y2="139.7" width="0.1524" layer="91"/>
 <junction x="63.5" y="139.7"/>
-<pinref part="U1" gate="G$1" pin="GND@1"/>
-<wire x1="76.2" y1="121.92" x2="73.66" y2="121.92" width="0.1524" layer="91"/>
-<junction x="73.66" y="121.92"/>
+<pinref part="U1" gate="G$1" pin="GND"/>
+<wire x1="73.66" y1="121.92" x2="76.2" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C8" gate="G$1" pin="2"/>
