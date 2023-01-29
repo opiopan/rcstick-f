@@ -15,7 +15,7 @@ On the other hand, in recent years, the products that behave wireless RF receive
 These products are designed for a specific protocol. So comatibility is lower than the PPM signal based solution. However, users can enjoy highly convenience due to wireless connection.<br>
 In addition, that is more responsive and higher precision than the PPM signale based solution since there is no unnecessary data conversion such as ADC data to PPM.
 
-The reason why I determined to start this project is that I could'nt find a such kind of wireless device supported Futaba RC protocol.<br>
+The reason why I determined to start this project is that I could'nt find a such kind of wireless device supported Futaba RC protocol. (As of the begging of 2019)<br>
 
 <p align="center">
 <img alt="demo" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/demo.gif">
@@ -37,15 +37,23 @@ One is sufficiently small that QFP32 package of STM32 MCU is installed, the othe
 Both artworks are optimized to enable hand soldering by using a soldering iron. You don't need a reflow oven or a hot air gun.<br>
 All pads and parts spaceing are designed to allow contacting soldering iron. grand pad located center of QFN package is also able to be soldered through a via from back side of PCB.
 
+January 29th, 2023: USB Type-C connector version was added. |
+:-|
+The design was completed in February 2022, but the production was put on hold because the Type-C plug could not be obtained due to the chip shortage from time to time.<br>Recently, the availability of this part has improved, so I was finally able to manufacture it.<br>This version is also capable of hand soldering, but this time I saved time and effort by using PCB assembly service.
+
 <p align="center">
-<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors.jpg" width=750>
+<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors2.jpg" width=750>
 </p>
 
 ### Design FIles
-Board Type        | Eagle design files | Gerber files 
-------------------|--------------------|--------------
-QFP32 MCU version | [pcb/small](pcb/small)| [rcstick-f-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-gerber.zip)
-QFN32 MCU version | [pcb/tiny](pcb/tiny)| [rcstick-f-tiny-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-tiny-gerber.zip)
+Board Type        | Eagle design files | Gerber files |Files for [JLCPCB PCB assembly service](https://jlcpcb.com/)
+------------------|:-:|:-:|:-:
+QFP32 MCU version | [pcb/small](pcb/small)| [rcstick-f-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-gerber.zip)| -
+QFN32 MCU version | [pcb/tiny](pcb/tiny)| [rcstick-f-tiny-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-tiny-gerber.zip)| -
+QFN32 MCU and USB Type-C version|[pcb/pico](pcb/pico)|[rcstick-f-pico-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico-gerber.zip)|[rcstick-f-pico-pcba.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico-pcba.zip)
+
+***Note:***<br>
+Thickness of a PCB of the USB Type-c version should be 0.8mm. This constraint depends on the implementation conditions of the Type-C plug [Molex 1054440001](https://www.molex.com/molex/products/part-detail/io_connectors/1054440001).<br>
 
 ### Schematic Diagram
 <p align="center">
@@ -59,7 +67,7 @@ Components | Value / Product Number | Remarks
 U1         | STM32F042K6T6 or STM32F042K6U6 |
 U2         | TI CC2500              | 
 U3         | MCP1703AT-3302E/CB     | SOT-23 LDO
-J1         | MOLEX 48037-0001       | USB type A male connector
+J1         | MOLEX 48037-0001 or MOLEX 1054440001| USB Type-A or Type-C plug
 J2         | MOLEX 53047-0410       | **OPTIONAL for debugging**<br>Firmware downloading can be proceeded by using DFU mode
 X1         | 16MHz Crystal (3225)   | load capacitance: 10pF
 X2         | 26MHz Crystal (3225)   | load capacitance: 9pF
@@ -76,9 +84,10 @@ C20, C21   | 100pF (1005)           |
 C22, C23   | 1pF (1005)             |
 C24        | 1.8pF (1005)           |
 C25        | 1.5pF (1005)           |
-R1         | 10k ohm (1005)         | 
-R2         | 56k ohm (1005)         |
+R1         | 10K ohm (1005)         | 
+R2         | 56K ohm (1005)         |
 R3         | 100 ohm (1005)         |
+R4         | 5.1K ohm (1005)        | need for only USB Type-C version
 L1,L2,L3   | 1.2nH (1005)           |
 
 ### Case Design

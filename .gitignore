@@ -26,4 +26,6 @@ build
 outputs
 outputs2
 outputs-tiny
+outputs-pico
 firmware/Src/version.c
+__pycache__
