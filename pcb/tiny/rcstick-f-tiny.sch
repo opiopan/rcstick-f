@@ -2477,6 +2477,11 @@ by exp-lbrs.ulp</description>
 <wire x1="205.74" y1="17.78" x2="218.44" y2="17.78" width="0.1524" layer="91"/>
 <label x="218.44" y="17.78" size="1.778" layer="95" rot="MR0"/>
 </segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="PB8"/>
+<wire x1="121.92" y1="137.16" x2="137.16" y2="137.16" width="0.1524" layer="91"/>
+<label x="137.16" y="137.16" size="1.778" layer="95" rot="MR0"/>
+</segment>
 </net>
 <net name="NRST" class="0">
 <segment>

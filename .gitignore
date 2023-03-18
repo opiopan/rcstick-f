@@ -27,5 +27,6 @@ outputs
 outputs2
 outputs-tiny
 outputs-pico
+outputs-pico2
 firmware/Src/version.c
 __pycache__

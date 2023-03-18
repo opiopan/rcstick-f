@@ -39,10 +39,14 @@ All pads and parts spaceing are designed to allow contacting soldering iron. gra
 
 January 29th, 2023: USB Type-C connector version was added. |
 :-|
-The design was completed in February 2022, but the production was put on hold because the Type-C plug could not be obtained due to the chip shortage from time to time.<br>Recently, the availability of this part has improved, so I was finally able to manufacture it.<br>This version is also capable of hand soldering, but this time I saved time and effort by using PCB assembly service.
+The design of USB Type-C version was completed in February 2022, but the production was put on hold because the Type-C plug could not be obtained due to the chip shortage from time to time.<br>Recently, the availability of this part has improved, so I was finally able to manufacture it.<br>This version is also capable of hand soldering, but this time I saved time and effort by using PCB assembly service.
+
+March 18th, 2023: QFN28 MCU version was added. |
+:-|
+The situation of chip shortage has eased, and the market inventory of STM32 MCUs seems to have increased.<br>However, they seem to be carefully selecting the SKUs they produce, and I received a message from someone that STM32F042K6U* QFN32 package is not available at all.<br>So I made an artwork with STM32F042G6U* QFN28 package which is good availability.<br>Unlike the other three artworks, this is not suitable for hand soldering. Because this MCU is a QFN package that does not have a pad in the center, so it is difficult to implement with a soldering iron. I manufactured it using [JLCPCB's PCB assembly service](https://jlcpcb.com).
 
 <p align="center">
-<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors2.jpg" width=750>
+<img alt="description" src="https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/images/formfactors3.jpg" width=750>
 </p>
 
 ### Design FIles
@@ -51,6 +55,7 @@ Board Type        | Eagle design files | Gerber files |Files for [JLCPCB PCB ass
 QFP32 MCU version | [pcb/small](pcb/small)| [rcstick-f-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-gerber.zip)| -
 QFN32 MCU version | [pcb/tiny](pcb/tiny)| [rcstick-f-tiny-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-tiny-gerber.zip)| -
 QFN32 MCU and USB Type-C version|[pcb/pico](pcb/pico)|[rcstick-f-pico-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico-gerber.zip)|[rcstick-f-pico-pcba.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico-pcba.zip)
+QFN28 MCU and USB Type-C version|[pcb/pico2](pcb/pico2)|[rcstick-f-pico2-gerber.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico2-gerber.zip)|[rcstick-f-pico2-pcba.zip](https://raw.githubusercontent.com/wiki/opiopan/rcstick-f/data/rcstick-f-pico2-pcba.zip)
 
 ***Note:***<br>
 Thickness of a PCB of the USB Type-c version should be 0.8mm. This constraint depends on the implementation conditions of the Type-C plug [Molex 1054440001](https://www.molex.com/molex/products/part-detail/io_connectors/1054440001).<br>
@@ -64,7 +69,7 @@ Thickness of a PCB of the USB Type-c version should be 0.8mm. This constraint de
 
 Components | Value / Product Number | Remarks
 -----------|------------------------|------------------------------
-U1         | STM32F042K6T6 or STM32F042K6U6 |
+U1         | STM32F042K6T*, STM32F042K6U* or STM32F042G6U* |
 U2         | TI CC2500              | 
 U3         | MCP1703AT-3302E/CB     | SOT-23 LDO
 J1         | MOLEX 48037-0001 or MOLEX 1054440001| USB Type-A or Type-C plug

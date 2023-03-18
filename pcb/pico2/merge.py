@@ -6,7 +6,7 @@ import jlcpcb
 
 exts = ['GTL', 'GTO', 'GTP', 'GTS', 'GBL', 'GBO', 'GBP', 'GBS', 'TXT']
 boards=[
-    ('CAMOutputs/rcstick-f-pico.', 27.3, 18.6, 0),
+    ('CAMOutputs/rcstick-f-pico2.', 27.3, 16.949, 0),
 ]
 outline = 'production/outline.dxf'
 mousebites = 'production/mousebites.dxf'
@@ -14,7 +14,7 @@ productid = ('production/productid.gbr', 4.5, 7, 0)
 asmtool_drill = 'production/asmtool.txt'
 asmtool_mask = 'production/asmtool.gbr'
 asmtools = [(3.85, 3.85), (3.85, 70 - 3.85), (70 - 3.85, 3.85), (70 - 3.85, 70 - 3.85)]
-outputs = 'outputs/rcstick-f-pico'
+outputs = 'outputs/rcstick-f-pico2'
 cpl = 'outputs/CPL.csv'
 
 if not os.path.isdir('outputs'):
@@ -63,8 +63,9 @@ for ext in exts:
             file.rotate(productid[3])
             file.offset(productid[1], productid[2])
             ctx.merge(file)
-        #file = gerberex.read(outline)
-        #ctx.merge(file)
+        elif ext == 'GTL' or ext == 'GBL':
+            file = gerberex.read(outline)
+            ctx.merge(file)
     ctx.dump(outputs + '.' + ext)
     print(' end', flush=True)
 
@@ -72,6 +73,7 @@ print('generating CPL: ', end='', flush=True)
 offset_angles = {
     'LED-SMD_L1.6-W0.8-R-RD': 180,
     'SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR': -90,
+    'UFQFPN-28_L4.0-W4.0-P0.50-BL': -90,
 }
 ctx = jlcpcb.Composition()
 ctx.setBom('BOM.csv', offset_angles)
@@ -83,7 +85,7 @@ for board in boards:
     file.offset(board[1], board[2])
     ctx.merge(file)
     file = jlcpcb.MountFile()
-    file.load(board[0] + 'mnb', jlcpcb.BOTTOM)
+    file.load(board[0] + 'mnb', jlcpcb.BOTTOM, exclude=['J1'])
     file.rotate(board[3])
     file.offset(board[1], board[2])
     ctx.merge(file)

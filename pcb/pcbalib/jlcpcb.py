@@ -40,18 +40,19 @@ class MountFile:
     def __init__(self):
         self.components = []
 
-    def load(self, path, layer):
+    def load(self, path, layer, exclude={}):
         self.components = []
         with open(path, 'r') as file:
             self.components = []
             for line in file:
                 data = line.replace('\n', '').split()
-                c = Component(
-                    data[0],
-                    (float(data[1]), float(data[2])),
-                    float(data[3]),
-                    layer)
-                self.components.append(c)
+                if not exclude or not data[0] in exclude:
+                    c = Component(
+                        data[0],
+                        (float(data[1]), float(data[2])),
+                        float(data[3]),
+                        layer)
+                    self.components.append(c)
 
     def offset(self, dx, dy):
         for c in self.components:
@@ -67,7 +68,7 @@ class Composition:
         self.restrictions = {}
         self.mountfiles = []
 
-    def setBom(self, path, angles = {}):
+    def setBom(self, path, angles = []):
         with open(path, 'r') as file:
             bom = csv.reader(file)
             title = True
