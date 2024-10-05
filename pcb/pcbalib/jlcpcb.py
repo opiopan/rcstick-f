@@ -20,6 +20,7 @@ class Component:
         self.position = position
         self.rotation = rotation
         self.angle_offset = 0
+        self.shift_offset = [0, 0]
         self.layer = layer
 
     def offset(self, dx, dy):
@@ -31,10 +32,14 @@ class Component:
                                angle, center)
 
     def str(self):
+        angle = normalize_angle(self.rotation + self.angle_offset)
+        shift = rotate(self.shift_offset[0], self.shift_offset[1],
+                       angle, (0,0))
         return '{0},{1}mm,{2}mm,{3},{4}'.format(
-            self.name, self.position[0], self.position[1],
-            self.layer, normalize_angle(self.rotation + self.angle_offset))
-        
+            self.name,
+            self.position[0] + shift[0],
+            self.position[1] + shift[1],
+            self.layer, angle)
 
 class MountFile:
     def __init__(self):
@@ -68,7 +73,7 @@ class Composition:
         self.restrictions = {}
         self.mountfiles = []
 
-    def setBom(self, path, angles = []):
+    def setBom(self, path, angles = [], offsets = []):
         with open(path, 'r') as file:
             bom = csv.reader(file)
             title = True
@@ -79,8 +84,9 @@ class Composition:
                     names = data[1].split(',')
                     footprint = data[2]
                     angle = angles[footprint] if footprint in angles else 0
+                    offset = offsets[footprint] if footprint in offsets else [0, 0]
                     for name in names:
-                        self.restrictions[name.replace(' ', '')] = angle
+                        self.restrictions[name.replace(' ', '')] = [angle, offset]
 
     def merge(self, file):
         self.mountfiles.append(file)
@@ -91,5 +97,6 @@ class Composition:
             for f in self.mountfiles:
                 for c in f.components:
                     if not self.restrictions or c.name in self.restrictions:
-                        c.angle_offset = self.restrictions[c.name]
+                        c.angle_offset = self.restrictions[c.name][0]
+                        c.shift_offset = self.restrictions[c.name][1]
                         out.write('{}\n'.format(c.str()))

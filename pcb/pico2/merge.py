@@ -74,9 +74,13 @@ offset_angles = {
     'LED-SMD_L1.6-W0.8-R-RD': 180,
     'SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR': -90,
     'UFQFPN-28_L4.0-W4.0-P0.50-BL': -90,
+    'USB-C-SMD_C561769': 180,
+}
+offsets = {
+    'USB-C-SMD_C561769': [-0.34, 0.28],
 }
 ctx = jlcpcb.Composition()
-ctx.setBom('BOM.csv', offset_angles)
+ctx.setBom('BOM.csv', offset_angles, offsets)
 for board in boards:
     print('.', end='', flush=True)
     file = jlcpcb.MountFile()
