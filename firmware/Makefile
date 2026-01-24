@@ -11,6 +11,12 @@
 # ------------------------------------------------
 
 ######################################
+# Application specific options
+######################################
+# LED luminance (PWM value 0-4095)
+LED_PWM = 80
+
+######################################
 # target
 ######################################
 TARGET = rcstick-f
@@ -124,7 +130,8 @@ AS_DEFS =
 # C defines
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
--DSTM32F042x6
+-DSTM32F042x6 \
+-DLED_PWM=$(LED_PWM)
 
 
 # AS includes

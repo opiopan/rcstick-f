@@ -120,6 +120,9 @@ must be installed in a directory indecateed by `PATH` environment variable.
     $ make all
     ```
 
+    **NOTE**: The LED brightness can be configured by setting the **`LED_PWM`** variable at build time (0–4095, default: 80).  
+    For example `make LED_PWM=4095 all` builds the firmware with the LED set to maximum brightness.
+
 ## Downloading Firmware
 You can choose two way to download firmware to rcstick-f board.<br>
 One is downloading firmware via SWD by using debugger. rcstick-f exports a SWD I/F at J2 connector.<br>

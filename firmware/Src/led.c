@@ -9,7 +9,11 @@
 #include "led.h"
 #include "olog.h"
 
-#define ON_VALUE 80
+#ifdef LED_PWM
+    #define ON_VALUE LED_PWM
+#else
+    #define ON_VALUE 80
+#endif
 
 typedef enum {
     PK_END = 0,
